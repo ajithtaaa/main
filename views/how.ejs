@@ -1,0 +1,23 @@
+<%- include('partials/head') %>
+<section class="wrap narrow section">
+  <h1 class="page-title">How Budget Brokers works</h1>
+  <div class="prose">
+    <p>We list only <strong>budget rentals under ₹10,000 per month</strong> in and around Kochi – rooms, flats, PGs, hostels, houses and small shops. Browsing is completely free.</p>
+    <h3>Unlocking contact numbers</h3>
+    <ol>
+      <li>Create a free account with your name, email and mobile number.</li>
+      <li>Open any property and tap <em>Unlock for ₹<%= settings.unlock_price %></em>.</li>
+      <li>Scan the UPI QR code with Google Pay, PhonePe, Paytm or any UPI app and pay ₹<%= settings.unlock_price %>.</li>
+      <li>Copy the <strong>12-digit UTR / UPI reference number</strong> from your payment app and submit it.</li>
+      <li>Our team manually verifies the payment, usually within a few hours. Once approved, every owner &amp; broker number is unlocked<% if (Number(settings.premium_days) > 0) { %> for <strong><%= settings.premium_days %> days</strong><% } else { %> for life<% } %>.</li>
+    </ol>
+    <h3>Where do I find the UTR number?</h3>
+    <ul>
+      <li><strong>Google Pay:</strong> open the payment → “UPI transaction ID”.</li>
+      <li><strong>PhonePe:</strong> History → the payment → “UTR”.</li>
+      <li><strong>Paytm:</strong> Balance &amp; History → the payment → “UPI Ref No”.</li>
+    </ul>
+    <p>Payment rejected by mistake? <% if (settings.support_whatsapp) { %><a href="https://wa.me/<%= settings.support_whatsapp %>" target="_blank" rel="noopener">WhatsApp us</a> with a screenshot<% } else { %>Contact support<% } %> and we will sort it out.</p>
+  </div>
+</section>
+<%- include('partials/foot') %>

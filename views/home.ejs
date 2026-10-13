@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Kochi · Ernakulam · Kerala</p>
+    <h1>Budget homes in Kochi,<br><span>all under ₹10,000 a month.</span></h1>
+    <p class="lead">Rooms, flats, PGs and houses from owners and trusted brokers. Browse every listing free – unlock all contact numbers for just <strong>₹<%= settings.unlock_price %></strong>.</p>
+    <%- include('partials/filters', { q: {} }) %>
+    <div class="hero-stats">
+      <div><strong><%= stats.listings %></strong><span>active listings</span></div>
+      <div><strong><%= stats.localities %></strong><span>localities</span></div>
+      <div><strong><%= inr(stats.minRent) %></strong><span>lowest rent</span></div>
+    </div>
+  </div>
+</section>
+
+<% if (featured.length) { %>
+<section class="wrap section">
+  <div class="section-head"><h2>Featured properties</h2><a href="/properties">View all →</a></div>
+  <div class="grid"><% featured.forEach(function (l) { %><%- include('partials/card', { l }) %><% }) %></div>
+</section>
+<% } %>
+
+<section class="wrap section">
+  <div class="section-head"><h2>Popular localities</h2></div>
+  <div class="localities">
+    <% config.localities.forEach(function (x) { %><a href="/properties?locality=<%= encodeURIComponent(x) %>"><%= x %></a><% }) %>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>Newly added</h2><a href="/properties?sort=new">See more →</a></div>
+  <div class="grid"><% latest.forEach(function (l) { %><%- include('partials/card', { l }) %><% }) %></div>
+</section>
+
+<section class="wrap section">
+  <div class="steps">
+    <div><span>1</span><h3>Browse free</h3><p>See photos, rent, deposit and details of every property.</p></div>
+    <div><span>2</span><h3>Pay ₹<%= settings.unlock_price %> once</h3><p>Scan the UPI QR and submit your 12-digit UTR number.</p></div>
+    <div><span>3</span><h3>Call owners &amp; brokers</h3><p>After quick verification, every contact number is unlocked<% if (Number(settings.premium_days) > 0) { %> for <%= settings.premium_days %> days<% } %>.</p></div>
+  </div>
+  <% if (!premium) { %><p class="center"><a class="btn btn-lg" href="/unlock">Unlock all contacts – ₹<%= settings.unlock_price %></a></p><% } %>
+</section>
+<%- include('partials/foot') %>

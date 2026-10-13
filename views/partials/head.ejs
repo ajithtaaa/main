@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · Budget Brokers Kochi</title>
+  <meta name="description" content="Budget Brokers – verified rental houses, flats, rooms and PGs in Kochi under ₹10,000 per month.">
+  <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+  <meta name="csrf-token" content="<%= csrf %>">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+<% if (settings.demo_mode === '1') { %>
+  <div class="demo-bar">Demo mode – payment QR is a sample. Do not make real payments.</div>
+<% } %>
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="/" class="brand">
+      <img src="/static/img/logo.svg" alt="" width="34" height="34">
+      <span><strong>Budget Brokers</strong><small>Kochi rentals under ₹10K</small></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    <nav class="nav-links">
+      <a href="/properties" class="<%= path.startsWith('/propert') ? 'active' : '' %>">Properties</a>
+      <a href="/how-it-works" class="<%= path === '/how-it-works' ? 'active' : '' %>">How it works</a>
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %><a href="/admin" class="pill-link">Admin<% if (pendingCount) { %> <span class="count"><%= pendingCount %></span><% } %></a><% } %>
+        <a href="/account" class="<%= path === '/account' ? 'active' : '' %>">My account<% if (premium) { %> <span class="badge gold">Premium</span><% } %></a>
+        <form method="post" action="/logout" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="link-btn">Log out</button></form>
+      <% } else { %>
+        <a href="/login">Log in</a>
+        <a href="/register" class="btn btn-sm">Sign up</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+<main>
+<% if (flash) { %>
+  <div class="wrap"><div class="alert alert-<%= flash.type %>"><%= flash.text %></div></div>
+<% } %>

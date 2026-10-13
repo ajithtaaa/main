@@ -1,0 +1,16 @@
+<%- include('../partials/admin-top') %>
+<a href="/admin/users" class="back">← Users</a>
+<h1 class="page-title">Add user</h1>
+<% if (typeof error !== 'undefined') { %><div class="alert alert-error"><%= error %></div><% } %>
+<form method="post" action="/admin/users" class="panel form form-grid">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <label>Name<input name="name" value="<%= form.name || '' %>" required></label>
+  <label>Email<input type="email" name="email" value="<%= form.email || '' %>" required></label>
+  <label>Mobile<input name="phone" value="<%= form.phone || '' %>" required inputmode="numeric"></label>
+  <label>Password<input type="password" name="password" minlength="6" required></label>
+  <label>Role<select name="role"><option value="user">User</option><option value="admin" <%= form.role === 'admin' ? 'selected' : '' %>>Admin</option></select></label>
+  <label>Premium days (0 = lifetime)<input type="number" name="days" min="0" max="3650" value="<%= form.days || settings.premium_days %>"></label>
+  <label class="check full"><input type="checkbox" name="premium" value="1"> Give premium access (contacts unlocked) right away</label>
+  <div class="full"><button class="btn">Create user</button></div>
+</form>
+<%- include('../partials/admin-bottom') %>

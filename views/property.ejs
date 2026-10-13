@@ -1,0 +1,69 @@
+<%- include('partials/head') %>
+<section class="wrap section">
+  <a href="/properties" class="back">← All properties</a>
+  <div class="detail">
+    <div class="detail-main">
+      <div class="gallery" data-gallery>
+        <img class="gallery-main" src="<%= img(listing) %>" alt="<%= listing.title %>">
+        <% if (listing.images.length > 1) { %>
+          <div class="thumbs"><% listing.images.forEach(function (im, i) { %><img src="/uploads/<%= im %>" alt="Photo <%= i + 1 %>" data-thumb class="<%= i === 0 ? 'active' : '' %>"><% }) %></div>
+        <% } %>
+      </div>
+      <div class="detail-head">
+        <div>
+          <h1><%= listing.title %></h1>
+          <p class="loc">📍 <%= listing.locality %>, Kochi</p>
+        </div>
+        <div class="rent"><%= inr(listing.rent) %><small>/month</small></div>
+      </div>
+      <% if (listing.status === 'rented') { %><div class="alert alert-info">This property has been rented out. Check similar listings below.</div><% } %>
+      <% if (listing.status === 'hidden') { %><div class="alert alert-error">Hidden listing – visible to admins only.</div><% } %>
+      <div class="facts">
+        <div><span>Type</span><strong><%= listing.type %></strong></div>
+        <div><span>Size</span><strong><%= listing.bhk || '–' %></strong></div>
+        <div><span>Deposit</span><strong><%= listing.deposit ? inr(listing.deposit) : 'None' %></strong></div>
+        <div><span>Furnishing</span><strong><%= listing.furnishing %></strong></div>
+        <div><span>Preferred</span><strong><%= listing.tenant_pref %></strong></div>
+        <div><span>Area</span><strong><%= listing.area_sqft ? listing.area_sqft + ' sq.ft' : '–' %></strong></div>
+      </div>
+      <h2>About this property</h2>
+      <p class="desc"><%= listing.description || 'No description provided.' %></p>
+      <p class="muted small">Listed <%= day(listing.created_at) %> · <%= listing.views %> views · ID #<%= listing.id %></p>
+    </div>
+
+    <aside class="contact-box">
+      <h3>Contact <%= listing.contact_role.toLowerCase() %></h3>
+      <% if (contact) { %>
+        <div class="contact-unlocked">
+          <p class="who"><strong><%= contact.name %></strong> <span class="role role-<%= contact.role.toLowerCase() %>"><%= contact.role %></span></p>
+          <p class="phone"><%= contact.phone %></p>
+          <a class="btn btn-block" href="tel:<%= contact.phone %>">📞 Call now</a>
+          <a class="btn btn-block btn-wa" target="_blank" rel="noopener" href="https://wa.me/<%= contact.phone.replace(/\D/g, '').length === 10 ? '91' + contact.phone.replace(/\D/g, '') : contact.phone.replace(/\D/g, '') %>?text=<%= encodeURIComponent('Hi, I saw your property "' + listing.title + '" on Budget Brokers. Is it available?') %>">WhatsApp</a>
+          <p class="muted small">Mention “Budget Brokers” when you call.</p>
+        </div>
+      <% } else { %>
+        <div class="contact-locked">
+          <p class="phone blur">+91 98XXX XXXXX</p>
+          <% if (!user) { %>
+            <p>Log in or create a free account, then unlock all owner &amp; broker numbers for <strong>₹<%= settings.unlock_price %></strong>.</p>
+            <a class="btn btn-block" href="/register?next=<%= encodeURIComponent('/unlock?next=/property/' + listing.id) %>">Sign up &amp; unlock</a>
+            <a class="btn btn-block btn-ghost" href="/login?next=<%= encodeURIComponent('/property/' + listing.id) %>">I already have an account</a>
+          <% } else if (pending) { %>
+            <div class="status status-pending">⏳ Payment under verification</div>
+            <p class="small">UTR <strong><%= pending.utr %></strong> submitted <%= date(pending.created_at) %>. Contacts unlock as soon as our team verifies it.</p>
+            <a class="btn btn-block btn-ghost" href="/unlock?next=/property/<%= listing.id %>">View payment status</a>
+          <% } else { %>
+            <p>Pay <strong>₹<%= settings.unlock_price %></strong> once to see this and every other owner &amp; broker number<% if (Number(settings.premium_days) > 0) { %> for <%= settings.premium_days %> days<% } %>.</p>
+            <a class="btn btn-block btn-lg" href="/unlock?next=/property/<%= listing.id %>">🔓 Unlock for ₹<%= settings.unlock_price %></a>
+          <% } %>
+        </div>
+      <% } %>
+    </aside>
+  </div>
+
+  <% if (similar.length) { %>
+    <div class="section-head" style="margin-top:2.5rem"><h2>Similar properties</h2></div>
+    <div class="grid"><% similar.forEach(function (l) { %><%- include('partials/card', { l }) %><% }) %></div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

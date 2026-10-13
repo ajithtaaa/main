@@ -1,0 +1,57 @@
+<%- include('partials/head') %>
+<section class="wrap section">
+  <h1 class="page-title">Hi, <%= user.name %></h1>
+  <div class="account-grid">
+    <div class="panel">
+      <h3>Your plan</h3>
+      <% if (premium) { %>
+        <p class="plan premium">⭐ Premium – contacts unlocked</p>
+        <p class="muted"><%= user.role === 'admin' ? 'Admin account' : user.premium_until ? 'Valid till ' + date(user.premium_until) : 'Lifetime access' %></p>
+        <a class="btn" href="/properties">Browse properties</a>
+      <% } else { %>
+        <p class="plan">Free plan – contacts locked</p>
+        <% if (user.plan === 'premium' && user.premium_until) { %><p class="muted">Your premium access expired on <%= date(user.premium_until) %>.</p><% } %>
+        <a class="btn" href="/unlock">Unlock all contacts – ₹<%= settings.unlock_price %></a>
+      <% } %>
+      <hr>
+      <p class="small"><strong>Email:</strong> <%= user.email %><br><strong>Mobile:</strong> <%= user.phone %><br><strong>Member since:</strong> <%= day(user.created_at) %></p>
+    </div>
+    <div class="panel">
+      <h3>Payment requests</h3>
+      <% if (!payments.length) { %><p class="muted">No payments yet.</p><% } else { %>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Date</th><th>UTR</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody><% payments.forEach(function (p) { %>
+            <tr><td><%= date(p.created_at) %></td><td class="mono"><%= p.utr %></td><td><%= inr(p.amount) %></td>
+              <td><%- include('partials/status', { s: p.status }) %><% if (p.status === 'rejected' && p.admin_note) { %><div class="small muted"><%= p.admin_note %></div><% } %></td></tr>
+          <% }) %></tbody>
+        </table></div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Contacts you’ve unlocked</h3>
+    <% if (!viewed.length) { %><p class="muted">Contacts you open will be saved here for quick access.</p><% } else { %>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Property</th><th>Rent</th><th>Contact</th><th>Phone</th></tr></thead>
+        <tbody><% viewed.forEach(function (v) { %>
+          <tr><td><a href="/property/<%= v.id %>"><%= v.title %></a><div class="small muted"><%= v.locality %></div></td><td><%= inr(v.rent) %></td>
+            <td><%= v.contact_name %> <span class="role role-<%= v.contact_role.toLowerCase() %>"><%= v.contact_role %></span></td>
+            <td><% if (premium) { %><a href="tel:<%= v.contact_phone %>"><%= v.contact_phone %></a><% } else { %><a class="muted" href="/unlock">🔒 Renew to view</a><% } %></td></tr>
+        <% }) %></tbody>
+      </table></div>
+    <% } %>
+  </div>
+
+  <details class="panel">
+    <summary><strong>Change password</strong></summary>
+    <form method="post" action="/account/password" class="form form-inline">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label>Current password<input type="password" name="current" required></label>
+      <label>New password<input type="password" name="password" minlength="6" required></label>
+      <button class="btn">Update</button>
+    </form>
+  </details>
+</section>
+<%- include('partials/foot') %>

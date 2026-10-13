@@ -1,0 +1,68 @@
+<%- include('partials/head') %>
+<section class="wrap section">
+  <div class="paywall">
+    <% if (premium) { %>
+      <div class="paywall-card center">
+        <div class="big-icon">✅</div>
+        <h1>Your contacts are unlocked</h1>
+        <p class="muted"><%= user.premium_until ? 'Premium valid till ' + date(user.premium_until) : 'You have lifetime access.' %></p>
+        <a class="btn btn-lg" href="<%= next %>">Continue browsing</a>
+      </div>
+    <% } else if (pending) { %>
+      <div class="paywall-card center">
+        <div class="big-icon">⏳</div>
+        <h1>Payment under verification</h1>
+        <p>We received your UTR <strong class="mono"><%= pending.utr %></strong> on <%= date(pending.created_at) %>.</p>
+        <p class="muted">Our team verifies every payment manually against our bank statement. Contacts unlock automatically once approved – usually within a few hours. Refresh this page to check.</p>
+        <div class="row-center">
+          <a class="btn" href="<%= next %>">Keep browsing</a>
+          <a class="btn btn-ghost" href="/account">Payment history</a>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="paywall-card">
+        <div class="paywall-head">
+          <h1>Unlock all owner &amp; broker numbers</h1>
+          <p class="muted">One payment of <strong>₹<%= settings.unlock_price %></strong> unlocks every contact on Budget Brokers<% if (Number(settings.premium_days) > 0) { %> for <strong><%= settings.premium_days %> days</strong><% } %>.</p>
+        </div>
+        <% if (rejected) { %>
+          <div class="alert alert-error">Your last payment (UTR <span class="mono"><%= rejected.utr %></span>) could not be verified: <%= rejected.admin_note %>. Please check and submit the correct UTR.</div>
+        <% } %>
+        <div class="pay-grid">
+          <div class="pay-step">
+            <span class="step-no">1</span>
+            <h3>Scan &amp; pay ₹<%= settings.unlock_price %></h3>
+            <div class="qr-box">
+              <img src="<%= qr %>" alt="UPI payment QR code" width="240" height="240">
+              <% if (settings.demo_mode === '1') { %><span class="qr-demo">DEMO QR</span><% } %>
+            </div>
+            <p class="upi">UPI ID: <strong class="mono" id="upi"><%= settings.upi_id %></strong> <button type="button" class="copy" data-copy="<%= settings.upi_id %>">Copy</button></p>
+            <p class="small muted">Payee: <%= settings.payee_name %> · Amount: ₹<%= settings.unlock_price %></p>
+            <a class="btn btn-ghost btn-block mobile-only" href="<%= link %>">Open UPI app to pay</a>
+            <div class="apps">GPay · PhonePe · Paytm · BHIM · any UPI app</div>
+          </div>
+          <div class="pay-step">
+            <span class="step-no">2</span>
+            <h3>Enter your UTR number</h3>
+            <p class="small">After paying, copy the <strong>12-digit UTR / UPI reference number</strong> from your payment app and paste it below.</p>
+            <form method="post" action="/unlock" class="form" id="utr-form">
+              <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="next" value="<%= next %>">
+              <label>UTR / UPI Ref. No.
+                <input name="utr" id="utr" inputmode="numeric" pattern="\d{12}" maxlength="12" minlength="12" required placeholder="e.g. 412345678901" autocomplete="off" class="utr-input">
+              </label>
+              <p class="small muted" id="utr-help">12 digits · <span id="utr-count">0</span>/12</p>
+              <label class="check"><input type="checkbox" required> I have paid ₹<%= settings.unlock_price %> to <%= settings.upi_id %></label>
+              <button class="btn btn-block btn-lg">Submit for verification</button>
+            </form>
+            <details class="small">
+              <summary>Where do I find the UTR?</summary>
+              <p><strong>GPay:</strong> tap the payment → UPI transaction ID.<br><strong>PhonePe:</strong> History → payment → UTR.<br><strong>Paytm:</strong> Balance &amp; History → payment → UPI Ref No.</p>
+            </details>
+          </div>
+        </div>
+        <p class="small muted center">Payments are verified manually by our team. Do not submit someone else’s UTR – fake submissions lead to account block.</p>
+      </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/foot') %>

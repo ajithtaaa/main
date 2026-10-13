@@ -1,0 +1,28 @@
+<%- include('../partials/admin-top') %>
+<h1 class="page-title">Payment verification</h1>
+<p class="muted">Match each UTR against your bank / UPI statement for ₹<%= settings.unlock_price %>, then approve to unlock contacts for that user.</p>
+<div class="tabs">
+  <% ['pending', 'approved', 'rejected', 'all'].forEach(function (s) { %><a href="/admin/payments?status=<%= s %>" class="<%= status === s ? 'active' : '' %>"><%= s[0].toUpperCase() + s.slice(1) %></a><% }) %>
+  <form method="get" class="tab-search"><input type="hidden" name="status" value="<%= status %>"><input name="q" value="<%= q %>" placeholder="Search UTR, name, phone"><button class="btn btn-sm">Search</button></form>
+</div>
+<div class="panel">
+  <% if (!payments.length) { %><p class="muted">No <%= status === 'all' ? '' : status %> payments<%= q ? ' matching “' + q + '”' : '' %>.</p><% } else { %>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>User</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+    <tbody><% payments.forEach(function (p) { %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><a href="/admin/users/<%= p.user_id %>"><%= p.name %></a><div class="small muted"><%= p.email %> · <%= p.phone %></div></td>
+        <td class="mono strong"><%= p.utr %> <button type="button" class="copy" data-copy="<%= p.utr %>">Copy</button></td>
+        <td><%= inr(p.amount) %></td>
+        <td class="small"><%= date(p.created_at) %></td>
+        <td><%- include('../partials/status', { s: p.status }) %>
+          <% if (p.reviewed_at) { %><div class="small muted"><%= p.reviewer || 'Admin' %> · <%= date(p.reviewed_at) %></div><% } %>
+          <% if (p.admin_note) { %><div class="small muted">“<%= p.admin_note %>”</div><% } %></td>
+        <td><% if (p.status === 'pending') { %><%- include('../partials/review', { p }) %><% } %></td>
+      </tr>
+    <% }) %></tbody>
+  </table></div>
+  <% } %>
+</div>
+<%- include('../partials/admin-bottom') %>

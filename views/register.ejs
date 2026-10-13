@@ -1,0 +1,18 @@
+<%- include('partials/head') %>
+<section class="wrap auth">
+  <div class="auth-card">
+    <h1>Create your free account</h1>
+    <p class="muted">Browse free. Unlock every contact for ₹<%= settings.unlock_price %>.</p>
+    <% if (typeof error !== 'undefined') { %><div class="alert alert-error"><%= error %></div><% } %>
+    <form method="post" action="/register" class="form">
+      <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="next" value="<%= next %>">
+      <label>Full name<input name="name" value="<%= form.name || '' %>" required autocomplete="name"></label>
+      <label>Mobile number<input name="phone" value="<%= form.phone || '' %>" required inputmode="numeric" placeholder="10-digit mobile" autocomplete="tel"></label>
+      <label>Email<input type="email" name="email" value="<%= form.email || '' %>" required autocomplete="email"></label>
+      <label>Password<input type="password" name="password" minlength="6" required autocomplete="new-password"></label>
+      <button class="btn btn-block">Create account</button>
+    </form>
+    <p class="center small">Already registered? <a href="/login?next=<%= encodeURIComponent(next) %>">Log in</a></p>
+  </div>
+</section>
+<%- include('partials/foot') %>

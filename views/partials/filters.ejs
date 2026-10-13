@@ -1,0 +1,15 @@
+<form class="search" action="/properties" method="get">
+  <label><span>Locality</span>
+    <select name="locality"><option value="">All of Kochi</option>
+      <% config.localities.forEach(function (x) { %><option <%= q.locality === x ? 'selected' : '' %>><%= x %></option><% }) %>
+    </select></label>
+  <label><span>Type</span>
+    <select name="type"><option value="">Any type</option>
+      <% config.types.forEach(function (x) { %><option <%= q.type === x ? 'selected' : '' %>><%= x %></option><% }) %>
+    </select></label>
+  <label><span>Max rent</span>
+    <select name="max"><option value="">Up to ₹10,000</option>
+      <% [3000, 5000, 7000, 8000, 9000].forEach(function (x) { %><option value="<%= x %>" <%= String(q.max) === String(x) ? 'selected' : '' %>>Up to <%= inr(x) %></option><% }) %>
+    </select></label>
+  <button class="btn">Search</button>
+</form>

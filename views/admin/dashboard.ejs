@@ -1,0 +1,42 @@
+<%- include('../partials/admin-top') %>
+<h1 class="page-title">Dashboard</h1>
+<div class="stats">
+  <a href="/admin/payments" class="stat <%= stats.pending ? 'stat-alert' : '' %>"><span>Pending payments</span><strong><%= stats.pending %></strong></a>
+  <a href="/admin/users" class="stat"><span>Registered users</span><strong><%= stats.users %></strong></a>
+  <a href="/admin/users?filter=premium" class="stat"><span>Active premium</span><strong><%= stats.premium %></strong></a>
+  <a href="/admin/listings" class="stat"><span>Active listings</span><strong><%= stats.listings %><small> / <%= stats.allListings %></small></strong></a>
+  <div class="stat"><span>Revenue (30 days)</span><strong><%= inr(stats.revenue30) %></strong></div>
+  <div class="stat"><span>Total revenue</span><strong><%= inr(stats.revenue) %></strong></div>
+  <div class="stat"><span>Contacts unlocked</span><strong><%= stats.unlocks %></strong></div>
+</div>
+
+<div class="panel">
+  <div class="section-head"><h3>Awaiting verification</h3><a href="/admin/payments">All payments →</a></div>
+  <% if (!pending.length) { %><p class="muted">🎉 No pending payments.</p><% } else { %>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>User</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Action</th></tr></thead>
+      <tbody><% pending.forEach(function (p) { %>
+        <tr><td><%= p.id %></td><td><a href="/admin/users/<%= p.user_id %>"><%= p.name %></a><div class="small muted"><%= p.phone %></div></td>
+          <td class="mono strong"><%= p.utr %></td><td><%= inr(p.amount) %></td><td class="small"><%= date(p.created_at) %></td>
+          <td><%- include('../partials/review', { p }) %></td></tr>
+      <% }) %></tbody>
+    </table></div>
+  <% } %>
+</div>
+
+<div class="two-col">
+  <div class="panel">
+    <div class="section-head"><h3>New users</h3><a href="/admin/users">All →</a></div>
+    <div class="table-wrap"><table><tbody>
+      <% recentUsers.forEach(function (u) { %><tr><td><a href="/admin/users/<%= u.id %>"><%= u.name %></a><div class="small muted"><%= u.email %></div></td><td class="small"><%= day(u.created_at) %></td></tr><% }) %>
+      <% if (!recentUsers.length) { %><tr><td class="muted">No users yet.</td></tr><% } %>
+    </tbody></table></div>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h3>Most viewed listings</h3><a href="/admin/listings">All →</a></div>
+    <div class="table-wrap"><table><tbody>
+      <% topListings.forEach(function (l) { %><tr><td><a href="/admin/listings/<%= l.id %>/edit"><%= l.title %></a><div class="small muted"><%= l.locality %> · <%= inr(l.rent) %></div></td><td class="small"><%= l.views %> views</td></tr><% }) %>
+    </tbody></table></div>
+  </div>
+</div>
+<%- include('../partials/admin-bottom') %>

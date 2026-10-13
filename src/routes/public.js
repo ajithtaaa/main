@@ -1,0 +1,83 @@
+const express = require('express');
+const config = require('../config');
+const { db, parseImages } = require('../db');
+
+const router = express.Router();
+const PAGE_SIZE = 12;
+
+// Columns safe to send to every visitor (never the contact phone).
+const PUBLIC_COLS = `id, title, description, type, bhk, rent, deposit, locality, furnishing, tenant_pref,
+  area_sqft, contact_role, images, featured, status, views, created_at`;
+
+function buildFilter(q) {
+  const where = ["status = 'active'"];
+  const params = [];
+  if (q.locality && config.localities.includes(q.locality)) { where.push('locality = ?'); params.push(q.locality); }
+  if (q.type && config.types.includes(q.type)) { where.push('type = ?'); params.push(q.type); }
+  if (q.tenant && config.tenantPrefs.includes(q.tenant)) { where.push('tenant_pref = ?'); params.push(q.tenant); }
+  if (q.role === 'Owner' || q.role === 'Broker') { where.push('contact_role = ?'); params.push(q.role); }
+  const max = parseInt(q.max, 10);
+  if (max > 0 && max <= config.maxRent) { where.push('rent <= ?'); params.push(max); }
+  const term = String(q.q || '').trim().slice(0, 60);
+  if (term) {
+    where.push('(title LIKE ? OR description LIKE ? OR locality LIKE ?)');
+    params.push(`%${term}%`, `%${term}%`, `%${term}%`);
+  }
+  return { sql: where.join(' AND '), params };
+}
+
+const SORTS = { new: 'created_at DESC, id DESC', low: 'rent ASC', high: 'rent DESC', popular: 'views DESC' };
+
+router.get('/', (req, res) => {
+  const featured = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND featured = 1 ORDER BY id DESC LIMIT 6`).all().map(parseImages);
+  const latest = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' ORDER BY created_at DESC, id DESC LIMIT 8`).all().map(parseImages);
+  const stats = {
+    listings: db.prepare("SELECT COUNT(*) AS n FROM listings WHERE status = 'active'").get().n,
+    localities: db.prepare("SELECT COUNT(DISTINCT locality) AS n FROM listings WHERE status = 'active'").get().n,
+    minRent: db.prepare("SELECT MIN(rent) AS n FROM listings WHERE status = 'active'").get().n || 0,
+  };
+  res.render('home', { title: 'Budget rentals in Kochi under ₹10,000', featured, latest, stats });
+});
+
+router.get('/properties', (req, res) => {
+  const { sql, params } = buildFilter(req.query);
+  const sort = SORTS[req.query.sort] ? req.query.sort : 'new';
+  const total = db.prepare(`SELECT COUNT(*) AS n FROM listings WHERE ${sql}`).get(...params).n;
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = Math.min(pages, Math.max(1, parseInt(req.query.page, 10) || 1));
+  const listings = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE ${sql} ORDER BY featured DESC, ${SORTS[sort]} LIMIT ? OFFSET ?`)
+    .all(...params, PAGE_SIZE, (page - 1) * PAGE_SIZE).map(parseImages);
+  const query = { ...req.query };
+  delete query.page;
+  res.render('properties', { title: 'Properties in Kochi', listings, total, page, pages, q: req.query, sort, query: new URLSearchParams(query).toString() });
+});
+
+router.get('/property/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const listing = parseImages(db.prepare('SELECT * FROM listings WHERE id = ?').get(id));
+  const isAdmin = req.user && req.user.role === 'admin';
+  if (!listing || (listing.status === 'hidden' && !isAdmin)) {
+    return res.status(404).render('error', { title: 'Not found', message: 'This property is no longer available.' });
+  }
+  db.prepare('UPDATE listings SET views = views + 1 WHERE id = ?').run(id);
+
+  let contact = null;
+  let pending = null;
+  if (res.locals.premium) {
+    contact = { name: listing.contact_name, phone: listing.contact_phone, role: listing.contact_role };
+    if (!isAdmin) db.prepare('INSERT OR IGNORE INTO contact_views (user_id, listing_id) VALUES (?, ?)').run(req.user.id, id);
+  } else if (req.user) {
+    pending = db.prepare("SELECT * FROM payments WHERE user_id = ? AND status = 'pending' ORDER BY id DESC LIMIT 1").get(req.user.id);
+  }
+  // Never hand the phone to the template unless unlocked.
+  delete listing.contact_phone;
+  if (!contact) delete listing.contact_name;
+
+  const similar = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND id != ? AND (locality = ? OR type = ?)
+    ORDER BY (locality = ?) DESC, created_at DESC LIMIT 4`).all(id, listing.locality, listing.type, listing.locality).map(parseImages);
+  res.render('property', { title: listing.title, listing, contact, pending, similar });
+});
+
+router.get('/how-it-works', (req, res) => res.render('how', { title: 'How it works' }));
+
+module.exports = router;

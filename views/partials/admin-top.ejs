@@ -1,0 +1,11 @@
+<%- include('head', { bodyClass: 'admin' }) %>
+<div class="wrap admin-shell">
+  <aside class="admin-nav">
+    <a href="/admin" class="<%= path === '/admin' ? 'active' : '' %>">📊 Dashboard</a>
+    <a href="/admin/payments" class="<%= path.startsWith('/admin/payments') ? 'active' : '' %>">💳 Payments<% if (pendingCount) { %> <span class="count"><%= pendingCount %></span><% } %></a>
+    <a href="/admin/users" class="<%= path.startsWith('/admin/users') ? 'active' : '' %>">👥 Users</a>
+    <a href="/admin/listings" class="<%= path.startsWith('/admin/listings') ? 'active' : '' %>">🏠 Listings</a>
+    <a href="/admin/settings" class="<%= path.startsWith('/admin/settings') ? 'active' : '' %>">⚙️ Settings</a>
+    <a href="/">↗ View site</a>
+  </aside>
+  <div class="admin-main">

@@ -1,0 +1,62 @@
+<%- include('../partials/admin-top') %>
+<a href="/admin/listings" class="back">← Listings</a>
+<div class="section-head">
+  <h1 class="page-title"><%= listing.id ? 'Edit listing #' + listing.id : 'Add listing' %></h1>
+  <% if (listing.id) { %><a class="btn btn-ghost" href="/property/<%= listing.id %>" target="_blank">View on site ↗</a><% } %>
+</div>
+<% if (typeof error !== 'undefined') { %><div class="alert alert-error"><%= error %></div><% } %>
+<form method="post" action="/admin/listings<%= listing.id ? '/' + listing.id : '' %>" enctype="multipart/form-data" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <div class="panel form-grid">
+    <h3 class="full">Property details</h3>
+    <label class="full">Title<input name="title" value="<%= listing.title || '' %>" required maxlength="120" placeholder="e.g. 1BHK near Infopark"></label>
+    <label>Type<select name="type" required><option value="">Select…</option><% config.types.forEach(function (t) { %><option <%= listing.type === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+    <label>Size / BHK<input name="bhk" value="<%= listing.bhk || '' %>" placeholder="1 BHK, 1 RK, Shared"></label>
+    <label>Monthly rent (₹, max <%= config.maxRent %>)<input type="number" name="rent" min="1" max="<%= config.maxRent %>" value="<%= listing.rent || '' %>" required></label>
+    <label>Deposit (₹)<input type="number" name="deposit" min="0" value="<%= listing.deposit || 0 %>"></label>
+    <label>Locality<select name="locality" required><option value="">Select…</option><% config.localities.forEach(function (t) { %><option <%= listing.locality === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+    <label>Area (sq.ft)<input type="number" name="area_sqft" min="0" value="<%= listing.area_sqft || '' %>"></label>
+    <label>Furnishing<select name="furnishing"><% config.furnishings.forEach(function (t) { %><option <%= listing.furnishing === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+    <label>Preferred tenants<select name="tenant_pref"><% config.tenantPrefs.forEach(function (t) { %><option <%= listing.tenant_pref === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+    <label class="full">Address / landmark <span class="muted small">(not shown publicly)</span><input name="address" value="<%= listing.address || '' %>" maxlength="200"></label>
+    <label class="full">Description<textarea name="description" rows="5" maxlength="3000"><%= listing.description || '' %></textarea></label>
+  </div>
+
+  <div class="panel form-grid">
+    <h3 class="full">Contact (locked behind ₹<%= settings.unlock_price %> paywall)</h3>
+    <label>Contact name<input name="contact_name" value="<%= listing.contact_name || '' %>" required></label>
+    <label>Contact phone<input name="contact_phone" value="<%= listing.contact_phone || '' %>" required inputmode="tel"></label>
+    <label>Contact is<select name="contact_role"><option <%= listing.contact_role === 'Owner' ? 'selected' : '' %>>Owner</option><option <%= listing.contact_role === 'Broker' ? 'selected' : '' %>>Broker</option></select></label>
+  </div>
+
+  <div class="panel">
+    <h3>Photos</h3>
+    <% if (listing.images && listing.images.length) { %>
+      <div class="img-grid"><% listing.images.forEach(function (im) { %>
+        <label class="img-item"><img src="/uploads/<%= im %>" alt=""><span><input type="checkbox" name="remove_images" value="<%= im %>"> Remove</span></label>
+      <% }) %></div>
+    <% } %>
+    <label>Add photos (JPG/PNG/WebP, up to 8, max 5 MB each)<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple data-preview></label>
+    <div class="img-grid" id="preview"></div>
+  </div>
+
+  <div class="panel form-grid">
+    <h3 class="full">Visibility</h3>
+    <label>Status<select name="status">
+      <option value="active" <%= listing.status === 'active' ? 'selected' : '' %>>Active (visible)</option>
+      <option value="hidden" <%= listing.status === 'hidden' ? 'selected' : '' %>>Hidden</option>
+      <option value="rented" <%= listing.status === 'rented' ? 'selected' : '' %>>Rented out</option>
+    </select></label>
+    <label class="check"><input type="checkbox" name="featured" value="1" <%= listing.featured ? 'checked' : '' %>> Featured on home page</label>
+  </div>
+  <div class="row">
+    <button class="btn btn-lg"><%= listing.id ? 'Save changes' : 'Publish listing' %></button>
+  </div>
+</form>
+<% if (listing.id) { %>
+  <form method="post" action="/admin/listings/<%= listing.id %>/delete" class="danger-zone">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <button class="btn btn-danger" data-confirm="Delete this listing permanently?">Delete listing</button>
+  </form>
+<% } %>
+<%- include('../partials/admin-bottom') %>

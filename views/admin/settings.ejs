@@ -1,0 +1,38 @@
+<%- include('../partials/admin-top') %>
+<h1 class="page-title">Settings</h1>
+<form method="post" action="/admin/settings" enctype="multipart/form-data" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <div class="panel form-grid">
+    <h3 class="full">Paywall &amp; payments</h3>
+    <label>Unlock price (₹)<input type="number" name="unlock_price" min="1" max="10000" value="<%= settings.unlock_price %>" required></label>
+    <label>Premium validity (days, 0 = lifetime)<input type="number" name="premium_days" min="0" max="3650" value="<%= settings.premium_days %>" required></label>
+    <label>UPI ID<input name="upi_id" value="<%= settings.upi_id %>" required placeholder="yourname@okhdfcbank"></label>
+    <label>Payee name<input name="payee_name" value="<%= settings.payee_name %>"></label>
+    <div class="full qr-setting">
+      <div class="qr-box small-qr">
+        <img src="<%= qr %>" alt="Current QR">
+      </div>
+      <div>
+        <p class="small"><%= settings.qr_image ? 'Using your uploaded QR image.' : 'Using an auto-generated UPI QR from the UPI ID, payee and price above.' %></p>
+        <label>Upload your own QR image (optional)<input type="file" name="qr" accept="image/jpeg,image/png,image/webp"></label>
+        <% if (settings.qr_image) { %><label class="check"><input type="checkbox" name="remove_qr" value="1"> Remove uploaded QR and use auto-generated</label><% } %>
+      </div>
+    </div>
+    <label class="check full"><input type="checkbox" name="demo_mode" value="1" <%= settings.demo_mode === '1' ? 'checked' : '' %>> Demo mode (shows “demo” banner and DEMO stamp on the QR)</label>
+  </div>
+  <div class="panel form-grid">
+    <h3 class="full">Support contact (shown in footer)</h3>
+    <label>Support phone<input name="support_phone" value="<%= settings.support_phone %>"></label>
+    <label>WhatsApp number (with country code)<input name="support_whatsapp" value="<%= settings.support_whatsapp %>" placeholder="919000000000"></label>
+  </div>
+  <button class="btn btn-lg">Save settings</button>
+</form>
+
+<form method="post" action="/admin/settings/password" class="panel form form-inline" style="margin-top:1.5rem">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <h3 class="full">Change admin password</h3>
+  <label>Current password<input type="password" name="current" required></label>
+  <label>New password (min 8)<input type="password" name="password" minlength="8" required></label>
+  <button class="btn">Change password</button>
+</form>
+<%- include('../partials/admin-bottom') %>

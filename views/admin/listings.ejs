@@ -1,0 +1,41 @@
+<%- include('../partials/admin-top') %>
+<div class="section-head"><h1 class="page-title">Listings</h1><a class="btn" href="/admin/listings/new">+ Add listing</a></div>
+<div class="tabs">
+  <a href="/admin/listings" class="<%= !status ? 'active' : '' %>">All</a>
+  <a href="/admin/listings?status=active" class="<%= status === 'active' ? 'active' : '' %>">Active</a>
+  <a href="/admin/listings?status=hidden" class="<%= status === 'hidden' ? 'active' : '' %>">Hidden</a>
+  <a href="/admin/listings?status=rented" class="<%= status === 'rented' ? 'active' : '' %>">Rented</a>
+  <form method="get" class="tab-search"><input type="hidden" name="status" value="<%= status %>"><input name="q" value="<%= q %>" placeholder="Search title, locality, contact"><button class="btn btn-sm">Search</button></form>
+</div>
+<div class="panel">
+  <% if (!listings.length) { %><p class="muted">No listings found.</p><% } else { %>
+  <div class="table-wrap"><table>
+    <thead><tr><th></th><th>Property</th><th>Rent</th><th>Contact</th><th>Status</th><th>Views / unlocks</th><th>Actions</th></tr></thead>
+    <tbody><% listings.forEach(function (l) { %>
+      <tr class="<%= l.status !== 'active' ? 'row-muted' : '' %>">
+        <td><img class="thumb" src="<%= img(l) %>" alt=""></td>
+        <td><a href="/admin/listings/<%= l.id %>/edit"><strong><%= l.title %></strong></a><% if (l.featured) { %> <span class="badge gold">★</span><% } %>
+          <div class="small muted">#<%= l.id %> · <%= l.type %> · <%= l.locality %></div></td>
+        <td><%= inr(l.rent) %></td>
+        <td><%= l.contact_name %> <span class="role role-<%= l.contact_role.toLowerCase() %>"><%= l.contact_role %></span><div class="small muted"><%= l.contact_phone %></div></td>
+        <td><span class="badge <%= l.status === 'active' ? 'green' : 'grey' %>"><%= l.status %></span></td>
+        <td><%= l.views %> / <%= l.unlocks %></td>
+        <td class="actions">
+          <a class="btn btn-sm btn-ghost" href="/admin/listings/<%= l.id %>/edit">Edit</a>
+          <a class="btn btn-sm btn-ghost" href="/property/<%= l.id %>" target="_blank">View</a>
+          <form method="post" action="/admin/listings/<%= l.id %>/quick" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>">
+            <select name="action" onchange="this.form.submit()">
+              <option value="">More…</option>
+              <% if (l.status !== 'active') { %><option value="active">Mark active</option><% } %>
+              <% if (l.status !== 'hidden') { %><option value="hidden">Hide</option><% } %>
+              <% if (l.status !== 'rented') { %><option value="rented">Mark rented</option><% } %>
+              <option value="feature"><%= l.featured ? 'Unfeature' : 'Feature' %></option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    <% }) %></tbody>
+  </table></div>
+  <% } %>
+</div>
+<%- include('../partials/admin-bottom') %>

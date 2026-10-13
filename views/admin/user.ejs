@@ -1,0 +1,71 @@
+<%- include('../partials/admin-top') %>
+<a href="/admin/users" class="back">← Users</a>
+<div class="section-head">
+  <h1 class="page-title"><%= target.name %>
+    <% if (target.role === 'admin') { %><span class="badge">Admin</span><% } %>
+    <% if (target.status === 'blocked') { %><span class="badge red">Blocked</span><% } %>
+    <% if (target.active) { %><span class="badge gold">Premium</span><% } else { %><span class="badge grey">Free</span><% } %>
+  </h1>
+</div>
+<div class="two-col">
+  <div class="panel">
+    <h3>Plan &amp; upgrade</h3>
+    <% if (target.role === 'admin') { %>
+      <p class="muted">Admins always see all contacts.</p>
+    <% } else { %>
+      <p><% if (target.active) { %>Premium <% if (target.premium_until) { %>valid till <strong><%= date(target.premium_until) %></strong><% } else { %><strong>lifetime</strong><% } %><% } else { %>Free plan<%= target.plan === 'premium' && target.premium_until ? ' (premium expired ' + day(target.premium_until) + ')' : '' %><% } %></p>
+      <form method="post" action="/admin/users/<%= target.id %>/upgrade" class="form form-inline">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <label><%= target.active ? 'Extend by days' : 'Upgrade for days' %><input type="number" name="days" min="1" max="3650" value="<%= Number(settings.premium_days) || 30 %>"></label>
+        <label class="check"><input type="checkbox" name="lifetime" value="1"> Lifetime</label>
+        <button class="btn btn-ok"><%= target.active ? 'Extend' : 'Upgrade to Premium' %></button>
+      </form>
+      <% if (target.active) { %>
+        <form method="post" action="/admin/users/<%= target.id %>/downgrade"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-ghost" data-confirm="Remove premium from <%= target.name %>?">Downgrade to Free</button></form>
+      <% } %>
+    <% } %>
+    <hr>
+    <h3>Account actions</h3>
+    <% if (target.id !== user.id) { %>
+      <div class="row">
+        <form method="post" action="/admin/users/<%= target.id %>/status" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn <%= target.status === 'blocked' ? 'btn-ghost' : 'btn-danger' %>" data-confirm="Are you sure?"><%= target.status === 'blocked' ? 'Unblock user' : 'Block user' %></button></form>
+        <form method="post" action="/admin/users/<%= target.id %>/role" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-ghost" data-confirm="Change role for <%= target.name %>?"><%= target.role === 'admin' ? 'Remove admin' : 'Make admin' %></button></form>
+        <form method="post" action="/admin/users/<%= target.id %>/delete" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-danger" data-confirm="Permanently delete <%= target.name %> and their payment history?">Delete</button></form>
+      </div>
+    <% } else { %><p class="muted">This is your account.</p><% } %>
+  </div>
+  <div class="panel">
+    <h3>Details</h3>
+    <form method="post" action="/admin/users/<%= target.id %>/edit" class="form">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label>Name<input name="name" value="<%= target.name %>" required></label>
+      <label>Email<input type="email" name="email" value="<%= target.email %>" required></label>
+      <label>Mobile<input name="phone" value="<%= target.phone %>" required></label>
+      <label>Reset password <span class="muted small">(leave blank to keep)</span><input type="password" name="password" minlength="6" autocomplete="new-password"></label>
+      <button class="btn">Save details</button>
+    </form>
+    <p class="small muted">Joined <%= date(target.created_at) %> · ID #<%= target.id %></p>
+  </div>
+</div>
+<div class="panel">
+  <h3>Payments</h3>
+  <% if (!payments.length) { %><p class="muted">No payments.</p><% } else { %>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+    <tbody><% payments.forEach(function (p) { p.name = target.name; %>
+      <tr><td><%= p.id %></td><td class="mono strong"><%= p.utr %></td><td><%= inr(p.amount) %></td><td class="small"><%= date(p.created_at) %></td>
+        <td><%- include('../partials/status', { s: p.status }) %><% if (p.admin_note) { %><div class="small muted"><%= p.admin_note %></div><% } %></td>
+        <td><% if (p.status === 'pending') { %><%- include('../partials/review', { p }) %><% } %></td></tr>
+    <% }) %></tbody>
+  </table></div>
+  <% } %>
+</div>
+<div class="panel">
+  <h3>Contacts viewed (<%= viewed.length %>)</h3>
+  <% if (!viewed.length) { %><p class="muted">None yet.</p><% } else { %>
+  <div class="table-wrap"><table><tbody>
+    <% viewed.forEach(function (v) { %><tr><td><a href="/property/<%= v.id %>"><%= v.title %></a></td><td><%= v.locality %></td><td><%= inr(v.rent) %></td><td class="small"><%= date(v.created_at) %></td></tr><% }) %>
+  </tbody></table></div>
+  <% } %>
+</div>
+<%- include('../partials/admin-bottom') %>
