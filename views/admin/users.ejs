@@ -2,8 +2,8 @@
 <div class="section-head"><h1 class="page-title">Users</h1><a class="btn" href="/admin/users/new">+ Add user</a></div>
 <div class="tabs">
   <a href="/admin/users" class="<%= !filter ? 'active' : '' %>">All</a>
-  <a href="/admin/users?filter=premium" class="<%= filter === 'premium' ? 'active' : '' %>">Premium</a>
-  <a href="/admin/users?filter=free" class="<%= filter === 'free' ? 'active' : '' %>">Free</a>
+  <a href="/admin/users?filter=premium" class="<%= filter === 'premium' ? 'active' : '' %>">All-access</a>
+  <a href="/admin/users?filter=free" class="<%= filter === 'free' ? 'active' : '' %>">Pay per property</a>
   <a href="/admin/users?filter=blocked" class="<%= filter === 'blocked' ? 'active' : '' %>">Blocked</a>
   <a href="/admin/users?filter=admin" class="<%= filter === 'admin' ? 'active' : '' %>">Admins</a>
   <form method="get" class="tab-search"><input type="hidden" name="filter" value="<%= filter %>"><input name="q" value="<%= q %>" placeholder="Search name, email, phone"><button class="btn btn-sm">Search</button></form>
@@ -11,23 +11,23 @@
 <div class="panel">
   <% if (!users.length) { %><p class="muted">No users found.</p><% } else { %>
   <div class="table-wrap"><table>
-    <thead><tr><th>User</th><th>Phone</th><th>Plan</th><th>Payments</th><th>Unlocks</th><th>Joined</th><th>Quick actions</th></tr></thead>
+    <thead><tr><th>User</th><th>Phone</th><th>Access</th><th>Payments</th><th>Unlocked</th><th>Joined</th><th>Quick actions</th></tr></thead>
     <tbody><% users.forEach(function (u) { %>
       <tr class="<%= u.status === 'blocked' ? 'row-muted' : '' %>">
         <td><a href="/admin/users/<%= u.id %>"><strong><%= u.name %></strong></a>
           <% if (u.role === 'admin') { %><span class="badge">Admin</span><% } %><% if (u.status === 'blocked') { %><span class="badge red">Blocked</span><% } %>
           <div class="small muted"><%= u.email %></div></td>
         <td><%= u.phone %></td>
-        <td><% if (u.active) { %><span class="badge gold">Premium</span><div class="small muted"><%= u.role === 'admin' ? '' : u.premium_until ? 'till ' + day(u.premium_until) : 'lifetime' %></div><% } else { %><span class="badge grey">Free</span><% if (u.plan === 'premium') { %><div class="small muted">expired</div><% } %><% } %></td>
+        <td><% if (u.active) { %><span class="badge gold">All-access</span><div class="small muted"><%= u.role === 'admin' ? '' : u.premium_until ? 'till ' + day(u.premium_until) : 'lifetime' %></div><% } else { %><span class="badge grey">Pay per property</span><% if (u.plan === 'premium') { %><div class="small muted">expired</div><% } %><% } %></td>
         <td><%= u.payment_count %></td>
         <td><%= u.unlock_count %></td>
         <td class="small"><%= day(u.created_at) %></td>
         <td class="actions">
           <% if (u.role !== 'admin') { %>
             <% if (!u.active) { %>
-              <form method="post" action="/admin/users/<%= u.id %>/upgrade" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="days" value="<%= Number(settings.premium_days) || 30 %>"><button class="btn btn-sm btn-ok">Upgrade</button></form>
+              <form method="post" action="/admin/users/<%= u.id %>/upgrade" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="days" value="<%= Number(settings.premium_days) || 30 %>"><button class="btn btn-sm btn-ok" data-confirm="Give <%= u.name %> all-access to every contact?">All-access</button></form>
             <% } else { %>
-              <form method="post" action="/admin/users/<%= u.id %>/downgrade" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-sm btn-ghost" data-confirm="Downgrade <%= u.name %> to Free?">Downgrade</button></form>
+              <form method="post" action="/admin/users/<%= u.id %>/downgrade" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-sm btn-ghost" data-confirm="Remove all-access from <%= u.name %>?">Remove all-access</button></form>
             <% } %>
           <% } %>
           <% if (u.id !== user.id) { %>

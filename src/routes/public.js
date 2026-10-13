@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../config');
-const { db, parseImages } = require('../db');
+const { db, parseImages, hasUnlocked } = require('../db');
 
 const router = express.Router();
 const PAGE_SIZE = 12;
@@ -63,11 +63,13 @@ router.get('/property/:id', (req, res) => {
 
   let contact = null;
   let pending = null;
-  if (res.locals.premium) {
+  let rejected = null;
+  if (hasUnlocked(req.user, id)) {
     contact = { name: listing.contact_name, phone: listing.contact_phone, role: listing.contact_role };
-    if (!isAdmin) db.prepare('INSERT OR IGNORE INTO contact_views (user_id, listing_id) VALUES (?, ?)').run(req.user.id, id);
   } else if (req.user) {
-    pending = db.prepare("SELECT * FROM payments WHERE user_id = ? AND status = 'pending' ORDER BY id DESC LIMIT 1").get(req.user.id);
+    const last = db.prepare('SELECT * FROM payments WHERE user_id = ? AND listing_id = ? ORDER BY id DESC LIMIT 1').get(req.user.id, id);
+    if (last && last.status === 'pending') pending = last;
+    if (last && last.status === 'rejected') rejected = last;
   }
   // Never hand the phone to the template unless unlocked.
   delete listing.contact_phone;
@@ -75,7 +77,7 @@ router.get('/property/:id', (req, res) => {
 
   const similar = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND id != ? AND (locality = ? OR type = ?)
     ORDER BY (locality = ?) DESC, created_at DESC LIMIT 4`).all(id, listing.locality, listing.type, listing.locality).map(parseImages);
-  res.render('property', { title: listing.title, listing, contact, pending, similar });
+  res.render('property', { title: listing.title, listing, contact, pending, rejected, similar });
 });
 
 router.get('/how-it-works', (req, res) => res.render('how', { title: 'How it works' }));

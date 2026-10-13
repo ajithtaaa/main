@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS listings (
 CREATE TABLE IF NOT EXISTS payments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  listing_id INTEGER REFERENCES listings(id) ON DELETE SET NULL,
   amount INTEGER NOT NULL,
   utr TEXT NOT NULL UNIQUE,
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','approved','rejected')),
@@ -58,9 +59,11 @@ CREATE TABLE IF NOT EXISTS payments (
   reviewed_by INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS contact_views (
+-- One row per (user, property) the user has paid for (or was granted by an admin).
+CREATE TABLE IF NOT EXISTS unlocks (
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   listing_id INTEGER NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+  payment_id INTEGER REFERENCES payments(id) ON DELETE SET NULL,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   PRIMARY KEY (user_id, listing_id)
 );
@@ -73,12 +76,20 @@ CREATE TABLE IF NOT EXISTS settings (
 CREATE INDEX IF NOT EXISTS idx_listings_status ON listings(status);
 CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
 CREATE INDEX IF NOT EXISTS idx_payments_user ON payments(user_id);
+CREATE INDEX IF NOT EXISTS idx_unlocks_listing ON unlocks(listing_id);
 `);
+
+// Migrate databases created before per-property unlocks.
+if (!db.prepare('PRAGMA table_info(payments)').all().some((c) => c.name === 'listing_id')) {
+  db.exec('ALTER TABLE payments ADD COLUMN listing_id INTEGER REFERENCES listings(id) ON DELETE SET NULL');
+}
+db.exec('DROP TABLE IF EXISTS contact_views');
+db.exec('CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id)');
 
 // ---------- settings ----------
 const DEFAULT_SETTINGS = {
   unlock_price: '99',
-  premium_days: '30', // 0 = lifetime
+  premium_days: '30', // default length of an admin-granted all-access upgrade (0 = lifetime)
   upi_id: 'budgetbrokers@upi',
   payee_name: 'Budget Brokers Kochi',
   qr_image: '', // optional uploaded QR image; empty => auto-generated demo QR
@@ -166,8 +177,26 @@ function grantPremium(userId, days) {
     .run(base, `+${Math.floor(Number(days))} days`, userId);
 }
 
+/** True if the user can see this listing's contact (admin, all-access, or paid for it). */
+function hasUnlocked(user, listingId) {
+  if (!user) return false;
+  if (isPremium(user)) return true;
+  return Boolean(db.prepare('SELECT 1 FROM unlocks WHERE user_id = ? AND listing_id = ?').get(user.id, listingId));
+}
+
+function unlockedIds(user) {
+  if (!user) return new Set();
+  return new Set(db.prepare('SELECT listing_id FROM unlocks WHERE user_id = ?').all(user.id).map((r) => r.listing_id));
+}
+
+function grantUnlock(userId, listingId, paymentId = null) {
+  db.prepare('INSERT OR IGNORE INTO unlocks (user_id, listing_id, payment_id) VALUES (?, ?, ?)').run(userId, listingId, paymentId);
+}
+
 function revokePremium(userId) {
   db.prepare("UPDATE users SET plan = 'free', premium_until = NULL WHERE id = ?").run(userId);
 }
 
-module.exports = { db, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium };
+module.exports = {
+  db, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, hasUnlocked, unlockedIds, grantUnlock,
+};

@@ -2,7 +2,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const QRCode = require('qrcode');
 const config = require('../config');
-const { db, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium } = require('../db');
+const {
+  db, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, grantUnlock,
+} = require('../db');
 const { flash, verifyCsrf, requireAdmin, upload, removeUpload } = require('../middleware');
 
 const router = express.Router();
@@ -33,9 +35,10 @@ router.get('/', (req, res) => {
     pending: one("SELECT COUNT(*) AS n FROM payments WHERE status = 'pending'"),
     revenue: one("SELECT COALESCE(SUM(amount), 0) AS n FROM payments WHERE status = 'approved'"),
     revenue30: one("SELECT COALESCE(SUM(amount), 0) AS n FROM payments WHERE status = 'approved' AND reviewed_at >= datetime('now', '-30 days')"),
-    unlocks: one('SELECT COUNT(*) AS n FROM contact_views'),
+    unlocks: one('SELECT COUNT(*) AS n FROM unlocks'),
   };
-  const pending = db.prepare(`SELECT p.*, u.name, u.email, u.phone FROM payments p JOIN users u ON u.id = p.user_id
+  const pending = db.prepare(`SELECT p.*, u.name, u.email, u.phone, l.title AS listing_title, l.locality AS listing_locality
+    FROM payments p JOIN users u ON u.id = p.user_id LEFT JOIN listings l ON l.id = p.listing_id
     WHERE p.status = 'pending' ORDER BY p.id ASC LIMIT 10`).all();
   const recentUsers = db.prepare("SELECT * FROM users WHERE role = 'user' ORDER BY id DESC LIMIT 8").all();
   const topListings = db.prepare('SELECT id, title, locality, rent, views, status FROM listings ORDER BY views DESC LIMIT 5').all();
@@ -49,9 +52,10 @@ router.get('/payments', (req, res) => {
   const where = [];
   const params = [];
   if (status !== 'all') { where.push('p.status = ?'); params.push(status); }
-  if (term) { where.push('(p.utr LIKE ? OR u.name LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)'); params.push(...Array(4).fill(`%${term}%`)); }
-  const payments = db.prepare(`SELECT p.*, u.name, u.email, u.phone, r.name AS reviewer FROM payments p
-    JOIN users u ON u.id = p.user_id LEFT JOIN users r ON r.id = p.reviewed_by
+  if (term) { where.push('(p.utr LIKE ? OR u.name LIKE ? OR u.email LIKE ? OR u.phone LIKE ? OR l.title LIKE ?)'); params.push(...Array(5).fill(`%${term}%`)); }
+  const payments = db.prepare(`SELECT p.*, u.name, u.email, u.phone, r.name AS reviewer,
+      l.title AS listing_title, l.locality AS listing_locality FROM payments p
+    JOIN users u ON u.id = p.user_id LEFT JOIN users r ON r.id = p.reviewed_by LEFT JOIN listings l ON l.id = p.listing_id
     ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
     ORDER BY ${status === 'pending' ? 'p.id ASC' : 'p.id DESC'} LIMIT 200`).all(...params);
   res.render('admin/payments', { title: 'Payment verification', payments, status, q: term });
@@ -65,9 +69,10 @@ router.post('/payments/:id/approve', verifyCsrf, (req, res) => {
     tx(() => {
       db.prepare("UPDATE payments SET status = 'approved', admin_note = ?, reviewed_at = datetime('now'), reviewed_by = ? WHERE id = ?")
         .run(String(req.body.note || '').slice(0, 300), req.user.id, p.id);
-      grantPremium(p.user_id, Number(getSettings().premium_days));
+      if (p.listing_id) grantUnlock(p.user_id, p.listing_id, p.id);
+      else grantPremium(p.user_id, Number(getSettings().premium_days)); // legacy payment with no property
     });
-    flash(req, 'success', `Payment #${p.id} approved – contacts unlocked for the user.`);
+    flash(req, 'success', `Payment #${p.id} approved – contact unlocked for the user.`);
   }
   res.redirect(back(req, '/admin/payments'));
 });
@@ -97,7 +102,7 @@ router.get('/users', (req, res) => {
   if (filter === 'admin') where.push("u.role = 'admin'");
   const users = db.prepare(`SELECT u.*,
       (SELECT COUNT(*) FROM payments p WHERE p.user_id = u.id) AS payment_count,
-      (SELECT COUNT(*) FROM contact_views c WHERE c.user_id = u.id) AS unlock_count
+      (SELECT COUNT(*) FROM unlocks c WHERE c.user_id = u.id) AS unlock_count
     FROM users u ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY u.id DESC LIMIT 300`).all(...params);
   users.forEach((u) => { u.active = isPremium(u); });
   res.render('admin/users', { title: 'Users', users, q: term, filter });
@@ -139,11 +144,33 @@ router.get('/users/:id', (req, res) => {
   const u = loadTarget(req, res);
   if (!u) return;
   u.active = isPremium(u);
-  const payments = db.prepare(`SELECT p.*, r.name AS reviewer FROM payments p LEFT JOIN users r ON r.id = p.reviewed_by
+  const payments = db.prepare(`SELECT p.*, r.name AS reviewer, l.title AS listing_title FROM payments p
+    LEFT JOIN users r ON r.id = p.reviewed_by LEFT JOIN listings l ON l.id = p.listing_id
     WHERE p.user_id = ? ORDER BY p.id DESC`).all(u.id);
-  const viewed = db.prepare(`SELECT l.id, l.title, l.locality, l.rent, cv.created_at FROM contact_views cv
-    JOIN listings l ON l.id = cv.listing_id WHERE cv.user_id = ? ORDER BY cv.created_at DESC`).all(u.id);
-  res.render('admin/user', { title: u.name, target: u, payments, viewed });
+  const unlockedList = db.prepare(`SELECT l.id, l.title, l.locality, l.rent, x.created_at, x.payment_id FROM unlocks x
+    JOIN listings l ON l.id = x.listing_id WHERE x.user_id = ? ORDER BY x.created_at DESC`).all(u.id);
+  res.render('admin/user', { title: u.name, target: u, payments, unlockedList });
+});
+
+router.post('/users/:id/unlocks', verifyCsrf, (req, res) => {
+  const u = loadTarget(req, res);
+  if (!u) return;
+  const listingId = parseInt(req.body.listing_id, 10);
+  const listing = db.prepare('SELECT id, title FROM listings WHERE id = ?').get(listingId);
+  if (!listing) flash(req, 'error', `No listing with ID #${req.body.listing_id}.`);
+  else {
+    grantUnlock(u.id, listing.id);
+    flash(req, 'success', `Unlocked “${listing.title}” for ${u.name}.`);
+  }
+  res.redirect(`/admin/users/${u.id}`);
+});
+
+router.post('/users/:id/unlocks/:listingId/delete', verifyCsrf, (req, res) => {
+  const u = loadTarget(req, res);
+  if (!u) return;
+  db.prepare('DELETE FROM unlocks WHERE user_id = ? AND listing_id = ?').run(u.id, parseInt(req.params.listingId, 10));
+  flash(req, 'success', 'Unlock removed.');
+  res.redirect(`/admin/users/${u.id}`);
 });
 
 router.post('/users/:id/upgrade', verifyCsrf, (req, res) => {
@@ -225,7 +252,7 @@ router.get('/listings', (req, res) => {
   const params = [];
   if (term) { where.push('(title LIKE ? OR locality LIKE ? OR contact_name LIKE ? OR contact_phone LIKE ?)'); params.push(...Array(4).fill(`%${term}%`)); }
   if (status) { where.push('status = ?'); params.push(status); }
-  const listings = db.prepare(`SELECT l.*, (SELECT COUNT(*) FROM contact_views c WHERE c.listing_id = l.id) AS unlocks
+  const listings = db.prepare(`SELECT l.*, (SELECT COUNT(*) FROM unlocks c WHERE c.listing_id = l.id) AS unlocks
     FROM listings l ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY id DESC LIMIT 300`).all(...params).map(parseImages);
   res.render('admin/listings', { title: 'Listings', listings, q: term, status });
 });

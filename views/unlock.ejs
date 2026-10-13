@@ -1,29 +1,28 @@
 <%- include('partials/head') %>
 <section class="wrap section">
   <div class="paywall">
-    <% if (premium) { %>
-      <div class="paywall-card center">
-        <div class="big-icon">✅</div>
-        <h1>Your contacts are unlocked</h1>
-        <p class="muted"><%= user.premium_until ? 'Premium valid till ' + date(user.premium_until) : 'You have lifetime access.' %></p>
-        <a class="btn btn-lg" href="<%= next %>">Continue browsing</a>
-      </div>
-    <% } else if (pending) { %>
+    <a href="/property/<%= listing.id %>" class="back">← Back to property</a>
+    <a class="unlock-item" href="/property/<%= listing.id %>">
+      <img src="<%= img(listing) %>" alt="">
+      <div><strong><%= listing.title %></strong><div class="small muted">📍 <%= listing.locality %> · <%= listing.type %><%= listing.bhk && listing.bhk !== '-' ? ' · ' + listing.bhk : '' %> · <%= inr(listing.rent) %>/mo</div></div>
+      <span class="role role-<%= listing.contact_role.toLowerCase() %>"><%= listing.contact_role %></span>
+    </a>
+    <% if (pending) { %>
       <div class="paywall-card center">
         <div class="big-icon">⏳</div>
         <h1>Payment under verification</h1>
         <p>We received your UTR <strong class="mono"><%= pending.utr %></strong> on <%= date(pending.created_at) %>.</p>
-        <p class="muted">Our team verifies every payment manually against our bank statement. Contacts unlock automatically once approved – usually within a few hours. Refresh this page to check.</p>
+        <p class="muted">Our team verifies every payment manually against our bank statement. This contact unlocks automatically once approved – usually within a few hours. Refresh this page to check.</p>
         <div class="row-center">
-          <a class="btn" href="<%= next %>">Keep browsing</a>
+          <a class="btn" href="/properties">Keep browsing</a>
           <a class="btn btn-ghost" href="/account">Payment history</a>
         </div>
       </div>
     <% } else { %>
       <div class="paywall-card">
         <div class="paywall-head">
-          <h1>Unlock all owner &amp; broker numbers</h1>
-          <p class="muted">One payment of <strong>₹<%= settings.unlock_price %></strong> unlocks every contact on Budget Brokers<% if (Number(settings.premium_days) > 0) { %> for <strong><%= settings.premium_days %> days</strong><% } %>.</p>
+          <h1>Unlock this <%= listing.contact_role.toLowerCase() %>’s number</h1>
+          <p class="muted">Pay <strong>₹<%= settings.unlock_price %></strong> to see the <%= listing.contact_role.toLowerCase() %>’s name and phone number for this property. It stays unlocked in your account – no expiry.</p>
         </div>
         <% if (rejected) { %>
           <div class="alert alert-error">Your last payment (UTR <span class="mono"><%= rejected.utr %></span>) could not be verified: <%= rejected.admin_note %>. Please check and submit the correct UTR.</div>
@@ -45,8 +44,8 @@
             <span class="step-no">2</span>
             <h3>Enter your UTR number</h3>
             <p class="small">After paying, copy the <strong>12-digit UTR / UPI reference number</strong> from your payment app and paste it below.</p>
-            <form method="post" action="/unlock" class="form" id="utr-form">
-              <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="next" value="<%= next %>">
+            <form method="post" action="/unlock/<%= listing.id %>" class="form" id="utr-form">
+              <input type="hidden" name="_csrf" value="<%= csrf %>">
               <label>UTR / UPI Ref. No.
                 <input name="utr" id="utr" inputmode="numeric" pattern="\d{12}" maxlength="12" minlength="12" required placeholder="e.g. 412345678901" autocomplete="off" class="utr-input">
               </label>
@@ -60,7 +59,7 @@
             </details>
           </div>
         </div>
-        <p class="small muted center">Payments are verified manually by our team. Do not submit someone else’s UTR – fake submissions lead to account block.</p>
+        <p class="small muted center">Payments are verified manually by our team. Each property needs its own payment and UTR. Do not submit someone else’s UTR – fake submissions lead to account block.</p>
       </div>
     <% } %>
   </div>

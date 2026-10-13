@@ -56,7 +56,7 @@ test('public pages never leak contact numbers', async () => {
   }
 });
 
-test('full paywall flow: register → submit UTR → admin approves → contact unlocked', async () => {
+test('per-property paywall: pay for one property → admin approves → only that contact unlocks', async () => {
   const user = client();
   let r = await user.post('/register', { name: 'Test User', email: 'u1@test.in', phone: '9876543210', password: 'secret1' });
   assert.equal(r.status, 302);
@@ -64,74 +64,85 @@ test('full paywall flow: register → submit UTR → admin approves → contact 
   r = await user.get('/property/1');
   assert.ok(!r.html.includes(PHONE));
   assert.match(r.html, /Unlock for ₹99/);
+  assert.match(r.html, /href="\/unlock\/1"/);
 
-  r = await user.get('/unlock');
+  r = await user.get('/unlock/1');
   assert.match(r.html, /data:image\/png;base64/); // demo QR rendered
+  assert.match(r.html, /1BHK near Infopark/); // property summary shown
 
   // invalid UTR rejected
-  await user.post('/unlock', { utr: '12345' });
-  r = await user.get('/unlock');
+  await user.post('/unlock/1', { utr: '12345' });
+  r = await user.get('/unlock/1');
   assert.match(r.html, /12-digit UTR/);
 
   // valid UTR goes to pending
-  await user.post('/unlock', { utr: '412345678901' });
+  await user.post('/unlock/1', { utr: '412345678901' });
   r = await user.get('/property/1');
   assert.match(r.html, /Payment under verification/);
   assert.ok(!r.html.includes(PHONE));
 
-  // second submission while pending is refused
-  await user.post('/unlock', { utr: '412345678902' });
+  // a second property can be paid for in parallel; same UTR can't be reused
+  await user.post('/unlock/2', { utr: '412345678901' });
+  r = await user.get('/unlock/2');
+  assert.match(r.html, /already been used/);
+  await user.post('/unlock/2', { utr: '412345678902' });
 
   // user cannot access admin
   r = await user.get('/admin');
   assert.equal(r.status, 403);
 
-  // admin sees and approves
+  // admin approves only the payment for property 1
   const admin = client();
   r = await admin.post('/login', { email: 'admin@test.in', password: 'admin-pass-123' });
   assert.equal(r.location, '/admin');
-  r = await admin.get('/admin/payments');
-  assert.match(r.html, /412345678901/);
-  assert.ok(!r.html.includes('412345678902'));
+  r = await admin.get('/admin/payments?q=412345678901');
+  assert.match(r.html, /1BHK near Infopark/); // property shown to admin
   const id = r.html.match(/\/admin\/payments\/(\d+)\/approve/)[1];
   r = await admin.post(`/admin/payments/${id}/approve`, {});
   assert.equal(r.status, 302);
 
   r = await user.get('/property/1');
   assert.ok(r.html.includes(PHONE), 'phone visible after approval');
+  r = await user.get('/property/2');
+  assert.ok(!r.html.includes('9000000002'), 'other property stays locked');
+  assert.match(r.html, /Payment under verification/);
   r = await user.get('/account');
-  assert.match(r.html, /Premium/);
-
-  // duplicate UTR from another user is refused
-  const other = client();
-  await other.post('/register', { name: 'Other', email: 'u2@test.in', phone: '9876543211', password: 'secret1' });
-  await other.post('/unlock', { utr: '412345678901' });
-  r = await admin.get('/admin/payments?status=pending');
-  assert.ok(!r.html.includes('412345678901'));
+  assert.ok(r.html.includes(PHONE));
+  r = await user.get('/unlock/1');
+  assert.equal(r.location, '/property/1');
 });
 
-test('admin can reject, downgrade, block users and manage listings', async () => {
+test('admin can reject, grant unlocks, give all-access, block users and manage listings', async () => {
   const admin = client();
   await admin.post('/login', { email: 'admin@test.in', password: 'admin-pass-123' });
 
   const u = client();
   await u.post('/register', { name: 'Rej User', email: 'u3@test.in', phone: '9876543212', password: 'secret1' });
-  await u.post('/unlock', { utr: '512345678901' });
+  await u.post('/unlock/3', { utr: '512345678901' });
   let r = await admin.get('/admin/payments?q=512345678901');
   const pid = r.html.match(/\/admin\/payments\/(\d+)\/reject/)[1];
   await admin.post(`/admin/payments/${pid}/reject`, { note: 'Amount not received' });
-  r = await u.get('/unlock');
+  r = await u.get('/unlock/3');
   assert.match(r.html, /Amount not received/);
 
-  // manual upgrade then downgrade
   r = await admin.get('/admin/users?q=u3@test.in');
   const uid = r.html.match(/\/admin\/users\/(\d+)"/)[1];
-  await admin.post(`/admin/users/${uid}/upgrade`, { days: '7' });
+
+  // manual per-property unlock, then remove it
+  await admin.post(`/admin/users/${uid}/unlocks`, { listing_id: '1' });
   r = await u.get('/property/1');
   assert.ok(r.html.includes(PHONE));
-  await admin.post(`/admin/users/${uid}/downgrade`, {});
+  await admin.post(`/admin/users/${uid}/unlocks/1/delete`, {});
   r = await u.get('/property/1');
   assert.ok(!r.html.includes(PHONE));
+
+  // all-access upgrade then removal
+  await admin.post(`/admin/users/${uid}/upgrade`, { days: '7' });
+  r = await u.get('/property/5');
+  assert.ok(r.html.includes('9000000005'));
+  await admin.post(`/admin/users/${uid}/downgrade`, {});
+  r = await u.get('/property/5');
+  assert.ok(!r.html.includes('9000000005'));
 
   // block logs the user out
   await admin.post(`/admin/users/${uid}/status`, {});

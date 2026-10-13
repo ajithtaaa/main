@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const multer = require('multer');
 const config = require('./config');
-const { db, getSettings, isPremium } = require('./db');
+const { db, getSettings, isPremium, unlockedIds } = require('./db');
 
 /** Attach the logged-in user, settings and helpers to req/res.locals. */
 function loadUser(req, res, next) {
@@ -18,7 +18,8 @@ function loadUser(req, res, next) {
   }
   req.user = user;
   res.locals.user = user;
-  res.locals.premium = isPremium(user);
+  res.locals.premium = isPremium(user); // admin or admin-granted all-access
+  res.locals.unlocked = unlockedIds(user);
   res.locals.settings = getSettings();
   res.locals.config = config;
   res.locals.path = req.path;

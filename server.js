@@ -51,7 +51,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error(err);
   if (res.headersSent) return;
-  if (!res.locals.settings) Object.assign(res.locals, { user: null, premium: false, settings: require('./src/db').getSettings(), config, path: req.path, flash: null, pendingCount: 0, csrf: '' });
+  if (!res.locals.settings) Object.assign(res.locals, { user: null, premium: false, unlocked: new Set(), settings: require('./src/db').getSettings(), config, path: req.path, flash: null, pendingCount: 0, csrf: '' });
   const message = err.code === 'LIMIT_FILE_SIZE' ? 'Image too large (max 5 MB each).' : 'Something went wrong. Please try again.';
   res.status(err.status || 500).render('error', { title: 'Error', message });
 });

@@ -45,16 +45,17 @@
         <div class="contact-locked">
           <p class="phone blur">+91 98XXX XXXXX</p>
           <% if (!user) { %>
-            <p>Log in or create a free account, then unlock all owner &amp; broker numbers for <strong>₹<%= settings.unlock_price %></strong>.</p>
-            <a class="btn btn-block" href="/register?next=<%= encodeURIComponent('/unlock?next=/property/' + listing.id) %>">Sign up &amp; unlock</a>
+            <p>Create a free account, then unlock this <%= listing.contact_role.toLowerCase() %>’s number for just <strong>₹<%= settings.unlock_price %></strong>.</p>
+            <a class="btn btn-block" href="/register?next=<%= encodeURIComponent('/unlock/' + listing.id) %>">Sign up &amp; unlock</a>
             <a class="btn btn-block btn-ghost" href="/login?next=<%= encodeURIComponent('/property/' + listing.id) %>">I already have an account</a>
           <% } else if (pending) { %>
             <div class="status status-pending">⏳ Payment under verification</div>
             <p class="small">UTR <strong><%= pending.utr %></strong> submitted <%= date(pending.created_at) %>. Contacts unlock as soon as our team verifies it.</p>
-            <a class="btn btn-block btn-ghost" href="/unlock?next=/property/<%= listing.id %>">View payment status</a>
+            <a class="btn btn-block btn-ghost" href="/unlock/<%= listing.id %>">View payment status</a>
           <% } else { %>
-            <p>Pay <strong>₹<%= settings.unlock_price %></strong> once to see this and every other owner &amp; broker number<% if (Number(settings.premium_days) > 0) { %> for <%= settings.premium_days %> days<% } %>.</p>
-            <a class="btn btn-block btn-lg" href="/unlock?next=/property/<%= listing.id %>">🔓 Unlock for ₹<%= settings.unlock_price %></a>
+            <% if (rejected) { %><div class="alert alert-error small">Your last payment (UTR <%= rejected.utr %>) was rejected: <%= rejected.admin_note %></div><% } %>
+            <p>Pay <strong>₹<%= settings.unlock_price %></strong> to see this <%= listing.contact_role.toLowerCase() %>’s name &amp; phone number. Unlocked contacts stay in your account – no expiry.</p>
+            <a class="btn btn-block btn-lg" href="/unlock/<%= listing.id %>">🔓 Unlock for ₹<%= settings.unlock_price %></a>
           <% } %>
         </div>
       <% } %>

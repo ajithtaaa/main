@@ -9,8 +9,8 @@
   <label>Mobile<input name="phone" value="<%= form.phone || '' %>" required inputmode="numeric"></label>
   <label>Password<input type="password" name="password" minlength="6" required></label>
   <label>Role<select name="role"><option value="user">User</option><option value="admin" <%= form.role === 'admin' ? 'selected' : '' %>>Admin</option></select></label>
-  <label>Premium days (0 = lifetime)<input type="number" name="days" min="0" max="3650" value="<%= form.days || settings.premium_days %>"></label>
-  <label class="check full"><input type="checkbox" name="premium" value="1"> Give premium access (contacts unlocked) right away</label>
+  <label>All-access days (0 = lifetime)<input type="number" name="days" min="0" max="3650" value="<%= form.days || settings.premium_days %>"></label>
+  <label class="check full"><input type="checkbox" name="premium" value="1"> Give all-access (every contact unlocked) right away</label>
   <div class="full"><button class="btn">Create user</button></div>
 </form>
 <%- include('../partials/admin-bottom') %>

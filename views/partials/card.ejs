@@ -13,7 +13,7 @@
     </div>
     <div class="card-foot">
       <span class="role role-<%= l.contact_role.toLowerCase() %>"><%= l.contact_role %></span>
-      <span class="lock"><%= premium ? "🔓 Contact unlocked" : "🔒 Contact locked" %></span>
+      <span class="lock"><%= (premium || unlocked.has(l.id)) ? "🔓 Unlocked" : "🔒 ₹" + settings.unlock_price + " to unlock" %></span>
     </div>
   </div>
 </a>

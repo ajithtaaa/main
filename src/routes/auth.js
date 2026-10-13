@@ -56,7 +56,7 @@ router.post('/register', authLimiter, verifyCsrf, (req, res) => {
   const result = db.prepare('INSERT INTO users (name, email, phone, password_hash) VALUES (?, ?, ?, ?)')
     .run(form.name, form.email, phone, bcrypt.hashSync(password, 10));
   req.session.userId = Number(result.lastInsertRowid);
-  flash(req, 'success', 'Account created! You can now unlock owner & broker contacts.');
+  flash(req, 'success', 'Account created! You can now unlock any owner or broker contact.');
   res.redirect(next);
 });
 
@@ -66,10 +66,11 @@ router.post('/logout', verifyCsrf, (req, res) => {
 });
 
 router.get('/account', requireLogin, (req, res) => {
-  const payments = db.prepare('SELECT * FROM payments WHERE user_id = ? ORDER BY id DESC').all(req.user.id);
-  const viewed = db.prepare(`SELECT l.id, l.title, l.locality, l.rent, l.contact_name, l.contact_phone, l.contact_role, cv.created_at
-    FROM contact_views cv JOIN listings l ON l.id = cv.listing_id WHERE cv.user_id = ? ORDER BY cv.created_at DESC LIMIT 50`).all(req.user.id);
-  res.render('account', { title: 'My account', payments, viewed });
+  const payments = db.prepare(`SELECT p.*, l.title AS listing_title FROM payments p LEFT JOIN listings l ON l.id = p.listing_id
+    WHERE p.user_id = ? ORDER BY p.id DESC`).all(req.user.id);
+  const unlockedList = db.prepare(`SELECT l.id, l.title, l.locality, l.rent, l.contact_name, l.contact_phone, l.contact_role, l.status, u.created_at
+    FROM unlocks u JOIN listings l ON l.id = u.listing_id WHERE u.user_id = ? ORDER BY u.created_at DESC`).all(req.user.id);
+  res.render('account', { title: 'My account', payments, unlockedList });
 });
 
 router.post('/account/password', requireLogin, verifyCsrf, (req, res) => {

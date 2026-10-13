@@ -254,7 +254,7 @@ body.admin { background: #f1f4f2; }
 .tab-search { margin-left: auto; display: flex; gap: .4rem; }
 .tab-search input { min-width: 220px; min-height: 36px; padding: .35rem .6rem; }
 @media (max-width: 640px) { .tab-search { margin-left: 0; width: 100%; } .tab-search input { min-width: 0; } }
-.review { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
+.review { display: flex; flex-direction: column; gap: .4rem; align-items: flex-start; min-width: 190px; }
 .reject-form { display: inline-flex; gap: .3rem; }
 .reject-form input { min-height: 32px; padding: .25rem .5rem; font-size: .82rem; width: 170px; }
 .img-grid { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1rem; }
@@ -276,3 +276,7 @@ body.admin { background: #f1f4f2; }
 .prose li { margin-bottom: .4rem; }
 .nav-links a.btn { color: #fff; }
 .nav-links .link-btn { font-size: .95rem; }
+.unlock-item { display: flex; gap: .9rem; align-items: center; background: #fff; border-radius: var(--radius); padding: .7rem; box-shadow: var(--shadow); margin-bottom: 1.2rem; color: var(--ink); }
+.unlock-item:hover { text-decoration: none; }
+.unlock-item img { width: 96px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.unlock-item > div { flex: 1; min-width: 0; }

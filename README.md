@@ -1,6 +1,6 @@
 # Budget Brokers – Kochi rentals under ₹10,000
 
-A rental listing site for Kochi. Anyone can browse every property. To see an **owner's or broker's phone number**, a user pays **₹99** by UPI and submits the 12-digit **UTR** number. An admin checks the payment by hand and approves it, and that unlocks every contact for that user.
+A rental listing site for Kochi. Anyone can browse every property. To see the **owner's or broker's phone number for a property**, a user pays **₹99 for that property** by UPI and submits the 12-digit **UTR** number. An admin checks the payment by hand and approves it, and that one contact unlocks for the user. It stays unlocked in their account with no expiry. Each property is paid for separately.
 
 ## Features
 
@@ -8,16 +8,16 @@ A rental listing site for Kochi. Anyone can browse every property. To see an **o
 - Home page with search by locality, type and budget. Featured and newest listings.
 - Property list with filters (locality, type, max rent, owner/broker, tenant type), sorting and pages.
 - Property page with a photo gallery and key details. The contact box is **locked**: the phone number is never sent to the browser until the user is unlocked.
-- Payment page: UPI QR (auto-generated **demo** QR, or upload your own), UPI ID with a copy button, and an "Open UPI app" button on mobile. The UTR form accepts only 12 digits. A UTR can't be reused, and a user can have only one pending request at a time.
-- Statuses shown to the user: *Under verification* → *Unlocked*, or *Rejected* with the admin's reason.
-- My account: current plan and expiry, payment history, a list of contacts already unlocked, and password change.
+- Payment page (`/unlock/<property id>`): a summary of the property, a UPI QR (auto-generated **demo** QR, or upload your own), UPI ID with a copy button, and an "Open UPI app" button on mobile. The UTR form accepts only 12 digits. A UTR can't be reused. A user can have pending payments for several properties at once, but only one per property.
+- Statuses shown on each property: *Under verification* → *Unlocked*, or *Rejected* with the admin's reason. Listing cards show 🔓 for properties the user has already unlocked.
+- My account: every unlocked contact with its phone number, payment history for each property, and password change.
 
 **Admin panel (`/admin`)**
-- **Dashboard**: pending payments, users, active premium users, listings, revenue (last 30 days and total), contacts unlocked.
-- **Payments**: pending, approved and rejected tabs, search by UTR, name or phone. Approve with one click (unlocks the user), or reject with a reason the user sees.
-- **Users**: search and filter (premium, free, blocked, admin). Upgrade for N days or lifetime, extend, downgrade, block or unblock, make or remove admin, edit details, reset password, delete, add a user by hand. Each user's page shows their payments and the contacts they viewed.
+- **Dashboard**: pending payments, users, listings, revenue (last 30 days and total), contacts unlocked.
+- **Payments**: pending, approved and rejected tabs. Each row shows which property was paid for. Search by UTR, name, phone or property. Approve with one click (unlocks that property for the user), or reject with a reason the user sees.
+- **Users**: search and filter. Unlock a particular property for a user by hand (for example after a cash payment), or remove an unlock. Optional **all-access upgrade** (N days or lifetime) shows every contact. Also block or unblock, make or remove admin, edit details, reset password, delete, and add a user by hand. Each user's page lists their payments and unlocked properties.
 - **Listings**: add, edit or delete. Up to 8 photos per listing. Rent is capped at ₹10,000. Mark a listing active, hidden or rented, or feature it. Each listing shows its views and unlock counts.
-- **Settings**: unlock price, how many days premium lasts (0 = lifetime), UPI ID, payee name, your own QR image, the demo-mode banner, support phone and WhatsApp, and the admin password.
+- **Settings**: unlock price per property, default length of an all-access upgrade, UPI ID, payee name, your own QR image, the demo-mode banner, support phone and WhatsApp, and the admin password.
 
 ## Run it
 

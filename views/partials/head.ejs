@@ -25,7 +25,7 @@
       <a href="/how-it-works" class="<%= path === '/how-it-works' ? 'active' : '' %>">How it works</a>
       <% if (user) { %>
         <% if (user.role === 'admin') { %><a href="/admin" class="pill-link">Admin<% if (pendingCount) { %> <span class="count"><%= pendingCount %></span><% } %></a><% } %>
-        <a href="/account" class="<%= path === '/account' ? 'active' : '' %>">My account<% if (premium) { %> <span class="badge gold">Premium</span><% } %></a>
+        <a href="/account" class="<%= path === '/account' ? 'active' : '' %>">My account<% if (unlocked.size) { %> <span class="badge gold"><%= unlocked.size %> unlocked</span><% } %></a>
         <form method="post" action="/logout" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="link-btn">Log out</button></form>
       <% } else { %>
         <a href="/login">Log in</a>

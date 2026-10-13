@@ -4,24 +4,32 @@
   <h1 class="page-title"><%= target.name %>
     <% if (target.role === 'admin') { %><span class="badge">Admin</span><% } %>
     <% if (target.status === 'blocked') { %><span class="badge red">Blocked</span><% } %>
-    <% if (target.active) { %><span class="badge gold">Premium</span><% } else { %><span class="badge grey">Free</span><% } %>
+    <% if (target.active) { %><span class="badge gold">All-access</span><% } %>
   </h1>
 </div>
 <div class="two-col">
   <div class="panel">
-    <h3>Plan &amp; upgrade</h3>
+    <h3>Unlock a property for this user</h3>
+    <p class="small muted">Use this for payments made outside the site, refunds or goodwill.</p>
+    <form method="post" action="/admin/users/<%= target.id %>/unlocks" class="form form-inline">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label>Listing ID<input type="number" name="listing_id" min="1" required placeholder="e.g. 12"></label>
+      <button class="btn btn-ok">Unlock contact</button>
+    </form>
+    <hr>
+    <h3>All-access upgrade</h3>
     <% if (target.role === 'admin') { %>
       <p class="muted">Admins always see all contacts.</p>
     <% } else { %>
-      <p><% if (target.active) { %>Premium <% if (target.premium_until) { %>valid till <strong><%= date(target.premium_until) %></strong><% } else { %><strong>lifetime</strong><% } %><% } else { %>Free plan<%= target.plan === 'premium' && target.premium_until ? ' (premium expired ' + day(target.premium_until) + ')' : '' %><% } %></p>
+      <p class="small"><% if (target.active) { %>All-access <% if (target.premium_until) { %>valid till <strong><%= date(target.premium_until) %></strong><% } else { %><strong>lifetime</strong><% } %><% } else { %>Pays per property. Upgrade to show <strong>every</strong> contact on the site.<% } %></p>
       <form method="post" action="/admin/users/<%= target.id %>/upgrade" class="form form-inline">
         <input type="hidden" name="_csrf" value="<%= csrf %>">
-        <label><%= target.active ? 'Extend by days' : 'Upgrade for days' %><input type="number" name="days" min="1" max="3650" value="<%= Number(settings.premium_days) || 30 %>"></label>
+        <label><%= target.active ? 'Extend by days' : 'Days' %><input type="number" name="days" min="1" max="3650" value="<%= Number(settings.premium_days) || 30 %>"></label>
         <label class="check"><input type="checkbox" name="lifetime" value="1"> Lifetime</label>
-        <button class="btn btn-ok"><%= target.active ? 'Extend' : 'Upgrade to Premium' %></button>
+        <button class="btn btn-ok"><%= target.active ? 'Extend' : 'Give all-access' %></button>
       </form>
       <% if (target.active) { %>
-        <form method="post" action="/admin/users/<%= target.id %>/downgrade"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-ghost" data-confirm="Remove premium from <%= target.name %>?">Downgrade to Free</button></form>
+        <form method="post" action="/admin/users/<%= target.id %>/downgrade"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-ghost" data-confirm="Remove all-access from <%= target.name %>?">Remove all-access</button></form>
       <% } %>
     <% } %>
     <hr>
@@ -51,9 +59,9 @@
   <h3>Payments</h3>
   <% if (!payments.length) { %><p class="muted">No payments.</p><% } else { %>
   <div class="table-wrap"><table>
-    <thead><tr><th>#</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Property</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
     <tbody><% payments.forEach(function (p) { p.name = target.name; %>
-      <tr><td><%= p.id %></td><td class="mono strong"><%= p.utr %></td><td><%= inr(p.amount) %></td><td class="small"><%= date(p.created_at) %></td>
+      <tr><td><%= p.id %></td><td><% if (p.listing_id) { %><a href="/admin/listings/<%= p.listing_id %>/edit"><%= p.listing_title || "#" + p.listing_id %></a><% } else { %><span class="muted">All-access (old)</span><% } %></td><td class="mono strong"><%= p.utr %></td><td><%= inr(p.amount) %></td><td class="small"><%= date(p.created_at) %></td>
         <td><%- include('../partials/status', { s: p.status }) %><% if (p.admin_note) { %><div class="small muted"><%= p.admin_note %></div><% } %></td>
         <td><% if (p.status === 'pending') { %><%- include('../partials/review', { p }) %><% } %></td></tr>
     <% }) %></tbody>
@@ -61,10 +69,12 @@
   <% } %>
 </div>
 <div class="panel">
-  <h3>Contacts viewed (<%= viewed.length %>)</h3>
-  <% if (!viewed.length) { %><p class="muted">None yet.</p><% } else { %>
+  <h3>Unlocked properties (<%= unlockedList.length %>)</h3>
+  <% if (!unlockedList.length) { %><p class="muted">None yet.</p><% } else { %>
   <div class="table-wrap"><table><tbody>
-    <% viewed.forEach(function (v) { %><tr><td><a href="/property/<%= v.id %>"><%= v.title %></a></td><td><%= v.locality %></td><td><%= inr(v.rent) %></td><td class="small"><%= date(v.created_at) %></td></tr><% }) %>
+    <% unlockedList.forEach(function (v) { %><tr><td><a href="/property/<%= v.id %>"><%= v.title %></a><div class="small muted">#<%= v.id %> · <%= v.locality %></div></td><td><%= inr(v.rent) %></td>
+      <td class="small"><%= date(v.created_at) %><div class="muted"><%= v.payment_id ? 'Payment #' + v.payment_id : 'Granted by admin' %></div></td>
+      <td><form method="post" action="/admin/users/<%= target.id %>/unlocks/<%= v.id %>/delete" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn btn-sm btn-danger" data-confirm="Remove this unlock?">Remove</button></form></td></tr><% }) %>
   </tbody></table></div>
   <% } %>
 </div>

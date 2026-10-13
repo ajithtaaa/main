@@ -4,8 +4,8 @@
   <input type="hidden" name="_csrf" value="<%= csrf %>">
   <div class="panel form-grid">
     <h3 class="full">Paywall &amp; payments</h3>
-    <label>Unlock price (₹)<input type="number" name="unlock_price" min="1" max="10000" value="<%= settings.unlock_price %>" required></label>
-    <label>Premium validity (days, 0 = lifetime)<input type="number" name="premium_days" min="0" max="3650" value="<%= settings.premium_days %>" required></label>
+    <label>Unlock price per property (₹)<input type="number" name="unlock_price" min="1" max="10000" value="<%= settings.unlock_price %>" required></label>
+    <label>Default all-access upgrade length (days, 0 = lifetime) <span class="muted small">– admin upgrades only</span><input type="number" name="premium_days" min="0" max="3650" value="<%= settings.premium_days %>" required></label>
     <label>UPI ID<input name="upi_id" value="<%= settings.upi_id %>" required placeholder="yourname@okhdfcbank"></label>
     <label>Payee name<input name="payee_name" value="<%= settings.payee_name %>"></label>
     <div class="full qr-setting">
