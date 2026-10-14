@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
     ORDER BY sold_out ASC, created_at DESC, id DESC LIMIT 8`)).map(parseImages);
   const stats = await db.get(`SELECT COUNT(*) AS listings, COUNT(DISTINCT locality) AS localities, COALESCE(MIN(rent), 0) AS minRent
     FROM listings WHERE ${OPEN}`);
-  res.render('home', { title: 'Budget rentals in Kochi under ₹10,000', featured, latest, stats });
+  res.render('home', { title: 'Budget rentals in Kochi below ₹10,000', featured, latest, stats });
 });
 
 router.get('/properties', async (req, res) => {
