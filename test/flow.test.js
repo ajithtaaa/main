@@ -214,6 +214,49 @@ test('time bar and sold-out listings: visible with a tag, but cannot be opened o
   assert.match(r.html, /Likely rented out within/);
 });
 
+test('backup download and restore bring back all data; database ID stays the same', async () => {
+  const admin = client();
+  await admin.post('/login', { email: 'admin@test.in', password: 'admin-pass-123' });
+  let r = await admin.get('/admin');
+  const id1 = r.html.match(/Database ID <strong class="mono">([A-F0-9]+)</)[1];
+
+  const res = await admin.req('/admin/backup');
+  const backup = await res.json();
+  assert.equal(backup.format, 'budget-brokers-backup');
+  const users = backup.tables.users.length;
+  const listings = backup.tables.listings.length;
+  assert.ok(users > 1 && listings > 5);
+
+  // wipe-like change, then restore
+  await admin.post('/admin/listings/1/delete', {});
+  r = await client().get('/property/1');
+  assert.equal(r.status, 404);
+
+  const form = new FormData();
+  r = await admin.get('/how-it-works');
+  form.set('_csrf', r.html.match(/name="csrf-token" content="([^"]+)"/)[1]);
+  form.set('confirm', 'RESTORE');
+  form.set('backup', new Blob([JSON.stringify(backup)], { type: 'application/json' }), 'b.json');
+  r = await admin.req('/admin/restore', { method: 'POST', body: form });
+  assert.equal(r.status, 302);
+  r = await client().get('/property/1');
+  assert.equal(r.status, 200, 'listing restored');
+  r = await admin.get('/admin/settings');
+  assert.match(r.html, /Backup restored/);
+  r = await admin.get('/admin');
+  assert.equal(r.html.match(/Database ID <strong class="mono">([A-F0-9]+)</)[1], id1);
+
+  // a backup without an admin is refused
+  const bad = { ...backup, tables: { ...backup.tables, users: backup.tables.users.filter((u) => u.role !== 'admin') } };
+  const f2 = new FormData();
+  f2.set('_csrf', (await admin.get('/how-it-works')).html.match(/name="csrf-token" content="([^"]+)"/)[1]);
+  f2.set('confirm', 'RESTORE');
+  f2.set('backup', new Blob([JSON.stringify(bad)], { type: 'application/json' }), 'b.json');
+  await admin.req('/admin/restore', { method: 'POST', body: f2 });
+  r = await admin.get('/admin/settings');
+  assert.match(r.html, /no admin account/);
+});
+
 test('POST without CSRF token is rejected', async () => {
   const c = client();
   const r = await c.req('/login', { method: 'POST', body: new URLSearchParams({ email: 'a', password: 'b' }), headers: { 'content-type': 'application/x-www-form-urlencoded' } });

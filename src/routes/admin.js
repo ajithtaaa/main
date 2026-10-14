@@ -7,6 +7,8 @@ const {
 } = require('../db');
 const { flash, verifyCsrf, requireAdmin, upload } = require('../middleware');
 const storage = require('../storage');
+const multer = require('multer');
+const { exportAll, restoreAll } = require('../backup');
 
 const router = express.Router();
 router.use(requireAdmin);
@@ -36,7 +38,9 @@ router.get('/', async (req, res) => {
     WHERE p.status = 'pending' ORDER BY p.id ASC LIMIT 10`));
   const recentUsers = (await db.all("SELECT * FROM users WHERE role = 'user' ORDER BY id DESC LIMIT 8"));
   const topListings = (await db.all('SELECT id, title, locality, rent, views, status FROM listings ORDER BY views DESC LIMIT 5'));
-  res.render('admin/dashboard', { title: 'Admin dashboard', stats, pending, recentUsers, topListings });
+  let dbHost = 'local file on this server';
+  try { if (process.env.TURSO_DATABASE_URL) dbHost = new URL(process.env.TURSO_DATABASE_URL).hostname; } catch { /* keep default */ }
+  res.render('admin/dashboard', { title: 'Admin dashboard', stats, pending, recentUsers, topListings, dbHost });
 });
 
 // ---------------- Payments ----------------
@@ -420,6 +424,34 @@ router.post('/settings', upload.single('qr'), verifyCsrf, async (req, res) => {
   await db.batch(Object.entries(values).map(([key, value]) => [
     'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', key, String(value)]));
   flash(req, 'success', 'Settings saved.');
+  res.redirect('/admin/settings');
+});
+
+// ---------------- Backup & restore ----------------
+router.get('/backup', async (req, res) => {
+  const backup = await exportAll();
+  const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '');
+  res.set('Content-Disposition', `attachment; filename="budget-brokers-backup-${stamp}.json"`);
+  res.type('application/json').send(JSON.stringify(backup, null, 1));
+});
+
+const backupUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 4 * 1024 * 1024, files: 1 } }).single('backup');
+router.post('/restore', backupUpload, verifyCsrf, async (req, res) => {
+  if (String(req.body.confirm || '').trim().toUpperCase() !== 'RESTORE') {
+    flash(req, 'error', 'Type RESTORE in the box to confirm. Nothing was changed.');
+    return res.redirect('/admin/settings');
+  }
+  let backup;
+  try { backup = JSON.parse(req.file ? req.file.buffer.toString('utf8') : ''); } catch {
+    flash(req, 'error', 'Choose the .json backup file you downloaded. Nothing was changed.');
+    return res.redirect('/admin/settings');
+  }
+  try {
+    const n = await restoreAll(backup);
+    flash(req, 'success', `Backup restored: ${n.users} users, ${n.listings} listings, ${n.payments} payments. Log in again if you were signed out.`);
+  } catch (e) {
+    flash(req, 'error', e.message || 'Restore failed. Nothing was changed.');
+  }
   res.redirect('/admin/settings');
 });
 

@@ -28,6 +28,19 @@
   <button class="btn btn-lg">Save settings</button>
 </form>
 
+<div class="panel" style="margin-top:1.5rem">
+  <h3>Backup &amp; restore</h3>
+  <p class="small">The backup file holds every user, listing, payment, unlock and setting. Photos are stored separately and stay where they are. Download one before big changes and keep it safe: it contains customers’ phone numbers and login data.</p>
+  <p><a class="btn" href="/admin/backup">⬇ Download full backup (.json)</a></p>
+  <form method="post" action="/admin/restore" enctype="multipart/form-data" class="form form-inline">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <label>Backup file<input type="file" name="backup" accept="application/json,.json" required></label>
+    <label>Type RESTORE to confirm<input name="confirm" required autocomplete="off" placeholder="RESTORE"></label>
+    <button class="btn btn-danger" data-confirm="This replaces ALL current data with the backup. Continue?">Restore backup</button>
+  </form>
+  <p class="small muted">Restoring replaces everything on the site with the contents of the file.</p>
+</div>
+
 <form method="post" action="/admin/settings/password" class="panel form form-inline" style="margin-top:1.5rem">
   <input type="hidden" name="_csrf" value="<%= csrf %>">
   <h3 class="full">Change admin password</h3>

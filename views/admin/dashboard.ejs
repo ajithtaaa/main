@@ -9,6 +9,12 @@
   <div class="stat"><span>Contacts unlocked</span><strong><%= stats.unlocks %></strong></div>
 </div>
 
+<div class="panel data-safety">
+  <div class="section-head"><h3>🛡️ Data safety</h3><a class="btn btn-sm btn-ghost" href="/admin/backup">Download full backup</a></div>
+  <p class="small" style="margin:0">Database ID <strong class="mono"><%= settings.db_id || '–' %></strong> · in use since <%= day(settings.db_created) %> · <span class="muted"><%= dbHost %></span></p>
+  <p class="small muted" style="margin:.3rem 0 0">This ID must stay the same after every website update. If it ever changes, the site is connected to a different database: don’t add anything, and restore your latest backup from Settings.</p>
+</div>
+
 <div class="panel">
   <div class="section-head"><h3>Awaiting verification</h3><a href="/admin/payments">All payments →</a></div>
   <% if (!pending.length) { %><p class="muted">🎉 No pending payments.</p><% } else { %>

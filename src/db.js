@@ -1,3 +1,4 @@
+const crypto = require('node:crypto');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
 const db = require('./sql');
@@ -99,6 +100,12 @@ async function init() {
   await db.exec('DROP TABLE IF EXISTS contact_views; CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id);');
 
   await db.batch(Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ['INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', k, v]));
+  // A fingerprint written once, when this database is first used. It is shown on the admin dashboard:
+  // if it ever changes after an update, the site is pointing at a different (empty) database.
+  await db.batch([
+    ["INSERT OR IGNORE INTO settings (key, value) VALUES ('db_id', ?)", crypto.randomBytes(4).toString('hex').toUpperCase()],
+    ["INSERT OR IGNORE INTO settings (key, value) VALUES ('db_created', datetime('now'))"],
+  ]);
   // Move the old placeholder support number to the new one. A number the admin set in Settings is never touched.
   await db.batch([
     ["UPDATE settings SET value = ? WHERE key = 'support_phone' AND value = '+91 90000 00000'", DEFAULT_SETTINGS.support_phone],
