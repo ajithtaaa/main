@@ -80,8 +80,8 @@ const DEFAULT_SETTINGS = {
   upi_id: 'budgetbrokers@upi',
   payee_name: 'Budget Brokers Kochi',
   qr_image: '', // optional uploaded QR image; empty => auto-generated demo QR
-  support_phone: '+91 90000 00000',
-  support_whatsapp: '919000000000',
+  support_phone: '+91 90000 12345',
+  support_whatsapp: '919000012345',
   demo_mode: '1',
 };
 
@@ -99,6 +99,11 @@ async function init() {
   await db.exec('DROP TABLE IF EXISTS contact_views; CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id);');
 
   await db.batch(Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ['INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', k, v]));
+  // Move the old placeholder support number to the new one. A number the admin set in Settings is never touched.
+  await db.batch([
+    ["UPDATE settings SET value = ? WHERE key = 'support_phone' AND value = '+91 90000 00000'", DEFAULT_SETTINGS.support_phone],
+    ["UPDATE settings SET value = ? WHERE key = 'support_whatsapp' AND value = '919000000000'", DEFAULT_SETTINGS.support_whatsapp],
+  ]);
 
   const admins = (await db.get("SELECT COUNT(*) AS n FROM users WHERE role = 'admin'")).n;
   if (admins === 0) {
