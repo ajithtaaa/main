@@ -48,6 +48,18 @@ app.use((req, res, next) => {
 });
 
 app.get('/healthz', (req, res) => res.type('text').send('ok'));
+
+// Send production visits on the *.vercel.app address to the real domain, so every visitor
+// (and analytics) uses kochibrokers.com. Preview deployments are left alone.
+app.use((req, res, next) => {
+  const host = String(req.hostname || '').toLowerCase();
+  if (config.siteDomain && process.env.VERCEL_ENV === 'production' && host.endsWith('.vercel.app')) {
+    return res.redirect(308, `https://${config.siteDomain}${req.originalUrl}`);
+  }
+  res.locals.canonical = config.siteDomain ? `https://${config.siteDomain}${req.path}` : null;
+  res.locals.vercelAnalytics = Boolean(process.env.VERCEL);
+  next();
+});
 app.use('/static', express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
 app.use('/uploads', express.static(config.uploadDir, { maxAge: '7d' }));
 app.use(express.urlencoded({ extended: false, limit: '200kb' }));

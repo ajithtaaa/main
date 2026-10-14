@@ -8,6 +8,8 @@
   <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
   <meta name="csrf-token" content="<%= csrf %>">
   <link rel="stylesheet" href="/static/css/style.css">
+  <% if (typeof canonical !== 'undefined' && canonical) { %><link rel="canonical" href="<%= canonical %>"><% } %>
+  <% if (typeof vercelAnalytics !== 'undefined' && vercelAnalytics) { %><script defer src="/_vercel/insights/script.js"></script><% } %>
 </head>
 <body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
 <% if (settings.demo_mode === '1') { %>

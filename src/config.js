@@ -18,6 +18,8 @@ if (process.env.VERCEL) {
 module.exports = {
   production,
   port: Number(process.env.PORT) || 3000,
+  // Public domain (e.g. kochibrokers.com). When set, production visits to *.vercel.app redirect here.
+  siteDomain: (process.env.SITE_DOMAIN || '').trim().toLowerCase(),
   sessionSecret: process.env.SESSION_SECRET || 'change-this-secret-in-production',
   dbFile: process.env.DB_FILE || path.join(dataDir, 'data', 'app.db'),
   uploadDir: process.env.UPLOAD_DIR || path.join(dataDir, 'uploads'),

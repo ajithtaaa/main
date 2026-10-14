@@ -270,3 +270,29 @@ test('POST without CSRF token is rejected', async () => {
   const r = await c.req('/login', { method: 'POST', body: new URLSearchParams({ email: 'a', password: 'b' }), headers: { 'content-type': 'application/x-www-form-urlencoded' } });
   assert.equal(r.status, 403);
 });
+
+test('production *.vercel.app visits redirect to the real domain', async () => {
+  const http = require('node:http');
+  const get = (path, host) => new Promise((resolve, reject) => {
+    const { port } = server.address();
+    http.get({ host: '127.0.0.1', port, path, headers: { host } }, (res) => {
+      let body = '';
+      res.on('data', (c) => { body += c; });
+      res.on('end', () => resolve({ status: res.statusCode, location: res.headers.location, body }));
+    }).on('error', reject);
+  });
+  const config = require('../src/config');
+  const prev = [config.siteDomain, process.env.VERCEL_ENV];
+  config.siteDomain = 'kochibrokers.com';
+  process.env.VERCEL_ENV = 'production';
+  try {
+    let r = await get('/property/2?x=1', 'main-eta-two.vercel.app');
+    assert.equal(r.status, 308);
+    assert.equal(r.location, 'https://kochibrokers.com/property/2?x=1');
+    r = await get('/', 'kochibrokers.com');
+    assert.equal(r.status, 200);
+    assert.match(r.body, /rel="canonical" href="https:\/\/kochibrokers.com\/"/);
+  } finally {
+    [config.siteDomain, process.env.VERCEL_ENV] = prev;
+  }
+});
