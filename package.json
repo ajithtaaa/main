@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ajithtaaa/main#readme",
   "dependencies": {
     "@libsql/client": "^0.18.0",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.8.1",
     "bcryptjs": "^3.0.3",
     "cookie-session": "^2.1.1",
