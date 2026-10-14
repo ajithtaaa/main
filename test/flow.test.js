@@ -71,6 +71,13 @@ test('per-property paywall: pay for one property → admin approves → only tha
   r = await user.get('/unlock/1');
   assert.match(r.html, /data:image\/png;base64/); // demo QR rendered
   assert.match(r.html, /1BHK near Infopark/); // property summary shown
+  assert.match(r.html, /busy or unreachable/); // disclaimer on the payment wall
+  assert.match(r.html, /Download QR/);
+  const qr = await user.req('/unlock/1/qr');
+  assert.equal(qr.status, 200);
+  assert.equal(qr.headers.get('content-type'), 'image/png');
+  assert.match(qr.headers.get('content-disposition'), /attachment/);
+  assert.ok((await qr.arrayBuffer()).byteLength > 500);
 
   // invalid Transaction ID rejected
   await user.post('/unlock/1', { utr: '12345' });
@@ -106,6 +113,7 @@ test('per-property paywall: pay for one property → admin approves → only tha
 
   r = await user.get('/property/1');
   assert.ok(r.html.includes(PHONE), 'phone visible after approval');
+  assert.match(r.html, /busy or unreachable/); // disclaimer under the unlocked number
   r = await user.get('/property/2');
   assert.ok(!r.html.includes('9000000002'), 'other property stays locked');
   assert.match(r.html, /Payment under verification/);

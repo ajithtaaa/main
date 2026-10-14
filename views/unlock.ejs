@@ -24,6 +24,10 @@
           <h1>Unlock this <%= listing.contact_role.toLowerCase() %>’s number</h1>
           <p class="muted">Pay <strong>₹<%= settings.unlock_price %></strong> to see the <%= listing.contact_role.toLowerCase() %>’s name and phone number for this property. It stays unlocked in your account – no expiry.</p>
         </div>
+        <div class="notice">
+          <strong>Please note:</strong> owners and brokers may sometimes be busy or unreachable, or the property may already be taken.
+          Budget Brokers only shares the contact number; we are not responsible if they don’t answer or for any deal between you and them.
+        </div>
         <% if (rejected) { %>
           <div class="alert alert-error">Your last payment (Transaction ID <span class="mono"><%= rejected.utr %></span>) could not be verified: <%= rejected.admin_note %>. Please check and submit the correct Transaction ID.</div>
         <% } %>
@@ -37,6 +41,8 @@
             </div>
             <p class="upi">UPI ID: <strong class="mono" id="upi"><%= settings.upi_id %></strong> <button type="button" class="copy" data-copy="<%= settings.upi_id %>">Copy</button></p>
             <p class="small muted">Payee: <%= settings.payee_name %> · Amount: ₹<%= settings.unlock_price %></p>
+            <a class="btn btn-block" href="/unlock/<%= listing.id %>/qr" download="budget-brokers-upi-qr.png">⬇ Download QR</a>
+            <p class="small muted center" style="margin:-.3rem 0 .4rem">Paying from this phone? Download the QR, then open GPay / PhonePe → Scan → choose it from your gallery.</p>
             <a class="btn btn-ghost btn-block mobile-only" href="<%= link %>">Open UPI app to pay</a>
             <div class="apps">GPay · PhonePe · Paytm · BHIM · any UPI app</div>
           </div>
@@ -47,10 +53,10 @@
             <form method="post" action="/unlock/<%= listing.id %>" class="form" id="utr-form">
               <input type="hidden" name="_csrf" value="<%= csrf %>">
               <label>Transaction ID
-                <input name="utr" id="utr" maxlength="35" minlength="10" required placeholder="e.g. 412345678901 or T2410141234567890" autocomplete="off" autocapitalize="characters" spellcheck="false" class="utr-input">
+                <input name="utr" id="utr" maxlength="35" minlength="10" required placeholder="e.g. 412345678901" autocomplete="off" autocapitalize="characters" spellcheck="false" class="utr-input">
               </label>
               <p class="small muted" id="utr-help">Letters and numbers only · <span id="utr-count">0</span> characters</p>
-              <label class="check"><input type="checkbox" required> I have paid ₹<%= settings.unlock_price %> to <%= settings.upi_id %></label>
+              <label class="check"><input type="checkbox" required> I have paid ₹<%= settings.unlock_price %> to <%= settings.upi_id %> and read the note above</label>
               <button class="btn btn-block btn-lg">Submit for verification</button>
             </form>
             <details class="small">

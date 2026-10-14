@@ -41,6 +41,7 @@
           <a class="btn btn-block" href="tel:<%= contact.phone %>">📞 Call now</a>
           <a class="btn btn-block btn-wa" target="_blank" rel="noopener" href="https://wa.me/<%= contact.phone.replace(/\D/g, '').length === 10 ? '91' + contact.phone.replace(/\D/g, '') : contact.phone.replace(/\D/g, '') %>?text=<%= encodeURIComponent('Hi, I saw your property "' + listing.title + '" on Budget Brokers. Is it available?') %>">WhatsApp</a>
           <p class="muted small">Mention “Budget Brokers” when you call.</p>
+          <div class="notice small">The <%= contact.role.toLowerCase() %> may be busy or unreachable at times, or the property may already be taken. Please try again later or send a WhatsApp message. Budget Brokers only shares the contact and is not responsible for their response or any deal you make.</div>
         </div>
       <% } else { %>
         <div class="contact-locked">

@@ -53,6 +53,20 @@ router.get('/unlock/:id', requireLogin, async (req, res) => {
   });
 });
 
+// Download the payment QR as an image file (so users can pay from the gallery in their UPI app).
+router.get('/unlock/:id/qr', requireLogin, async (req, res) => {
+  const listing = await loadListing(req, res);
+  if (!listing) return;
+  const s = res.locals.settings;
+  res.set('Content-Disposition', 'attachment; filename="budget-brokers-upi-qr.png"');
+  if (s.qr_image) {
+    const r = await fetch(new URL(storage.url(s.qr_image), `${req.protocol}://${req.get('host')}`));
+    if (r.ok) return res.type(r.headers.get('content-type') || 'image/png').send(Buffer.from(await r.arrayBuffer()));
+  }
+  const png = await QRCode.toBuffer(upiLink(s, listing), { margin: 2, width: 600, color: { dark: '#0b3d2e', light: '#ffffff' } });
+  res.type('image/png').send(png);
+});
+
 router.post('/unlock/:id', requireLogin, submitLimiter, verifyCsrf, async (req, res) => {
   const listing = await loadListing(req, res);
   if (!listing) return;
