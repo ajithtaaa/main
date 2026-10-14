@@ -3,6 +3,8 @@ const express = require('express');
 const cookieSession = require('cookie-session');
 const config = require('./src/config');
 const { loadUser, csrfToken } = require('./src/middleware');
+const { DEFAULT_SETTINGS } = require('./src/db');
+const storage = require('./src/storage');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -11,7 +13,8 @@ app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
 app.locals.inr = (n) => '₹' + Number(n || 0).toLocaleString('en-IN');
-app.locals.img = (listing, i = 0) => (listing.images && listing.images[i] ? `/uploads/${listing.images[i]}` : `/static/img/placeholder-${(listing.type || 'house').toLowerCase().replace(/[^a-z]/g, '')}.svg`);
+app.locals.upl = storage.url;
+app.locals.img = (listing, i = 0) => (listing.images && listing.images[i] ? storage.url(listing.images[i]) : `/static/img/placeholder-${(listing.type || 'house').toLowerCase().replace(/[^a-z]/g, '')}.svg`);
 app.locals.date = (s) => (s ? new Date(s.replace(' ', 'T') + 'Z').toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '–');
 app.locals.day = (s) => (s ? new Date(s.replace(' ', 'T') + 'Z').toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric' }) : '–');
 
@@ -52,7 +55,8 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error(err);
   if (res.headersSent) return;
-  if (!res.locals.settings) Object.assign(res.locals, { user: null, premium: false, unlocked: new Set(), settings: require('./src/db').getSettings(), config, path: req.path, flash: null, pendingCount: 0, csrf: '' });
+  // Errors can happen before loadUser ran (e.g. the database is unreachable), so fill in what the layout needs.
+  if (!res.locals.settings) Object.assign(res.locals, { user: null, premium: false, unlocked: new Set(), settings: DEFAULT_SETTINGS, config, path: req.path, flash: null, pendingCount: 0, csrf: '' });
   const message = err.code === 'LIMIT_FILE_SIZE' ? 'Image too large (max 5 MB each).' : 'Something went wrong. Please try again.';
   res.status(err.status || 500).render('error', { title: 'Error', message });
 });

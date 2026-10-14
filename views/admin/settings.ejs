@@ -14,7 +14,7 @@
       </div>
       <div>
         <p class="small"><%= settings.qr_image ? 'Using your uploaded QR image.' : 'Using an auto-generated UPI QR from the UPI ID, payee and price above.' %></p>
-        <label>Upload your own QR image (optional)<input type="file" name="qr" accept="image/jpeg,image/png,image/webp"></label>
+        <label>Upload your own QR image (optional)<input type="file" name="qr" accept="image/jpeg,image/png,image/webp" data-compress="png"></label>
         <% if (settings.qr_image) { %><label class="check"><input type="checkbox" name="remove_qr" value="1"> Remove uploaded QR and use auto-generated</label><% } %>
       </div>
     </div>

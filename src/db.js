@@ -1,14 +1,8 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { DatabaseSync } = require('node:sqlite');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
+const db = require('./sql');
 
-fs.mkdirSync(path.dirname(config.dbFile), { recursive: true });
-const db = new DatabaseSync(config.dbFile);
-db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
-
-db.exec(`
+const SCHEMA = `
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -77,16 +71,8 @@ CREATE INDEX IF NOT EXISTS idx_listings_status ON listings(status);
 CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
 CREATE INDEX IF NOT EXISTS idx_payments_user ON payments(user_id);
 CREATE INDEX IF NOT EXISTS idx_unlocks_listing ON unlocks(listing_id);
-`);
+`;
 
-// Migrate databases created before per-property unlocks.
-if (!db.prepare('PRAGMA table_info(payments)').all().some((c) => c.name === 'listing_id')) {
-  db.exec('ALTER TABLE payments ADD COLUMN listing_id INTEGER REFERENCES listings(id) ON DELETE SET NULL');
-}
-db.exec('DROP TABLE IF EXISTS contact_views');
-db.exec('CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id)');
-
-// ---------- settings ----------
 const DEFAULT_SETTINGS = {
   unlock_price: '99',
   premium_days: '30', // default length of an admin-granted all-access upgrade (0 = lifetime)
@@ -98,40 +84,31 @@ const DEFAULT_SETTINGS = {
   demo_mode: '1',
 };
 
-for (const [key, value] of Object.entries(DEFAULT_SETTINGS)) {
-  db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)').run(key, value);
-}
+// ---------- startup: schema, migrations, defaults, seed ----------
+async function init() {
+  await db.exec(SCHEMA);
 
-function getSettings() {
-  const out = { ...DEFAULT_SETTINGS };
-  for (const row of db.prepare('SELECT key, value FROM settings').all()) out[row.key] = row.value;
-  return out;
-}
+  // Migrate databases created before per-property unlocks.
+  const cols = await db.all('PRAGMA table_info(payments)');
+  if (!cols.some((c) => c.name === 'listing_id')) {
+    await db.exec('ALTER TABLE payments ADD COLUMN listing_id INTEGER REFERENCES listings(id) ON DELETE SET NULL');
+  }
+  await db.exec('DROP TABLE IF EXISTS contact_views; CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id);');
 
-function setSetting(key, value) {
-  db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value')
-    .run(key, String(value));
-}
+  await db.batch(Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ['INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', k, v]));
 
-// ---------- seed ----------
-function seed() {
-  const adminCount = db.prepare("SELECT COUNT(*) AS n FROM users WHERE role = 'admin'").get().n;
-  if (adminCount === 0) {
+  const admins = (await db.get("SELECT COUNT(*) AS n FROM users WHERE role = 'admin'")).n;
+  if (admins === 0) {
     if (config.production && !process.env.ADMIN_PASSWORD) {
       throw new Error('Set ADMIN_EMAIL and ADMIN_PASSWORD to create the first admin account in production.');
     }
-    db.prepare(`INSERT INTO users (name, email, phone, password_hash, role, plan)
-                VALUES (?, ?, ?, ?, 'admin', 'premium')`)
-      .run('Admin', config.adminEmail, '0000000000', bcrypt.hashSync(config.adminPassword, 10));
-    console.log(`[seed] Admin created: ${config.adminEmail} (password from ADMIN_PASSWORD env or default)`);
+    await db.run(`INSERT INTO users (name, email, phone, password_hash, role, plan) VALUES (?, ?, ?, ?, 'admin', 'premium')`,
+      'Admin', config.adminEmail, '0000000000', bcrypt.hashSync(config.adminPassword, 10));
+    console.log(`[seed] Admin created: ${config.adminEmail}`);
   }
 
-  const listingCount = db.prepare('SELECT COUNT(*) AS n FROM listings').get().n;
-  if (listingCount === 0 && config.seedDemo) {
-    const insert = db.prepare(`INSERT INTO listings
-      (title, description, type, bhk, rent, deposit, locality, address, furnishing, tenant_pref, area_sqft,
-       contact_name, contact_phone, contact_role, featured)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+  const listings = (await db.get('SELECT COUNT(*) AS n FROM listings')).n;
+  if (listings === 0 && config.seedDemo) {
     const demo = [
       ['1BHK near Infopark Phase 1', 'Compact 1BHK on the first floor, 5 min walk to Infopark. Water and power backup available. Ideal for IT professionals.', 'Apartment', '1 BHK', 8500, 25000, 'Kakkanad', 'Near Infopark Phase 1, Kakkanad', 'Semi-furnished', 'Bachelors', 550, 'Suresh K', '9000000001', 'Broker', 1],
       ['Single room with attached bath', 'Neat single room with attached bathroom and separate entrance. Close to Edappally junction and Lulu Mall.', 'Room', '1 RK', 4500, 10000, 'Edappally', 'Behind Edappally Church', 'Furnished', 'Bachelors', 180, 'Mary Thomas', '9000000002', 'Owner', 1],
@@ -146,11 +123,31 @@ function seed() {
       ['1BHK – Panampilly Nagar', 'Old building but well maintained 1BHK in a prime locality. Walk to Panampilly Nagar walkway.', 'Apartment', '1 BHK', 9900, 35000, 'Panampilly Nagar', '10th Cross Road, Panampilly Nagar', 'Unfurnished', 'Family', 500, 'Lakshmi S', '9000000011', 'Owner', 0],
       ['Room for working women – Ernakulam South', 'Single room with shared kitchen in a family house. Near Ernakulam South railway station.', 'Room', '1 RK', 4000, 8000, 'Ernakulam South', 'Near South Railway Station', 'Semi-furnished', 'Ladies', 160, 'Shobha M', '9000000012', 'Owner', 0],
     ];
-    for (const row of demo) insert.run(...row);
+    await db.batch(demo.map((row) => [`INSERT INTO listings
+      (title, description, type, bhk, rent, deposit, locality, address, furnishing, tenant_pref, area_sqft,
+       contact_name, contact_phone, contact_role, featured)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, ...row]));
     console.log(`[seed] Inserted ${demo.length} demo listings`);
   }
 }
-seed();
+
+// Serverless instances start cold: every request waits for this once.
+let readyPromise = null;
+function ready() {
+  if (!readyPromise) readyPromise = init().catch((e) => { readyPromise = null; throw e; });
+  return readyPromise;
+}
+
+// ---------- settings ----------
+async function getSettings() {
+  const out = { ...DEFAULT_SETTINGS };
+  for (const row of await db.all('SELECT key, value FROM settings')) out[row.key] = row.value;
+  return out;
+}
+
+async function setSetting(key, value) {
+  await db.run('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', key, String(value));
+}
 
 // ---------- helpers ----------
 function parseImages(listing) {
@@ -167,39 +164,41 @@ function isPremium(user) {
   return new Date(user.premium_until.replace(' ', 'T') + 'Z') > new Date();
 }
 
-/** Grant premium. days = 0 means lifetime. Extends from current expiry if still active. */
-function grantPremium(userId, days) {
-  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+/** Grant all-access. days = 0 means lifetime. Extends from current expiry if still active. */
+async function grantPremium(userId, days) {
+  const user = await db.get('SELECT * FROM users WHERE id = ?', userId);
   if (!user) return;
   if (!days || days <= 0) {
-    db.prepare("UPDATE users SET plan = 'premium', premium_until = NULL WHERE id = ?").run(userId);
+    await db.run("UPDATE users SET plan = 'premium', premium_until = NULL WHERE id = ?", userId);
     return;
   }
   const base = isPremium(user) && user.premium_until ? user.premium_until : null;
-  db.prepare("UPDATE users SET plan = 'premium', premium_until = datetime(COALESCE(?, datetime('now')), ?) WHERE id = ?")
-    .run(base, `+${Math.floor(Number(days))} days`, userId);
+  await db.run("UPDATE users SET plan = 'premium', premium_until = datetime(COALESCE(?, datetime('now')), ?) WHERE id = ?",
+    base, `+${Math.floor(Number(days))} days`, userId);
+}
+
+async function revokePremium(userId) {
+  await db.run("UPDATE users SET plan = 'free', premium_until = NULL WHERE id = ?", userId);
 }
 
 /** True if the user can see this listing's contact (admin, all-access, or paid for it). */
-function hasUnlocked(user, listingId) {
+async function hasUnlocked(user, listingId) {
   if (!user) return false;
   if (isPremium(user)) return true;
-  return Boolean(db.prepare('SELECT 1 FROM unlocks WHERE user_id = ? AND listing_id = ?').get(user.id, listingId));
+  return Boolean(await db.get('SELECT 1 AS ok FROM unlocks WHERE user_id = ? AND listing_id = ?', user.id, listingId));
 }
 
-function unlockedIds(user) {
+async function unlockedIds(user) {
   if (!user) return new Set();
-  return new Set(db.prepare('SELECT listing_id FROM unlocks WHERE user_id = ?').all(user.id).map((r) => r.listing_id));
+  return new Set((await db.all('SELECT listing_id FROM unlocks WHERE user_id = ?', user.id)).map((r) => r.listing_id));
 }
 
-function grantUnlock(userId, listingId, paymentId = null) {
-  db.prepare('INSERT OR IGNORE INTO unlocks (user_id, listing_id, payment_id) VALUES (?, ?, ?)').run(userId, listingId, paymentId);
-}
-
-function revokePremium(userId) {
-  db.prepare("UPDATE users SET plan = 'free', premium_until = NULL WHERE id = ?").run(userId);
+const GRANT_UNLOCK_SQL = 'INSERT OR IGNORE INTO unlocks (user_id, listing_id, payment_id) VALUES (?, ?, ?)';
+async function grantUnlock(userId, listingId, paymentId = null) {
+  await db.run(GRANT_UNLOCK_SQL, userId, listingId, paymentId);
 }
 
 module.exports = {
-  db, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, hasUnlocked, unlockedIds, grantUnlock,
+  db, ready, DEFAULT_SETTINGS, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, hasUnlocked, unlockedIds,
+  grantUnlock, GRANT_UNLOCK_SQL,
 };

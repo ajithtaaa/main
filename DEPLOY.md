@@ -1,17 +1,44 @@
 # Putting Budget Brokers online
 
-The site is a Node.js server with a SQLite database and uploaded photos. It needs a host that:
+Two ways to host it:
 
-- runs Node.js 22 or Docker, and
-- has a **persistent disk** (otherwise every restart wipes your users, payments and listings).
+- **Vercel** (below). Serverless, with no disk of its own, so the database lives on **Turso** and photos on **Vercel Blob**. Both connect from the Vercel dashboard.
+- **Railway, Render, Fly.io or a VPS** (further down). Runs the `Dockerfile` and keeps everything on one persistent disk.
 
-Recommended: **Railway** (about US$5 a month, deploys straight from GitHub, includes HTTPS). Render (paid plan with a disk), Fly.io, or any VPS with Docker also work, because the repo has a `Dockerfile`.
+## Vercel, step by step
+
+> **Plan note:** Vercel's free *Hobby* plan is for personal, non-commercial use only. A site that takes payments is commercial, so Vercel expects the **Pro** plan (about US$20 a month). Turso's and Vercel Blob's free tiers are enough to start.
+
+1. Sign up at https://vercel.com with your GitHub account.
+2. **Add New → Project →** import **`ajithtaaa/main`**. Leave *Framework Preset* on **Other**, and leave the build settings empty. Click **Deploy**. This first deploy shows an error page until steps 3–5 are done; that's expected.
+3. **Database:** in the project, open **Storage → Create Database → Turso** (Marketplace) and connect it to this project. That adds `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` automatically.
+   *(Or create a database at https://turso.tech yourself and paste those two values in as environment variables.)*
+4. **Photos:** **Storage → Create → Blob**, then connect it to this project. That adds `BLOB_READ_WRITE_TOKEN`.
+5. **Settings → Environment Variables**, add for *Production*:
+
+   | Name | Value |
+   |---|---|
+   | `NODE_ENV` | `production` |
+   | `SESSION_SECRET` | a long random string, at least 32 characters (https://www.random.org/strings) |
+   | `ADMIN_EMAIL` | your email |
+   | `ADMIN_PASSWORD` | a strong password, which becomes your admin login |
+
+6. **Deployments →** the latest one **→ ⋯ → Redeploy.** Open the `….vercel.app` link.
+7. Log in with your admin email and password, then go to **Admin → Settings**: enter your real UPI ID or upload your QR, untick **Demo mode**, and add support phone and WhatsApp. Then add your listings under **Admin → Listings**.
+
+**Custom domain:** Project → **Settings → Domains → Add**, then follow the DNS instructions. HTTPS is automatic.
+
+**Updates:** every push to `main` redeploys by itself. Your data is safe in Turso and Blob.
+
+If a page shows *"Something went wrong"*, open the deployment's **Logs**. A missing setting is named there (for example *"On Vercel, set TURSO_DATABASE_URL…"*).
+
+---
 
 ## Railway, step by step
 
-1. Make sure the code is on GitHub (repo `ajithta855-boop/Web`). Merge the `claude/kerala-realestate-site-pylbw5` branch into `main`, or pick that branch in step 3.
+1. The code is on GitHub at `ajithtaaa/main`.
 2. Sign up at https://railway.com with your GitHub account and choose the Hobby plan.
-3. **New Project → Deploy from GitHub repo →** pick `Web`. Railway finds the `Dockerfile` and builds it.
+3. **New Project → Deploy from GitHub repo →** pick `ajithtaaa/main`. Railway finds the `Dockerfile` and builds it.
 4. Open the service → **Variables**, and add:
 
    | Name | Value |
@@ -36,11 +63,12 @@ Buy a domain (for example `budgetbrokerskochi.in` from GoDaddy, Hostinger or Big
 
 ## Backups
 
-Everything is in the `/data` volume (`data/app.db` and `uploads/`). Railway can snapshot volumes. You can also download the folder now and then.
+- **Vercel:** Turso keeps point-in-time backups of the database. Photos are in Vercel Blob.
+- **Railway or a VPS:** everything is in the `/data` volume (`data/app.db` and `uploads/`). Railway can snapshot volumes, or download the folder now and then.
 
 ## Updating the site
 
-Push new commits to the branch Railway deploys from. It rebuilds and restarts by itself, and your data stays on the volume.
+Push new commits to `main`. Vercel or Railway rebuilds by itself, and your data stays where it is.
 
 ## Before you take real money
 

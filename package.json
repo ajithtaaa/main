@@ -6,19 +6,21 @@
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning server.js",
     "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
-    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js && TEST_LIBSQL=1 node --disable-warning=ExperimentalWarning --test test/*.test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ajithta855-boop/Web.git"
+    "url": "git+https://github.com/ajithtaaa/main.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/ajithta855-boop/Web/issues"
+    "url": "https://github.com/ajithtaaa/main/issues"
   },
-  "homepage": "https://github.com/ajithta855-boop/Web#readme",
+  "homepage": "https://github.com/ajithtaaa/main#readme",
   "dependencies": {
+    "@libsql/client": "^0.18.0",
+    "@vercel/blob": "^2.8.1",
     "bcryptjs": "^3.0.3",
     "cookie-session": "^2.1.1",
     "ejs": "^3.1.10",
@@ -28,6 +30,6 @@
   },
   "private": true,
   "engines": {
-    "node": ">=22.13"
+    "node": "22.x"
   }
 }

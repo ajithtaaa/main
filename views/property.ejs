@@ -6,7 +6,7 @@
       <div class="gallery" data-gallery>
         <img class="gallery-main" src="<%= img(listing) %>" alt="<%= listing.title %>">
         <% if (listing.images.length > 1) { %>
-          <div class="thumbs"><% listing.images.forEach(function (im, i) { %><img src="/uploads/<%= im %>" alt="Photo <%= i + 1 %>" data-thumb class="<%= i === 0 ? 'active' : '' %>"><% }) %></div>
+          <div class="thumbs"><% listing.images.forEach(function (im, i) { %><img src="<%= upl(im) %>" alt="Photo <%= i + 1 %>" data-thumb class="<%= i === 0 ? 'active' : '' %>"><% }) %></div>
         <% } %>
       </div>
       <div class="detail-head">

@@ -1,15 +1,15 @@
 const crypto = require('node:crypto');
-const fs = require('node:fs');
-const path = require('node:path');
 const multer = require('multer');
 const config = require('./config');
-const { db, getSettings, isPremium, unlockedIds } = require('./db');
+const { db, ready, getSettings, isPremium, unlockedIds } = require('./db');
+const storage = require('./storage');
 
 /** Attach the logged-in user, settings and helpers to req/res.locals. */
-function loadUser(req, res, next) {
+async function loadUser(req, res, next) {
+  await ready();
   let user = null;
   if (req.session.userId) {
-    user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.session.userId) || null;
+    user = (await db.get('SELECT * FROM users WHERE id = ?', req.session.userId)) || null;
     if (!user || user.status === 'blocked') {
       if (user) req.session.flash = { type: 'error', text: 'Your account has been blocked. Contact support.' };
       req.session.userId = null;
@@ -19,14 +19,14 @@ function loadUser(req, res, next) {
   req.user = user;
   res.locals.user = user;
   res.locals.premium = isPremium(user); // admin or admin-granted all-access
-  res.locals.unlocked = unlockedIds(user);
-  res.locals.settings = getSettings();
+  res.locals.unlocked = await unlockedIds(user);
+  res.locals.settings = await getSettings();
   res.locals.config = config;
   res.locals.path = req.path;
   res.locals.flash = req.session.flash || null;
   req.session.flash = null;
   res.locals.pendingCount = user && user.role === 'admin'
-    ? db.prepare("SELECT COUNT(*) AS n FROM payments WHERE status = 'pending'").get().n
+    ? (await db.get("SELECT COUNT(*) AS n FROM payments WHERE status = 'pending'")).n
     : 0;
   next();
 }
@@ -86,21 +86,12 @@ function rateLimit({ windowMs, max, key }) {
   };
 }
 
-fs.mkdirSync(config.uploadDir, { recursive: true });
-const ALLOWED = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
+// Files are held in memory and only saved (to disk or Vercel Blob) once the form is valid.
+// Vercel caps a request body at 4.5 MB, so the browser shrinks photos before upload (see app.js).
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: config.uploadDir,
-    filename: (req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${ALLOWED[file.mimetype]}`),
-  }),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024, files: 8 },
-  fileFilter: (req, file, cb) => cb(null, Boolean(ALLOWED[file.mimetype])),
+  fileFilter: (req, file, cb) => cb(null, Boolean(storage.EXT[file.mimetype])),
 });
 
-function removeUpload(name) {
-  if (!name) return;
-  const file = path.join(config.uploadDir, path.basename(name));
-  fs.rm(file, { force: true }, () => {});
-}
-
-module.exports = { loadUser, flash, csrfToken, verifyCsrf, requireLogin, requireAdmin, rateLimit, upload, removeUpload };
+module.exports = { loadUser, flash, csrfToken, verifyCsrf, requireLogin, requireAdmin, rateLimit, upload };

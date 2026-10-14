@@ -47,3 +47,50 @@
     });
   }
 })();
+
+// Shrink photos in the browser before upload. Hosting limits (Vercel: 4.5 MB per request)
+// make 8 phone photos impossible to send as-is; 1600px JPEGs are ~200–400 KB each.
+(function () {
+  var MAX = 1600;
+  function shrink(file, type) {
+    return new Promise(function (resolve) {
+      if (!/^image\//.test(file.type)) return resolve(file);
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var k = Math.min(1, MAX / Math.max(img.width, img.height));
+        if (k === 1 && file.size < 600 * 1024) return resolve(file);
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.width * k);
+        c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        var mime = type === 'png' ? 'image/png' : 'image/jpeg';
+        c.toBlob(function (blob) {
+          if (!blob) return resolve(file);
+          var name = file.name.replace(/\.[^.]+$/, '') + (mime === 'image/png' ? '.png' : '.jpg');
+          resolve(new File([blob], name, { type: mime }));
+        }, mime, 0.82);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+  document.querySelectorAll('input[type=file][data-compress]').forEach(function (input) {
+    if (typeof DataTransfer === 'undefined') return;
+    input.addEventListener('change', function () {
+      if (input.dataset.busy) return;
+      var form = input.form;
+      var btns = form ? form.querySelectorAll('button') : [];
+      btns.forEach(function (b) { b.disabled = true; });
+      var type = input.getAttribute('data-compress');
+      Promise.all(Array.prototype.slice.call(input.files, 0, 8).map(function (f) { return shrink(f, type); })).then(function (files) {
+        var dt = new DataTransfer();
+        files.forEach(function (f) { dt.items.add(f); });
+        input.dataset.busy = '1';
+        input.files = dt.files;
+        delete input.dataset.busy;
+      }).finally(function () { btns.forEach(function (b) { b.disabled = false; }); });
+    });
+  });
+})();

@@ -9,6 +9,12 @@ if (production && (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.len
   throw new Error('SESSION_SECRET must be set to a random string of at least 32 characters in production.');
 }
 
+// Vercel has no persistent disk: the database and uploads must live in external services.
+if (process.env.VERCEL) {
+  if (!process.env.TURSO_DATABASE_URL) throw new Error('On Vercel, set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN (connect a Turso database).');
+  if (!process.env.BLOB_READ_WRITE_TOKEN) throw new Error('On Vercel, connect a Vercel Blob store so BLOB_READ_WRITE_TOKEN is set.');
+}
+
 module.exports = {
   production,
   port: Number(process.env.PORT) || 3000,

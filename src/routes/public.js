@@ -28,46 +28,42 @@ function buildFilter(q) {
 
 const SORTS = { new: 'created_at DESC, id DESC', low: 'rent ASC', high: 'rent DESC', popular: 'views DESC' };
 
-router.get('/', (req, res) => {
-  const featured = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND featured = 1 ORDER BY id DESC LIMIT 6`).all().map(parseImages);
-  const latest = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' ORDER BY created_at DESC, id DESC LIMIT 8`).all().map(parseImages);
-  const stats = {
-    listings: db.prepare("SELECT COUNT(*) AS n FROM listings WHERE status = 'active'").get().n,
-    localities: db.prepare("SELECT COUNT(DISTINCT locality) AS n FROM listings WHERE status = 'active'").get().n,
-    minRent: db.prepare("SELECT MIN(rent) AS n FROM listings WHERE status = 'active'").get().n || 0,
-  };
+router.get('/', async (req, res) => {
+  const featured = (await db.all(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND featured = 1 ORDER BY id DESC LIMIT 6`)).map(parseImages);
+  const latest = (await db.all(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' ORDER BY created_at DESC, id DESC LIMIT 8`)).map(parseImages);
+  const stats = await db.get(`SELECT COUNT(*) AS listings, COUNT(DISTINCT locality) AS localities, COALESCE(MIN(rent), 0) AS minRent
+    FROM listings WHERE status = 'active'`);
   res.render('home', { title: 'Budget rentals in Kochi under ₹10,000', featured, latest, stats });
 });
 
-router.get('/properties', (req, res) => {
+router.get('/properties', async (req, res) => {
   const { sql, params } = buildFilter(req.query);
   const sort = SORTS[req.query.sort] ? req.query.sort : 'new';
-  const total = db.prepare(`SELECT COUNT(*) AS n FROM listings WHERE ${sql}`).get(...params).n;
+  const total = (await db.get(`SELECT COUNT(*) AS n FROM listings WHERE ${sql}`, ...params)).n;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(pages, Math.max(1, parseInt(req.query.page, 10) || 1));
-  const listings = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE ${sql} ORDER BY featured DESC, ${SORTS[sort]} LIMIT ? OFFSET ?`)
-    .all(...params, PAGE_SIZE, (page - 1) * PAGE_SIZE).map(parseImages);
+  const listings = (await db.all(`SELECT ${PUBLIC_COLS} FROM listings WHERE ${sql} ORDER BY featured DESC, ${SORTS[sort]} LIMIT ? OFFSET ?`, ...params, PAGE_SIZE, (page - 1) * PAGE_SIZE)).map(parseImages);
   const query = { ...req.query };
   delete query.page;
   res.render('properties', { title: 'Properties in Kochi', listings, total, page, pages, q: req.query, sort, query: new URLSearchParams(query).toString() });
 });
 
-router.get('/property/:id', (req, res) => {
+router.get('/property/:id', async (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const listing = parseImages(db.prepare('SELECT * FROM listings WHERE id = ?').get(id));
+  const listing = parseImages(await db.get('SELECT * FROM listings WHERE id = ?', id));
   const isAdmin = req.user && req.user.role === 'admin';
   if (!listing || (listing.status === 'hidden' && !isAdmin)) {
     return res.status(404).render('error', { title: 'Not found', message: 'This property is no longer available.' });
   }
-  db.prepare('UPDATE listings SET views = views + 1 WHERE id = ?').run(id);
+  await db.run('UPDATE listings SET views = views + 1 WHERE id = ?', id);
 
   let contact = null;
   let pending = null;
   let rejected = null;
-  if (hasUnlocked(req.user, id)) {
+  if (await hasUnlocked(req.user, id)) {
     contact = { name: listing.contact_name, phone: listing.contact_phone, role: listing.contact_role };
   } else if (req.user) {
-    const last = db.prepare('SELECT * FROM payments WHERE user_id = ? AND listing_id = ? ORDER BY id DESC LIMIT 1').get(req.user.id, id);
+    const last = await db.get('SELECT * FROM payments WHERE user_id = ? AND listing_id = ? ORDER BY id DESC LIMIT 1', req.user.id, id);
     if (last && last.status === 'pending') pending = last;
     if (last && last.status === 'rejected') rejected = last;
   }
@@ -75,8 +71,8 @@ router.get('/property/:id', (req, res) => {
   delete listing.contact_phone;
   if (!contact) delete listing.contact_name;
 
-  const similar = db.prepare(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND id != ? AND (locality = ? OR type = ?)
-    ORDER BY (locality = ?) DESC, created_at DESC LIMIT 4`).all(id, listing.locality, listing.type, listing.locality).map(parseImages);
+  const similar = (await db.all(`SELECT ${PUBLIC_COLS} FROM listings WHERE status = 'active' AND id != ? AND (locality = ? OR type = ?)
+    ORDER BY (locality = ?) DESC, created_at DESC LIMIT 4`, id, listing.locality, listing.type, listing.locality)).map(parseImages);
   res.render('property', { title: listing.title, listing, contact, pending, rejected, similar });
 });
 

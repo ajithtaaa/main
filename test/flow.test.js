@@ -6,6 +6,8 @@ const path = require('node:path');
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'bb-test-'));
 process.env.DB_FILE = path.join(tmp, 'test.db');
+// TEST_LIBSQL=1 runs the same tests through the libSQL (Turso) client against a local file.
+if (process.env.TEST_LIBSQL) process.env.TURSO_DATABASE_URL = 'file:' + path.join(tmp, 'libsql.db');
 process.env.UPLOAD_DIR = path.join(tmp, 'uploads');
 process.env.ADMIN_EMAIL = 'admin@test.in';
 process.env.ADMIN_PASSWORD = 'admin-pass-123';

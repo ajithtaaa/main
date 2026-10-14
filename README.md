@@ -40,8 +40,14 @@ Default admin login: `admin@budgetbrokers.in` / `admin123`. **Change it** (set e
 | `UPLOAD_DIR` | `uploads/` | Listing photos and QR image |
 | `SEED_DEMO` | `1` | Set `0` to skip the 12 demo Kochi listings |
 | `NODE_ENV` | – | Set `production` behind HTTPS to send secure cookies |
+| `DATA_DIR` | project folder | One folder for `data/app.db` and `uploads/` (point it at a persistent disk) |
+| `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` | – | Use a Turso (libSQL) database instead of the local file. Required on Vercel |
+| `BLOB_READ_WRITE_TOKEN` | – | Store photos in Vercel Blob instead of `uploads/`. Required on Vercel |
 
 ## Going live
+
+See **DEPLOY.md** for step-by-step Vercel and Railway instructions.
+
 
 1. Admin → Settings: enter your real UPI ID and payee name, or upload your shop's QR. Turn off **Demo mode**.
 2. Set `SESSION_SECRET`, `ADMIN_PASSWORD` and `NODE_ENV=production`, and serve over HTTPS.
@@ -49,4 +55,4 @@ Default admin login: `admin@budgetbrokers.in` / `admin123`. **Change it** (set e
 
 ## Tech
 
-Express 5, EJS templates, SQLite (`node:sqlite`), cookie sessions, bcrypt passwords, CSRF tokens on every form, rate limits on login and UTR submission, Multer for image uploads, and `qrcode` for the UPI QR.
+Express 5, EJS templates, SQLite (`node:sqlite` locally, Turso/libSQL when configured), Vercel Blob or local disk for photos, cookie sessions, bcrypt passwords, CSRF tokens on every form, rate limits on login and UTR submission, Multer for image uploads, and `qrcode` for the UPI QR.

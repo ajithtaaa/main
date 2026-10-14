@@ -33,10 +33,10 @@
     <h3>Photos</h3>
     <% if (listing.images && listing.images.length) { %>
       <div class="img-grid"><% listing.images.forEach(function (im) { %>
-        <label class="img-item"><img src="/uploads/<%= im %>" alt=""><span><input type="checkbox" name="remove_images" value="<%= im %>"> Remove</span></label>
+        <label class="img-item"><img src="<%= upl(im) %>" alt=""><span><input type="checkbox" name="remove_images" value="<%= im %>"> Remove</span></label>
       <% }) %></div>
     <% } %>
-    <label>Add photos (JPG/PNG/WebP, up to 8, max 5 MB each)<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple data-preview></label>
+    <label>Add photos (JPG/PNG/WebP, up to 8 – large photos are shrunk automatically)<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple data-preview data-compress="jpeg"></label>
     <div class="img-grid" id="preview"></div>
   </div>
 
