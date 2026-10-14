@@ -59,7 +59,7 @@
   <h3>Payments</h3>
   <% if (!payments.length) { %><p class="muted">No payments.</p><% } else { %>
   <div class="table-wrap"><table>
-    <thead><tr><th>#</th><th>Property</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Property</th><th>Transaction ID</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
     <tbody><% payments.forEach(function (p) { p.name = target.name; %>
       <tr><td><%= p.id %></td><td><% if (p.listing_id) { %><a href="/admin/listings/<%= p.listing_id %>/edit"><%= p.listing_title || "#" + p.listing_id %></a><% } else { %><span class="muted">All-access (old)</span><% } %></td><td class="mono strong"><%= p.utr %></td><td><%= inr(p.amount) %></td><td class="small"><%= date(p.created_at) %></td>
         <td><%- include('../partials/status', { s: p.status }) %><% if (p.admin_note) { %><div class="small muted"><%= p.admin_note %></div><% } %></td>

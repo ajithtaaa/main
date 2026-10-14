@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const QRCode = require('qrcode');
 const config = require('../config');
 const {
-  db, parseImages, isPremium, grantPremium, revokePremium, grantUnlock, GRANT_UNLOCK_SQL,
+  db, SOLD_SQL, parseImages, isPremium, grantPremium, revokePremium, grantUnlock, GRANT_UNLOCK_SQL,
 } = require('../db');
 const { flash, verifyCsrf, requireAdmin, upload } = require('../middleware');
 const storage = require('../storage');
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
   // One round trip: this matters when the database is remote (Turso).
   const stats = await db.get(`SELECT
       (SELECT COUNT(*) FROM users WHERE role = 'user') AS users,
-      (SELECT COUNT(*) FROM listings WHERE status = 'active') AS listings,
+      (SELECT COUNT(*) FROM listings WHERE status = 'active' AND NOT ${SOLD_SQL}) AS listings,
       (SELECT COUNT(*) FROM listings) AS allListings,
       (SELECT COUNT(*) FROM payments WHERE status = 'pending') AS pending,
       (SELECT COALESCE(SUM(amount), 0) FROM payments WHERE status = 'approved') AS revenue,
@@ -251,15 +251,25 @@ router.get('/listings', async (req, res) => {
   const where = [];
   const params = [];
   if (term) { where.push('(title LIKE ? OR locality LIKE ? OR contact_name LIKE ? OR contact_phone LIKE ?)'); params.push(...Array(4).fill(`%${term}%`)); }
-  if (status) { where.push('status = ?'); params.push(status); }
-  const listings = (await db.all(`SELECT l.*, (SELECT COUNT(*) FROM unlocks c WHERE c.listing_id = l.id) AS unlocks
+  if (status === 'rented') where.push(`status != 'hidden' AND ${SOLD_SQL}`);
+  else if (status === 'active') where.push(`status = 'active' AND NOT ${SOLD_SQL}`);
+  else if (status) { where.push('status = ?'); params.push(status); }
+  const listings = (await db.all(`SELECT l.*, ${SOLD_SQL} AS sold_out, (SELECT COUNT(*) FROM unlocks c WHERE c.listing_id = l.id) AS unlocks
     FROM listings l ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY id DESC LIMIT 300`, ...params)).map(parseImages);
   res.render('admin/listings', { title: 'Listings', listings, q: term, status });
 });
 
+/** "2026-10-20T18:30" typed in Kochi time (IST, UTC+5:30) -> "2026-10-20 13:00:00" UTC for SQLite. */
+function istInputToUtc(value) {
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(String(value || ''))) return null;
+  const d = new Date(`${value}:00+05:30`);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 function listingForm(body) {
   const int = (v) => (v === '' || v == null ? null : parseInt(v, 10));
   return {
+    sell_by: istInputToUtc(body.sell_by),
     title: String(body.title || '').trim().slice(0, 120),
     description: String(body.description || '').trim().slice(0, 3000),
     type: config.types.includes(body.type) ? body.type : '',
@@ -287,13 +297,18 @@ function validateListing(f) {
   if (f.deposit < 0) return 'Deposit cannot be negative.';
   if (f.contact_name.length < 2) return 'Contact name is required.';
   if (f.contact_phone.replace(/\D/g, '').length < 10) return 'Valid contact phone is required.';
+  if (f.status === 'active' && f.sell_by && new Date(f.sell_by.replace(' ', 'T') + 'Z') <= new Date()) {
+    return 'The “Rented out within” time is already past. Pick a later time, clear it, or set the status to Sold out.';
+  }
   return null;
 }
 
 const listingUpload = upload.array('photos', 8);
 
 router.get('/listings/new', async (req, res) => {
-  res.render('admin/listing-form', { title: 'Add listing', listing: { images: [], status: 'active', contact_role: 'Owner' } });
+  // New listings default to a 3-day time bar.
+  const sellBy = new Date(Date.now() + 3 * 864e5).toISOString().slice(0, 19).replace('T', ' ');
+  res.render('admin/listing-form', { title: 'Add listing', listing: { images: [], status: 'active', contact_role: 'Owner', sell_by: sellBy } });
 });
 
 router.post('/listings', listingUpload, verifyCsrf, async (req, res) => {
@@ -302,9 +317,9 @@ router.post('/listings', listingUpload, verifyCsrf, async (req, res) => {
   if (error) return res.status(400).render('admin/listing-form', { title: 'Add listing', listing: { ...f, images: [] }, error });
   const files = await Promise.all((req.files || []).map(storage.save));
   const r = (await db.run(`INSERT INTO listings (title, description, type, bhk, rent, deposit, locality, address, furnishing,
-    tenant_pref, area_sqft, contact_name, contact_phone, contact_role, featured, status, images)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, f.title, f.description, f.type, f.bhk, f.rent, f.deposit, f.locality, f.address, f.furnishing, f.tenant_pref,
-      f.area_sqft, f.contact_name, f.contact_phone, f.contact_role, f.featured, f.status, JSON.stringify(files)));
+    tenant_pref, area_sqft, contact_name, contact_phone, contact_role, featured, status, images, sell_by)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, f.title, f.description, f.type, f.bhk, f.rent, f.deposit, f.locality, f.address, f.furnishing, f.tenant_pref,
+      f.area_sqft, f.contact_name, f.contact_phone, f.contact_role, f.featured, f.status, JSON.stringify(files), f.sell_by));
   flash(req, 'success', 'Listing published.');
   res.redirect(`/admin/listings/${r.lastInsertRowid}/edit`);
 });
@@ -330,8 +345,8 @@ router.post('/listings/:id', listingUpload, verifyCsrf, async (req, res) => {
   const images = kept.concat(files).slice(0, 12);
   (await db.run(`UPDATE listings SET title = ?, description = ?, type = ?, bhk = ?, rent = ?, deposit = ?, locality = ?, address = ?,
     furnishing = ?, tenant_pref = ?, area_sqft = ?, contact_name = ?, contact_phone = ?, contact_role = ?, featured = ?, status = ?,
-    images = ?, updated_at = datetime('now') WHERE id = ?`, f.title, f.description, f.type, f.bhk, f.rent, f.deposit, f.locality, f.address, f.furnishing, f.tenant_pref,
-      f.area_sqft, f.contact_name, f.contact_phone, f.contact_role, f.featured, f.status, JSON.stringify(images), existing.id));
+    images = ?, sell_by = ?, updated_at = datetime('now') WHERE id = ?`, f.title, f.description, f.type, f.bhk, f.rent, f.deposit, f.locality, f.address, f.furnishing, f.tenant_pref,
+      f.area_sqft, f.contact_name, f.contact_phone, f.contact_role, f.featured, f.status, JSON.stringify(images), f.sell_by, existing.id));
   flash(req, 'success', 'Listing updated.');
   res.redirect(`/admin/listings/${existing.id}/edit`);
 });
@@ -341,6 +356,16 @@ router.post('/listings/:id/quick', verifyCsrf, async (req, res) => {
   if (!l) return res.status(404).render('error', { title: 'Not found', message: 'Listing not found.' });
   if (req.body.action === 'feature') await db.run('UPDATE listings SET featured = 1 - featured WHERE id = ?', l.id);
   if (['active', 'hidden', 'rented'].includes(req.body.action)) await db.run("UPDATE listings SET status = ?, updated_at = datetime('now') WHERE id = ?", req.body.action, l.id);
+  // "Re-open" of a listing that is marked sold out also gets a fresh time bar below if its deadline had passed.
+  if (req.body.action === 'active') {
+    // Re-opening a listing whose time bar ran out gives it a fresh 3 days.
+    await db.run(`UPDATE listings SET sell_by = datetime('now', '+3 days')
+      WHERE id = ? AND sell_by IS NOT NULL AND sell_by <= datetime('now')`, l.id);
+  }
+  if (req.body.action === 'extend') {
+    await db.run(`UPDATE listings SET status = 'active', sell_by = datetime(MAX(COALESCE(sell_by, datetime('now')), datetime('now')), '+3 days'),
+      updated_at = datetime('now') WHERE id = ?`, l.id);
+  }
   flash(req, 'success', `Listing #${l.id} updated.`);
   res.redirect(back(req, '/admin/listings'));
 });

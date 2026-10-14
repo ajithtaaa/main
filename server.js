@@ -18,6 +18,26 @@ app.locals.img = (listing, i = 0) => (listing.images && listing.images[i] ? stor
 app.locals.date = (s) => (s ? new Date(s.replace(' ', 'T') + 'Z').toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '–');
 app.locals.day = (s) => (s ? new Date(s.replace(' ', 'T') + 'Z').toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric' }) : '–');
 
+const toDate = (s) => new Date(String(s).replace(' ', 'T') + 'Z');
+/** UTC SQLite time -> value for <input type="datetime-local"> in Kochi time (IST). */
+app.locals.istInput = (s) => (s ? new Date(toDate(s).getTime() + 5.5 * 36e5).toISOString().slice(0, 16) : '');
+function left(ms) {
+  const h = Math.floor(ms / 36e5);
+  if (h >= 48) return `${Math.floor(h / 24)} days`;
+  if (h >= 24) return `1 day ${h - 24} hrs`;
+  if (h >= 1) return `${h} hrs ${Math.floor((ms % 36e5) / 6e4)} min`;
+  return `${Math.max(1, Math.floor(ms / 6e4))} min`;
+}
+/** Time bar data for a listing with a sell_by deadline. The bar shows time left on a 7-day scale. */
+app.locals.timebar = (l) => {
+  if (!l.sell_by || l.sold_out) return null;
+  const end = toDate(l.sell_by).getTime();
+  const now = Date.now();
+  if (end <= now) return null;
+  const pct = Math.max(3, Math.min(100, Math.round(((end - now) / (7 * 864e5)) * 100)));
+  return { iso: new Date(end).toISOString(), pct, left: left(end - now), urgent: end - now < 24 * 36e5 };
+};
+
 app.use((req, res, next) => {
   res.set({
     'X-Content-Type-Options': 'nosniff',

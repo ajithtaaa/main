@@ -1,0 +1,15 @@
+<%- include('partials/head') %>
+<section class="wrap section">
+  <div class="sold-box">
+    <span class="sold-stamp static">SOLD OUT</span>
+    <h1><%= listing.title %></h1>
+    <p class="muted">📍 <%= listing.locality %>, Kochi · <%= listing.type %></p>
+    <p>This property has already been rented out, so its details and contact are closed. Don’t worry, new budget homes come up every day.</p>
+    <div class="row-center"><a class="btn" href="/properties<%= listing.locality ? '?locality=' + encodeURIComponent(listing.locality) : '' %>">See open properties in <%= listing.locality || 'Kochi' %></a></div>
+  </div>
+  <% if (similar.length) { %>
+    <div class="section-head" style="margin-top:2rem"><h2>Still available nearby</h2></div>
+    <div class="grid"><% similar.forEach(function (l) { %><%- include('partials/card', { l }) %><% }) %></div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

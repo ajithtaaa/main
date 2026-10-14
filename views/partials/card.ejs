@@ -1,9 +1,10 @@
-<a class="card" href="/property/<%= l.id %>">
+<% var sold = !!l.sold_out; var canOpen = !sold || (user && user.role === 'admin'); %>
+<<%= canOpen ? 'a' : 'div' %> class="card<%= sold ? ' card-sold' : '' %>"<% if (canOpen) { %> href="/property/<%= l.id %>"<% } else { %> aria-disabled="true" title="This property is sold out"<% } %>>
   <div class="card-img">
     <img src="<%= img(l) %>" alt="<%= l.title %>" loading="lazy">
     <span class="price"><%= inr(l.rent) %><small>/mo</small></span>
-    <% if (l.featured) { %><span class="tag tag-featured">★ Featured</span><% } %>
-    <% if (l.status === 'rented') { %><span class="tag tag-rented">Rented out</span><% } %>
+    <% if (l.featured && !sold) { %><span class="tag tag-featured">★ Featured</span><% } %>
+    <% if (sold) { %><span class="sold-stamp">SOLD OUT</span><% } %>
   </div>
   <div class="card-body">
     <h3><%= l.title %></h3>
@@ -11,9 +12,11 @@
     <div class="chips">
       <span><%= l.type %></span><% if (l.bhk && l.bhk !== '-') { %><span><%= l.bhk %></span><% } %><span><%= l.furnishing %></span>
     </div>
+    <%- include('timebar', { l: l }) %>
     <div class="card-foot">
       <span class="role role-<%= l.contact_role.toLowerCase() %>"><%= l.contact_role %></span>
-      <span class="lock"><%= (premium || unlocked.has(l.id)) ? "🔓 Unlocked" : "🔒 ₹" + settings.unlock_price + " to unlock" %></span>
+      <% if (sold) { %><span class="lock sold-text">Sold out</span>
+      <% } else { %><span class="lock"><%= (premium || unlocked.has(l.id)) ? "🔓 Unlocked" : "🔒 ₹" + settings.unlock_price + " to unlock" %></span><% } %>
     </div>
   </div>
-</a>
+</<%= canOpen ? 'a' : 'div' %>>

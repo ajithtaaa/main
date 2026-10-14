@@ -13,7 +13,7 @@
   <div class="section-head"><h3>Awaiting verification</h3><a href="/admin/payments">All payments →</a></div>
   <% if (!pending.length) { %><p class="muted">🎉 No pending payments.</p><% } else { %>
     <div class="table-wrap"><table>
-      <thead><tr><th>#</th><th>User</th><th>Property</th><th>UTR</th><th>Amount</th><th>Submitted</th><th>Action</th></tr></thead>
+      <thead><tr><th>#</th><th>User</th><th>Property</th><th>Transaction ID</th><th>Amount</th><th>Submitted</th><th>Action</th></tr></thead>
       <tbody><% pending.forEach(function (p) { %>
         <tr><td><%= p.id %></td><td><a href="/admin/users/<%= p.user_id %>"><%= p.name %></a><div class="small muted"><%= p.phone %></div></td>
           <td><% if (p.listing_id) { %><a href="/admin/listings/<%= p.listing_id %>/edit"><%= p.listing_title || 'Listing #' + p.listing_id %></a><div class="small muted">#<%= p.listing_id %><%= p.listing_locality ? ' · ' + p.listing_locality : '' %></div><% } else { %><span class="muted">All-access (old)</span><% } %></td>

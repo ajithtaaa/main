@@ -280,3 +280,26 @@ body.admin { background: #f1f4f2; }
 .unlock-item:hover { text-decoration: none; }
 .unlock-item img { width: 96px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
 .unlock-item > div { flex: 1; min-width: 0; }
+
+/* "rented out within" time bar */
+.timebar { display: grid; gap: .3rem; }
+.tb-track { height: 6px; background: var(--green-soft); border-radius: 99px; overflow: hidden; }
+.tb-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), #e9a23b); border-radius: 99px; transition: width .5s; }
+.tb-label { font-size: .78rem; color: var(--muted); }
+.tb-label b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.timebar.urgent .tb-track span { background: linear-gradient(90deg, #e9773b, var(--red)); }
+.timebar.urgent .tb-label b { color: var(--red); }
+.timebar.done .tb-track span { width: 0 !important; }
+.detail-main .timebar { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: .7rem .9rem; margin-bottom: .2rem; }
+.detail-main .timebar .tb-label { font-size: .9rem; }
+.detail-main .tb-track { height: 8px; }
+
+/* sold out */
+.card-sold { cursor: not-allowed; }
+.card-sold:hover { transform: none; }
+.card-sold .card-img img { filter: grayscale(.85) brightness(.85); }
+.card-sold .card-body { opacity: .7; }
+.sold-stamp { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg); background: var(--red); color: #fff; font-weight: 800; letter-spacing: .14em; padding: .35rem 1rem; border-radius: 6px; font-size: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.sold-stamp.static { position: static; display: inline-block; transform: rotate(-4deg); margin-bottom: 1rem; }
+.sold-text { color: var(--red); font-weight: 700; }
+.sold-box { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem; text-align: center; max-width: 640px; margin: 0 auto; }

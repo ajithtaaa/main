@@ -43,11 +43,18 @@
   <div class="panel form-grid">
     <h3 class="full">Visibility</h3>
     <label>Status<select name="status">
-      <option value="active" <%= listing.status === 'active' ? 'selected' : '' %>>Active (visible)</option>
-      <option value="hidden" <%= listing.status === 'hidden' ? 'selected' : '' %>>Hidden</option>
-      <option value="rented" <%= listing.status === 'rented' ? 'selected' : '' %>>Rented out</option>
+      <option value="active" <%= listing.status === 'active' ? 'selected' : '' %>>Active (open)</option>
+      <option value="rented" <%= listing.status === 'rented' ? 'selected' : '' %>>Sold out (shown with a SOLD OUT tag, can’t be opened)</option>
+      <option value="hidden" <%= listing.status === 'hidden' ? 'selected' : '' %>>Hidden (not shown at all)</option>
     </select></label>
     <label class="check"><input type="checkbox" name="featured" value="1" <%= listing.featured ? 'checked' : '' %>> Featured on home page</label>
+    <label class="full">“Likely rented out within” deadline <span class="muted small">(Kochi time – shows a countdown bar; when it runs out the listing shows as SOLD OUT. Leave empty for no bar.)</span>
+      <input type="datetime-local" name="sell_by" id="sell_by" value="<%= istInput(listing.sell_by) %>">
+    </label>
+    <div class="full row small">Quick set:
+      <% [[1, '1 day'], [3, '3 days'], [7, '1 week'], [14, '2 weeks']].forEach(function (d) { %><button type="button" class="btn btn-sm btn-ghost" data-sellby="<%= d[0] %>"><%= d[1] %> from now</button><% }) %>
+      <button type="button" class="btn btn-sm btn-ghost" data-sellby="0">No time bar</button>
+    </div>
   </div>
   <div class="row">
     <button class="btn btn-lg"><%= listing.id ? 'Save changes' : 'Publish listing' %></button>

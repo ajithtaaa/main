@@ -4,7 +4,7 @@
   <a href="/admin/listings" class="<%= !status ? 'active' : '' %>">All</a>
   <a href="/admin/listings?status=active" class="<%= status === 'active' ? 'active' : '' %>">Active</a>
   <a href="/admin/listings?status=hidden" class="<%= status === 'hidden' ? 'active' : '' %>">Hidden</a>
-  <a href="/admin/listings?status=rented" class="<%= status === 'rented' ? 'active' : '' %>">Rented</a>
+  <a href="/admin/listings?status=rented" class="<%= status === 'rented' ? 'active' : '' %>">Sold out</a>
   <form method="get" class="tab-search"><input type="hidden" name="status" value="<%= status %>"><input name="q" value="<%= q %>" placeholder="Search title, locality, contact"><button class="btn btn-sm">Search</button></form>
 </div>
 <div class="panel">
@@ -18,7 +18,8 @@
           <div class="small muted">#<%= l.id %> · <%= l.type %> · <%= l.locality %></div></td>
         <td><%= inr(l.rent) %></td>
         <td><%= l.contact_name %> <span class="role role-<%= l.contact_role.toLowerCase() %>"><%= l.contact_role %></span><div class="small muted"><%= l.contact_phone %></div></td>
-        <td><span class="badge <%= l.status === 'active' ? 'green' : 'grey' %>"><%= l.status %></span></td>
+        <td><% if (l.status === 'hidden') { %><span class="badge grey">hidden</span><% } else if (l.sold_out) { %><span class="badge red">sold out</span><% if (l.status === 'active') { %><div class="small muted">time ran out</div><% } %><% } else { %><span class="badge green">active</span><% } %>
+          <% if (l.sell_by && !l.sold_out && l.status !== 'hidden') { %><div class="small muted">until <%= date(l.sell_by) %></div><% } %></td>
         <td><%= l.views %> / <%= l.unlocks %></td>
         <td class="actions">
           <a class="btn btn-sm btn-ghost" href="/admin/listings/<%= l.id %>/edit">Edit</a>
@@ -26,9 +27,10 @@
           <form method="post" action="/admin/listings/<%= l.id %>/quick" class="inline"><input type="hidden" name="_csrf" value="<%= csrf %>">
             <select name="action" onchange="this.form.submit()">
               <option value="">More…</option>
-              <% if (l.status !== 'active') { %><option value="active">Mark active</option><% } %>
+              <% if (l.status !== 'active' || l.sold_out) { %><option value="active">Re-open (active)</option><% } %>
+              <% if (!l.sold_out) { %><option value="rented">Mark sold out</option><% } %>
+              <option value="extend">Extend time bar +3 days</option>
               <% if (l.status !== 'hidden') { %><option value="hidden">Hide</option><% } %>
-              <% if (l.status !== 'rented') { %><option value="rented">Mark rented</option><% } %>
               <option value="feature"><%= l.featured ? 'Unfeature' : 'Feature' %></option>
             </select>
           </form>

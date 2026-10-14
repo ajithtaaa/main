@@ -19,16 +19,42 @@
     }
   });
 
-  // UTR input: digits only + counter
+  // Transaction ID input: letters and digits only, upper-case, with a counter
   var utr = document.getElementById('utr');
   if (utr) {
     var count = document.getElementById('utr-count');
     utr.addEventListener('input', function () {
-      utr.value = utr.value.replace(/\D/g, '').slice(0, 12);
+      utr.value = utr.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 35);
       count.textContent = utr.value.length;
-      utr.classList.toggle('ok', utr.value.length === 12);
+      utr.classList.toggle('ok', utr.value.length >= 10);
     });
   }
+
+  // Live countdown on the "rented out within" time bars
+  function left(ms) {
+    var h = Math.floor(ms / 36e5);
+    if (h >= 48) return Math.floor(h / 24) + ' days';
+    if (h >= 24) return '1 day ' + (h - 24) + ' hrs';
+    if (h >= 1) return h + ' hrs ' + Math.floor((ms % 36e5) / 6e4) + ' min';
+    return Math.max(1, Math.floor(ms / 6e4)) + ' min';
+  }
+  var bars = document.querySelectorAll('[data-deadline]');
+  function tick() {
+    bars.forEach(function (bar) {
+      var ms = new Date(bar.getAttribute('data-deadline')).getTime() - Date.now();
+      var out = bar.querySelector('[data-left]');
+      if (ms <= 0) {
+        bar.classList.add('done');
+        bar.querySelector('.tb-label').textContent = 'Time is up – this property may already be taken';
+        return;
+      }
+      if (out) out.textContent = left(ms);
+      var fill = bar.querySelector('.tb-track span');
+      if (fill) fill.style.width = Math.max(3, Math.min(100, Math.round(ms / (7 * 864e5) * 100))) + '%';
+      bar.classList.toggle('urgent', ms < 24 * 36e5);
+    });
+  }
+  if (bars.length) setInterval(tick, 30000);
 
   // Image previews in admin listing form
   var input = document.querySelector('[data-preview]');
@@ -94,3 +120,14 @@
     });
   });
 })();
+
+// Admin listing form: quick-set the "rented out within" deadline (Kochi time)
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-sellby]');
+  if (!b) return;
+  var input = document.getElementById('sell_by');
+  var days = Number(b.getAttribute('data-sellby'));
+  if (!days) { input.value = ''; return; }
+  var ist = new Date(Date.now() + days * 864e5 + 5.5 * 36e5);
+  input.value = ist.toISOString().slice(0, 16);
+});

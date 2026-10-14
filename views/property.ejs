@@ -16,7 +16,8 @@
         </div>
         <div class="rent"><%= inr(listing.rent) %><small>/month</small></div>
       </div>
-      <% if (listing.status === 'rented') { %><div class="alert alert-info">This property has been rented out. Check similar listings below.</div><% } %>
+      <% if (listing.sold_out) { %><div class="alert alert-error">Sold out. Users can’t open this page; you see it because you’re an admin.</div><% } %>
+      <%- include('partials/timebar', { l: listing }) %>
       <% if (listing.status === 'hidden') { %><div class="alert alert-error">Hidden listing – visible to admins only.</div><% } %>
       <div class="facts">
         <div><span>Type</span><strong><%= listing.type %></strong></div>
@@ -50,10 +51,10 @@
             <a class="btn btn-block btn-ghost" href="/login?next=<%= encodeURIComponent('/property/' + listing.id) %>">I already have an account</a>
           <% } else if (pending) { %>
             <div class="status status-pending">⏳ Payment under verification</div>
-            <p class="small">UTR <strong><%= pending.utr %></strong> submitted <%= date(pending.created_at) %>. Contacts unlock as soon as our team verifies it.</p>
+            <p class="small">Transaction ID <strong><%= pending.utr %></strong> submitted <%= date(pending.created_at) %>. Contacts unlock as soon as our team verifies it.</p>
             <a class="btn btn-block btn-ghost" href="/unlock/<%= listing.id %>">View payment status</a>
           <% } else { %>
-            <% if (rejected) { %><div class="alert alert-error small">Your last payment (UTR <%= rejected.utr %>) was rejected: <%= rejected.admin_note %></div><% } %>
+            <% if (rejected) { %><div class="alert alert-error small">Your last payment (Transaction ID <%= rejected.utr %>) was rejected: <%= rejected.admin_note %></div><% } %>
             <p>Pay <strong>₹<%= settings.unlock_price %></strong> to see this <%= listing.contact_role.toLowerCase() %>’s name &amp; phone number. Unlocked contacts stay in your account – no expiry.</p>
             <a class="btn btn-block btn-lg" href="/unlock/<%= listing.id %>">🔓 Unlock for ₹<%= settings.unlock_price %></a>
           <% } %>

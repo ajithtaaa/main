@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS listings (
   featured INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','hidden','rented')),
   views INTEGER NOT NULL DEFAULT 0,
+  sell_by TEXT, -- UTC deadline for the "rented within" time bar; past it the listing shows as sold out
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -93,6 +94,8 @@ async function init() {
   if (!cols.some((c) => c.name === 'listing_id')) {
     await db.exec('ALTER TABLE payments ADD COLUMN listing_id INTEGER REFERENCES listings(id) ON DELETE SET NULL');
   }
+  const listingCols = await db.all('PRAGMA table_info(listings)');
+  if (!listingCols.some((c) => c.name === 'sell_by')) await db.exec('ALTER TABLE listings ADD COLUMN sell_by TEXT');
   await db.exec('DROP TABLE IF EXISTS contact_views; CREATE INDEX IF NOT EXISTS idx_payments_listing ON payments(user_id, listing_id);');
 
   await db.batch(Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ['INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', k, v]));
@@ -127,6 +130,7 @@ async function init() {
       (title, description, type, bhk, rent, deposit, locality, address, furnishing, tenant_pref, area_sqft,
        contact_name, contact_phone, contact_role, featured)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, ...row]));
+    await db.exec("UPDATE listings SET sell_by = datetime('now', '+' || (24 + (id * 37) % 120) || ' hours')");
     console.log(`[seed] Inserted ${demo.length} demo listings`);
   }
 }
@@ -150,6 +154,9 @@ async function setSetting(key, value) {
 }
 
 // ---------- helpers ----------
+/** SQL expression: true when a listing is sold out (marked by admin, or its time bar ran out). */
+const SOLD_SQL = "(status = 'rented' OR (sell_by IS NOT NULL AND sell_by <= datetime('now')))";
+
 function parseImages(listing) {
   if (!listing) return listing;
   try { listing.images = JSON.parse(listing.images || '[]'); } catch { listing.images = []; }
@@ -199,6 +206,6 @@ async function grantUnlock(userId, listingId, paymentId = null) {
 }
 
 module.exports = {
-  db, ready, DEFAULT_SETTINGS, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, hasUnlocked, unlockedIds,
+  db, ready, SOLD_SQL, DEFAULT_SETTINGS, getSettings, setSetting, parseImages, isPremium, grantPremium, revokePremium, hasUnlocked, unlockedIds,
   grantUnlock, GRANT_UNLOCK_SQL,
 };

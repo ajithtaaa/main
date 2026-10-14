@@ -8,14 +8,14 @@
       <li>Create a free account with your name, email and mobile number.</li>
       <li>Open any property and tap <em>Unlock for ₹<%= settings.unlock_price %></em>.</li>
       <li>Scan the UPI QR code with Google Pay, PhonePe, Paytm or any UPI app and pay ₹<%= settings.unlock_price %>.</li>
-      <li>Copy the <strong>12-digit UTR / UPI reference number</strong> from your payment app and submit it.</li>
+      <li>Copy the <strong>Transaction ID</strong> of the payment from your UPI app and submit it.</li>
       <li>Our team manually verifies the payment, usually within a few hours. Once approved, that property’s owner or broker number is unlocked and stays in <em>My account</em> – no expiry.</li>
       <li>Want another property? Unlock it the same way – each property is ₹<%= settings.unlock_price %>.</li>
     </ol>
-    <h3>Where do I find the UTR number?</h3>
+    <h3>Where do I find the Transaction ID?</h3>
     <ul>
       <li><strong>Google Pay:</strong> open the payment → “UPI transaction ID”.</li>
-      <li><strong>PhonePe:</strong> History → the payment → “UTR”.</li>
+      <li><strong>PhonePe:</strong> History → the payment → “Transaction ID”.</li>
       <li><strong>Paytm:</strong> Balance &amp; History → the payment → “UPI Ref No”.</li>
     </ul>
     <p>Payment rejected by mistake? <% if (settings.support_whatsapp) { %><a href="https://wa.me/<%= settings.support_whatsapp %>" target="_blank" rel="noopener">WhatsApp us</a> with a screenshot<% } else { %>Contact support<% } %> and we will sort it out.</p>

@@ -1,0 +1,6 @@
+<% var tb = timebar(l); if (tb) { %>
+<div class="timebar<%= tb.urgent ? ' urgent' : '' %>" data-deadline="<%= tb.iso %>" title="Bar shows time left out of 7 days">
+  <div class="tb-track"><span style="width:<%= tb.pct %>%"></span></div>
+  <div class="tb-label">⏳ Likely rented out within <b data-left><%= tb.left %></b></div>
+</div>
+<% } %>

@@ -72,22 +72,23 @@ test('per-property paywall: pay for one property → admin approves → only tha
   assert.match(r.html, /data:image\/png;base64/); // demo QR rendered
   assert.match(r.html, /1BHK near Infopark/); // property summary shown
 
-  // invalid UTR rejected
+  // invalid Transaction ID rejected
   await user.post('/unlock/1', { utr: '12345' });
   r = await user.get('/unlock/1');
-  assert.match(r.html, /12-digit UTR/);
+  assert.match(r.html, /full Transaction ID/);
 
-  // valid UTR goes to pending
+  // valid Transaction ID goes to pending
   await user.post('/unlock/1', { utr: '412345678901' });
   r = await user.get('/property/1');
   assert.match(r.html, /Payment under verification/);
   assert.ok(!r.html.includes(PHONE));
 
-  // a second property can be paid for in parallel; same UTR can't be reused
+  // a second property can be paid for in parallel; same Transaction ID can't be reused
   await user.post('/unlock/2', { utr: '412345678901' });
   r = await user.get('/unlock/2');
   assert.match(r.html, /already been used/);
-  await user.post('/unlock/2', { utr: '412345678902' });
+  // alphanumeric PhonePe-style IDs are accepted (and upper-cased)
+  await user.post('/unlock/2', { utr: 't2410141234567890' });
 
   // user cannot access admin
   r = await user.get('/admin');
@@ -163,6 +164,54 @@ test('admin can reject, grant unlocks, give all-access, block users and manage l
   r = await client().get(`/property/${lid}`);
   assert.equal(r.status, 404);
   await admin.post(`/admin/listings/${lid}/delete`, {});
+});
+
+test('time bar and sold-out listings: visible with a tag, but cannot be opened or paid for', async () => {
+  const admin = client();
+  await admin.post('/login', { email: 'admin@test.in', password: 'admin-pass-123' });
+  const visitor = client();
+
+  // seeded listings carry a countdown
+  let r = await visitor.get('/properties');
+  assert.match(r.html, /Likely rented out within/);
+
+  // admin marks listing 6 sold out: still listed with a SOLD OUT tag, no link, page closed
+  await admin.post('/admin/listings/6/quick', { action: 'rented' });
+  r = await visitor.get('/properties');
+  assert.match(r.html, /SOLD OUT/);
+  assert.match(r.html, /Studio room – Palarivattom/);
+  assert.ok(!r.html.includes('href="/property/6"'), 'sold-out card is not a link');
+  r = await visitor.get('/property/6');
+  assert.equal(r.status, 410);
+  assert.ok(!r.html.includes('9000000006'));
+
+  const u = client();
+  await u.post('/register', { name: 'Sold User', email: 'u9@test.in', phone: '9876543219', password: 'secret1' });
+  r = await u.get('/unlock/6');
+  assert.equal(r.status, 410);
+  r = await u.post('/unlock/6', { utr: '612345678901' });
+  assert.equal(r.status, 410);
+
+  // admin can still open it; re-opening makes it available again
+  r = await admin.get('/property/6');
+  assert.equal(r.status, 200);
+  await admin.post('/admin/listings/6/quick', { action: 'active' });
+  r = await visitor.get('/property/6');
+  assert.equal(r.status, 200);
+
+  // a deadline in the past counts as sold out automatically
+  r = await admin.post('/admin/listings', { title: 'Expiring room', type: 'Room', rent: '4000', locality: 'Kaloor', contact_name: 'X Y', contact_phone: '9000000088', status: 'rented', sell_by: '2020-01-01T10:00' });
+  const lid = r.location.match(/listings\/(\d+)/)[1];
+  r = await visitor.get(`/property/${lid}`);
+  assert.equal(r.status, 410);
+  // an active listing cannot be saved with a deadline in the past
+  r = await admin.post('/admin/listings', { title: 'Bad deadline', type: 'Room', rent: '4000', locality: 'Kaloor', contact_name: 'X Y', contact_phone: '9000000088', status: 'active', sell_by: '2020-01-01T10:00' });
+  assert.equal(r.status, 400);
+  // "extend" re-opens it with a fresh deadline
+  await admin.post(`/admin/listings/${lid}/quick`, { action: 'extend' });
+  r = await visitor.get(`/property/${lid}`);
+  assert.equal(r.status, 200);
+  assert.match(r.html, /Likely rented out within/);
 });
 
 test('POST without CSRF token is rejected', async () => {

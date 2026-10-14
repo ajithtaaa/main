@@ -1,6 +1,6 @@
 const express = require('express');
 const QRCode = require('qrcode');
-const { db, getSettings, parseImages, hasUnlocked } = require('../db');
+const { db, SOLD_SQL, parseImages, hasUnlocked } = require('../db');
 const storage = require('../storage');
 const { flash, verifyCsrf, requireLogin, rateLimit } = require('../middleware');
 
@@ -15,8 +15,17 @@ function upiLink(s, listing) {
 }
 
 async function loadListing(req, res) {
-  const listing = parseImages(await db.get("SELECT id, title, type, bhk, rent, locality, contact_role, images, status FROM listings WHERE id = ? AND status != 'hidden'", parseInt(req.params.id, 10)));
-  if (!listing) res.status(404).render('error', { title: 'Not found', message: 'This property is no longer available.' });
+  const listing = parseImages(await db.get(`SELECT id, title, type, bhk, rent, locality, contact_role, images, status, sell_by,
+    ${SOLD_SQL} AS sold_out FROM listings WHERE id = ? AND status != 'hidden'`, parseInt(req.params.id, 10)));
+  if (!listing) {
+    res.status(404).render('error', { title: 'Not found', message: 'This property is no longer available.' });
+    return null;
+  }
+  // No payments for sold-out properties.
+  if (listing.sold_out) {
+    res.status(410).render('sold', { title: 'Sold out', listing, similar: [] });
+    return null;
+  }
   return listing;
 }
 
@@ -48,7 +57,8 @@ router.post('/unlock/:id', requireLogin, submitLimiter, verifyCsrf, async (req, 
   const listing = await loadListing(req, res);
   if (!listing) return;
   const s = res.locals.settings;
-  const utr = String(req.body.utr || '').replace(/\s+/g, '');
+  // UPI apps show this as "UTR", "UPI Ref No." or "Transaction ID" (GPay 12 digits, PhonePe/Paytm longer and alphanumeric).
+  const utr = String(req.body.utr || '').replace(/\s+/g, '').toUpperCase();
   const back = `/unlock/${listing.id}`;
 
   if (await hasUnlocked(req.user, listing.id)) {
@@ -59,16 +69,16 @@ router.post('/unlock/:id', requireLogin, submitLimiter, verifyCsrf, async (req, 
     flash(req, 'info', 'Your payment for this property is already under verification.');
     return res.redirect(back);
   }
-  if (!/^\d{12}$/.test(utr)) {
-    flash(req, 'error', 'Please enter the full 12-digit UTR / UPI reference number from your payment app.');
+  if (!/^[A-Z0-9]{10,35}$/.test(utr)) {
+    flash(req, 'error', 'Please enter the full Transaction ID from your payment app (10–35 letters or numbers, no spaces).');
     return res.redirect(back);
   }
   if (await db.get('SELECT 1 AS ok FROM payments WHERE utr = ?', utr)) {
-    flash(req, 'error', 'This UTR number has already been used. Each property needs a separate payment.');
+    flash(req, 'error', 'This Transaction ID has already been used. Each property needs a separate payment.');
     return res.redirect(back);
   }
   await db.run('INSERT INTO payments (user_id, listing_id, amount, utr) VALUES (?, ?, ?, ?)', req.user.id, listing.id, Number(s.unlock_price), utr);
-  flash(req, 'success', 'Thank you! Your UTR has been submitted. This contact will unlock as soon as our team verifies the payment.');
+  flash(req, 'success', 'Thank you! Your Transaction ID has been submitted. This contact will unlock as soon as our team verifies the payment.');
   res.redirect(back);
 });
 

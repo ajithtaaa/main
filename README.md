@@ -1,6 +1,6 @@
 # Budget Brokers – Kochi rentals under ₹10,000
 
-A rental listing site for Kochi. Anyone can browse every property. To see the **owner's or broker's phone number for a property**, a user pays **₹99 for that property** by UPI and submits the 12-digit **UTR** number. An admin checks the payment by hand and approves it, and that one contact unlocks for the user. It stays unlocked in their account with no expiry. Each property is paid for separately.
+A rental listing site for Kochi. Anyone can browse every property. To see the **owner's or broker's phone number for a property**, a user pays **₹99 for that property** by UPI and submits the **Transaction ID** from their UPI app. An admin checks the payment by hand and approves it, and that one contact unlocks for the user. It stays unlocked in their account with no expiry. Each property is paid for separately.
 
 ## Features
 
@@ -8,13 +8,15 @@ A rental listing site for Kochi. Anyone can browse every property. To see the **
 - Home page with search by locality, type and budget. Featured and newest listings.
 - Property list with filters (locality, type, max rent, owner/broker, tenant type), sorting and pages.
 - Property page with a photo gallery and key details. The contact box is **locked**: the phone number is never sent to the browser until the user is unlocked.
-- Payment page (`/unlock/<property id>`): a summary of the property, a UPI QR (auto-generated **demo** QR, or upload your own), UPI ID with a copy button, and an "Open UPI app" button on mobile. The UTR form accepts only 12 digits. A UTR can't be reused. A user can have pending payments for several properties at once, but only one per property.
+- Payment page (`/unlock/<property id>`): a summary of the property, a UPI QR (auto-generated **demo** QR, or upload your own), UPI ID with a copy button, and an "Open UPI app" button on mobile. The Transaction ID form accepts 10–35 letters or numbers. A Transaction ID can't be reused. A user can have pending payments for several properties at once, but only one per property.
 - Statuses shown on each property: *Under verification* → *Unlocked*, or *Rejected* with the admin's reason. Listing cards show 🔓 for properties the user has already unlocked.
+- **Time bar:** each property can have a "likely rented out within…" countdown. When it runs out, the property shows as sold out.
+- **Sold out:** sold-out properties stay in the lists with a SOLD OUT tag, but users can't open them or pay for them. Admins can hide or delete them, re-open them, or extend the time bar by 3 days.
 - My account: every unlocked contact with its phone number, payment history for each property, and password change.
 
 **Admin panel (`/admin`)**
 - **Dashboard**: pending payments, users, listings, revenue (last 30 days and total), contacts unlocked.
-- **Payments**: pending, approved and rejected tabs. Each row shows which property was paid for. Search by UTR, name, phone or property. Approve with one click (unlocks that property for the user), or reject with a reason the user sees.
+- **Payments**: pending, approved and rejected tabs. Each row shows which property was paid for. Search by Transaction ID, name, phone or property. Approve with one click (unlocks that property for the user), or reject with a reason the user sees.
 - **Users**: search and filter. Unlock a particular property for a user by hand (for example after a cash payment), or remove an unlock. Optional **all-access upgrade** (N days or lifetime) shows every contact. Also block or unblock, make or remove admin, edit details, reset password, delete, and add a user by hand. Each user's page lists their payments and unlocked properties.
 - **Listings**: add, edit or delete. Up to 8 photos per listing. Rent is capped at ₹10,000. Mark a listing active, hidden or rented, or feature it. Each listing shows its views and unlock counts.
 - **Settings**: unlock price per property, default length of an all-access upgrade, UPI ID, payee name, your own QR image, the demo-mode banner, support phone and WhatsApp, and the admin password.
@@ -55,4 +57,4 @@ See **DEPLOY.md** for step-by-step Vercel and Railway instructions.
 
 ## Tech
 
-Express 5, EJS templates, SQLite (`node:sqlite` locally, Turso/libSQL when configured), Vercel Blob or local disk for photos, cookie sessions, bcrypt passwords, CSRF tokens on every form, rate limits on login and UTR submission, Multer for image uploads, and `qrcode` for the UPI QR.
+Express 5, EJS templates, SQLite (`node:sqlite` locally, Turso/libSQL when configured), Vercel Blob or local disk for photos, cookie sessions, bcrypt passwords, CSRF tokens on every form, rate limits on login and Transaction ID submission, Multer for image uploads, and `qrcode` for the UPI QR.

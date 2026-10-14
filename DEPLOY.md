@@ -73,5 +73,5 @@ Push new commits to `main`. Vercel or Railway rebuilds by itself, and your data 
 ## Before you take real money
 
 - Test the whole flow once with a real ₹1 payment: temporarily set the price to 1 in Settings, then set it back.
-- Check UTRs only against your own bank or UPI statement before approving.
+- Check Transaction IDs only against your own bank or UPI statement before approving.
 - Add a short privacy policy and terms page if you plan to advertise.

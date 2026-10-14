@@ -11,7 +11,7 @@
       <div class="paywall-card center">
         <div class="big-icon">⏳</div>
         <h1>Payment under verification</h1>
-        <p>We received your UTR <strong class="mono"><%= pending.utr %></strong> on <%= date(pending.created_at) %>.</p>
+        <p>We received your Transaction ID <strong class="mono"><%= pending.utr %></strong> on <%= date(pending.created_at) %>.</p>
         <p class="muted">Our team verifies every payment manually against our bank statement. This contact unlocks automatically once approved – usually within a few hours. Refresh this page to check.</p>
         <div class="row-center">
           <a class="btn" href="/properties">Keep browsing</a>
@@ -25,7 +25,7 @@
           <p class="muted">Pay <strong>₹<%= settings.unlock_price %></strong> to see the <%= listing.contact_role.toLowerCase() %>’s name and phone number for this property. It stays unlocked in your account – no expiry.</p>
         </div>
         <% if (rejected) { %>
-          <div class="alert alert-error">Your last payment (UTR <span class="mono"><%= rejected.utr %></span>) could not be verified: <%= rejected.admin_note %>. Please check and submit the correct UTR.</div>
+          <div class="alert alert-error">Your last payment (Transaction ID <span class="mono"><%= rejected.utr %></span>) could not be verified: <%= rejected.admin_note %>. Please check and submit the correct Transaction ID.</div>
         <% } %>
         <div class="pay-grid">
           <div class="pay-step">
@@ -42,24 +42,24 @@
           </div>
           <div class="pay-step">
             <span class="step-no">2</span>
-            <h3>Enter your UTR number</h3>
-            <p class="small">After paying, copy the <strong>12-digit UTR / UPI reference number</strong> from your payment app and paste it below.</p>
+            <h3>Enter your Transaction ID</h3>
+            <p class="small">After paying, open the payment in your UPI app, copy the <strong>Transaction ID</strong> and paste it below.</p>
             <form method="post" action="/unlock/<%= listing.id %>" class="form" id="utr-form">
               <input type="hidden" name="_csrf" value="<%= csrf %>">
-              <label>UTR / UPI Ref. No.
-                <input name="utr" id="utr" inputmode="numeric" pattern="\d{12}" maxlength="12" minlength="12" required placeholder="e.g. 412345678901" autocomplete="off" class="utr-input">
+              <label>Transaction ID
+                <input name="utr" id="utr" maxlength="35" minlength="10" required placeholder="e.g. 412345678901 or T2410141234567890" autocomplete="off" autocapitalize="characters" spellcheck="false" class="utr-input">
               </label>
-              <p class="small muted" id="utr-help">12 digits · <span id="utr-count">0</span>/12</p>
+              <p class="small muted" id="utr-help">Letters and numbers only · <span id="utr-count">0</span> characters</p>
               <label class="check"><input type="checkbox" required> I have paid ₹<%= settings.unlock_price %> to <%= settings.upi_id %></label>
               <button class="btn btn-block btn-lg">Submit for verification</button>
             </form>
             <details class="small">
-              <summary>Where do I find the UTR?</summary>
-              <p><strong>GPay:</strong> tap the payment → UPI transaction ID.<br><strong>PhonePe:</strong> History → payment → UTR.<br><strong>Paytm:</strong> Balance &amp; History → payment → UPI Ref No.</p>
+              <summary>Where do I find the Transaction ID?</summary>
+              <p><strong>GPay:</strong> tap the payment → UPI transaction ID.<br><strong>PhonePe:</strong> History → payment → Transaction ID.<br><strong>Paytm:</strong> Balance &amp; History → payment → UPI Ref No.</p>
             </details>
           </div>
         </div>
-        <p class="small muted center">Payments are verified manually by our team. Each property needs its own payment and UTR. Do not submit someone else’s UTR – fake submissions lead to account block.</p>
+        <p class="small muted center">Payments are verified manually by our team. Each property needs its own payment and Transaction ID. Do not submit someone else’s Transaction ID – fake submissions lead to account block.</p>
       </div>
     <% } %>
   </div>

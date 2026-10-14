@@ -1,7 +1,7 @@
 <div class="review">
   <form method="post" action="/admin/payments/<%= p.id %>/approve" class="inline">
     <input type="hidden" name="_csrf" value="<%= csrf %>">
-    <button class="btn btn-sm btn-ok" data-confirm="Approve UTR <%= p.utr %> and unlock this contact for <%= p.name %>?">✓ Approve</button>
+    <button class="btn btn-sm btn-ok" data-confirm="Approve Transaction ID <%= p.utr %> and unlock this contact for <%= p.name %>?">✓ Approve</button>
   </form>
   <form method="post" action="/admin/payments/<%= p.id %>/reject" class="inline reject-form">
     <input type="hidden" name="_csrf" value="<%= csrf %>">
