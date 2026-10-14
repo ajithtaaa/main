@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/healthz', (req, res) => res.type('text').send('ok'));
 app.use('/static', express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
 app.use('/uploads', express.static(config.uploadDir, { maxAge: '7d' }));
 app.use(express.urlencoded({ extended: false, limit: '200kb' }));
@@ -32,7 +33,7 @@ app.use(cookieSession({
   secret: config.sessionSecret,
   httpOnly: true,
   sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production',
+  secure: config.production,
   maxAge: 30 * 24 * 60 * 60 * 1000,
 }));
 app.use(loadUser);

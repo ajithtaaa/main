@@ -117,6 +117,9 @@ function setSetting(key, value) {
 function seed() {
   const adminCount = db.prepare("SELECT COUNT(*) AS n FROM users WHERE role = 'admin'").get().n;
   if (adminCount === 0) {
+    if (config.production && !process.env.ADMIN_PASSWORD) {
+      throw new Error('Set ADMIN_EMAIL and ADMIN_PASSWORD to create the first admin account in production.');
+    }
     db.prepare(`INSERT INTO users (name, email, phone, password_hash, role, plan)
                 VALUES (?, ?, ?, ?, 'admin', 'premium')`)
       .run('Admin', config.adminEmail, '0000000000', bcrypt.hashSync(config.adminPassword, 10));

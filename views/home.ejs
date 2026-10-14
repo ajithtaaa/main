@@ -8,7 +8,7 @@
     <div class="hero-stats">
       <div><strong><%= stats.listings %></strong><span>active listings</span></div>
       <div><strong><%= stats.localities %></strong><span>localities</span></div>
-      <div><strong><%= inr(stats.minRent) %></strong><span>lowest rent</span></div>
+      <% if (stats.minRent) { %><div><strong><%= inr(stats.minRent) %></strong><span>lowest rent</span></div><% } %>
     </div>
   </div>
 </section>
