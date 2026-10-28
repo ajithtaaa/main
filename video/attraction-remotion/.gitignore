@@ -1,0 +1,7 @@
+node_modules/
+out/
+public/audio/
+public/veo/*.mp4
+public/pins/*
+!public/pins/.gitkeep
+!src/data/
