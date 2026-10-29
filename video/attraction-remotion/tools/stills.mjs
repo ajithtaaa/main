@@ -6,7 +6,7 @@ import path from 'node:path';
 const [out, ...ts] = process.argv.slice(2);
 const browserExecutable = '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell';
 const serveUrl = await bundle({entryPoint: path.resolve('src/index.ts')});
-const comp = await selectComposition({serveUrl, id: 'Main', browserExecutable});
+const comp = await selectComposition({serveUrl, id: process.env.COMP || 'Main', browserExecutable});
 const files = [];
 for (const t of ts) {
   const f = `out/still_${t}.png`;

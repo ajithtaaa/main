@@ -1,5 +1,5 @@
 export const FPS = 30;
-export const FONT = '"Baloo Chettan 2", sans-serif';
+export const FONT = '"Anek Malayalam", sans-serif';
 
 export const C = {
   ink: '#16141f', paper: '#f4ead8', red: '#ff3b3b', yellow: '#ffc93c', teal: '#14b8a6', pink: '#ff5d8f',

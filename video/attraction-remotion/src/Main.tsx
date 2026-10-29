@@ -90,7 +90,7 @@ const StripeWipe: React.FC<{at: number; colors: string[]}> = ({at, colors}) => {
 
 // word-by-word karaoke caption
 const weight = (w: string) => Array.from(w).reduce((a, ch) => a + (/[ാ-്ൗം]/.test(ch) ? 0.35 : 1), 0) + 1.5;
-const Caption: React.FC<{s: Shot; next?: Shot; ink: string}> = ({s, next}) => {
+export const Caption: React.FC<{s: Shot; next?: Shot; ink: string}> = ({s, next}) => {
   const f = useCurrentFrame();
   const words = s.text.split(' ');
   const ws = words.map(weight);
@@ -116,7 +116,7 @@ const Caption: React.FC<{s: Shot; next?: Shot; ink: string}> = ({s, next}) => {
   );
 };
 
-const Tracker: React.FC = () => {
+export const Tracker: React.FC = () => {
   const f = useCurrentFrame();
   const a = SHOTS[26].from - 4, b = SHOTS[81].from;
   if (f < a || f > b) return null;
