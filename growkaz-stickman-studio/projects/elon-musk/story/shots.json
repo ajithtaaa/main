@@ -1,0 +1,9 @@
+{
+"title": "Elon Musk",
+"duration": 9,
+"shots": [
+ {"id": "c01", "start": 0, "end": 3, "line": "", "scene": "character lineup: three Elon looks on a stage", "bars": null, "in": {"type": "cut"}, "sfx": [], "notes": "design sheet"},
+ {"id": "c02", "start": 3, "end": 6, "line": "", "scene": "bigFace Elon close-up, determined", "bars": null, "in": {"type": "cut"}, "sfx": [], "notes": "design sheet"},
+ {"id": "c03", "start": 6, "end": 9, "line": "", "scene": "SpaceX Elon at night launch pad beside a rocket", "bars": null, "in": {"type": "cut"}, "sfx": [], "notes": "design sheet"}
+]
+}
