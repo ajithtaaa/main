@@ -1,0 +1,142 @@
+[
+  {
+    "text": "Welcome",
+    "startMs": 300,
+    "endMs": 705,
+    "timestampMs": 502.5,
+    "confidence": 1
+  },
+  {
+    "text": " to",
+    "startMs": 745,
+    "endMs": 975,
+    "timestampMs": 860,
+    "confidence": 1
+  },
+  {
+    "text": " your",
+    "startMs": 1015,
+    "endMs": 1315,
+    "timestampMs": 1165,
+    "confidence": 1
+  },
+  {
+    "text": " new",
+    "startMs": 1355,
+    "endMs": 1620,
+    "timestampMs": 1487.5,
+    "confidence": 1
+  },
+  {
+    "text": " 3D",
+    "startMs": 1660,
+    "endMs": 1890,
+    "timestampMs": 1775,
+    "confidence": 1
+  },
+  {
+    "text": " video",
+    "startMs": 1930,
+    "endMs": 2265,
+    "timestampMs": 2097.5,
+    "confidence": 1
+  },
+  {
+    "text": " studio.",
+    "startMs": 2305,
+    "endMs": 2710,
+    "timestampMs": 2507.5,
+    "confidence": 1
+  },
+  {
+    "text": " Three.js",
+    "startMs": 2750,
+    "endMs": 3190,
+    "timestampMs": 2970,
+    "confidence": 1
+  },
+  {
+    "text": " draws",
+    "startMs": 3230,
+    "endMs": 3565,
+    "timestampMs": 3397.5,
+    "confidence": 1
+  },
+  {
+    "text": " the",
+    "startMs": 3605,
+    "endMs": 3870,
+    "timestampMs": 3737.5,
+    "confidence": 1
+  },
+  {
+    "text": " scene",
+    "startMs": 3910,
+    "endMs": 4245,
+    "timestampMs": 4077.5,
+    "confidence": 1
+  },
+  {
+    "text": " and",
+    "startMs": 4285,
+    "endMs": 4550,
+    "timestampMs": 4417.5,
+    "confidence": 1
+  },
+  {
+    "text": " Remotion",
+    "startMs": 4590,
+    "endMs": 5030,
+    "timestampMs": 4810,
+    "confidence": 1
+  },
+  {
+    "text": " adds",
+    "startMs": 5070,
+    "endMs": 5370,
+    "timestampMs": 5220,
+    "confidence": 1
+  },
+  {
+    "text": " these",
+    "startMs": 5410,
+    "endMs": 5745,
+    "timestampMs": 5577.5,
+    "confidence": 1
+  },
+  {
+    "text": " captions",
+    "startMs": 5785,
+    "endMs": 6225,
+    "timestampMs": 6005,
+    "confidence": 1
+  },
+  {
+    "text": " and",
+    "startMs": 6265,
+    "endMs": 6530,
+    "timestampMs": 6397.5,
+    "confidence": 1
+  },
+  {
+    "text": " renders",
+    "startMs": 6570,
+    "endMs": 6975,
+    "timestampMs": 6772.5,
+    "confidence": 1
+  },
+  {
+    "text": " the",
+    "startMs": 7015,
+    "endMs": 7280,
+    "timestampMs": 7147.5,
+    "confidence": 1
+  },
+  {
+    "text": " video.",
+    "startMs": 7320,
+    "endMs": 7690,
+    "timestampMs": 7505,
+    "confidence": 1
+  }
+]
