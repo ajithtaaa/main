@@ -1,5 +1,5 @@
 // sets/sets.js — bedroom (night), street (dusk / night / rain), gym, office desk, stage (void + spotlight).
-import { E, V, mood, layer, backdrop, rr, seg, circle, ring, linGrad, glow, alpha, shade, mix } from '/engine/core.js';
+import { E, V, mood, layer, backdrop, rr, seg, circle, ring, poly, linGrad, glow, alpha, shade, mix } from '/engine/core.js';
 import * as FX from '/engine/fx2d.js';
 import { cafe } from './cafe.js';
 import { lab } from './lab.js';
@@ -81,3 +81,18 @@ export const SETS = {
   cafe: (g, t, cam, o) => { const r = cafe(g, t, cam, o); return { GY: r.GY, CX: E.W / 2, M: r.M }; },
   lab: (g, t, cam, o) => lab(g, t, cam, o),
 };
+
+// launch site: Texas desert at dusk, rocket + tower silhouettes, distant crowd barrier
+export function site(g, t, cam, o = {}) {
+  const M = mood(o.mood || 'dusk'), GY = ground(), CX = E.W / 2;
+  layer(g, cam, 0.15, (g) => { backdrop(g, M.sky); FX.sun(g, CX - V(300, 260), GY - V(260, 380), 70, '#fff3dc', M.key, 5); FX.hills(g, { y: GY - 40, amp: 60, color: shade(M.dark, 0.12), seed: 3 }); });
+  layer(g, cam, 0.45, (g) => {
+    const rx = CX + V(380, 300), h = V(560, 760);
+    rr(g, rx - 34, GY - h, 68, h, 10); g.fillStyle = shade(M.wall, 0.25); g.fill(); poly(g, [[rx - 34, GY - h], [rx, GY - h - 110], [rx + 34, GY - h]], shade(M.wall, 0.25));
+    g.fillStyle = shade(M.dark, 0.05); g.fillRect(rx + 50, GY - h - 40, 50, h + 40); for (let i = 0; i < 18; i++) g.fillRect(rx + 34, GY - h + i * (h / 18), 90, 5);
+    glow(g, rx, GY - 40, 220, M.practical, 0.15);
+  });
+  layer(g, cam, 0.8, (g) => { g.fillStyle = linGrad(g, 0, GY, 0, GY + 600, [shade(M.floor, 0.12), M.dark]); g.fillRect(-E.W, GY, E.W * 3, E.H * 2); FX.floorLines(g, GY, GY + 600, 'rgba(0,0,0,.2)', 0.07); });
+  return { GY, CX, M };
+}
+SETS.site = site;

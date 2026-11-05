@@ -1,20 +1,257 @@
 {
  "title": "How Elon Built A Flying Car",
- "duration": 72.7,
+ "duration": 72.66,
  "shots": [
   {
    "id": "s001",
    "start": 0,
-   "end": 15.1,
-   "line": "",
-   "scene": "dusk street: Peter Thiel complains to Elon",
+   "end": 1.38,
+   "line": "In 2017, Elon Musk",
+   "scene": "stage: Elon points up at a hovering flying car hologram, 2017",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.18,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.5,
+      "pose": "pointUp",
+      "expr": "smirk"
+     }
+    ],
+    "fx": [
+     "carHover"
+    ],
+    "labels": [
+     {
+      "s": "2017",
+      "at": 0.0,
+      "y": 0.1,
+      "size": 90
+     }
+    ]
+   }
+  },
+  {
+   "id": "s002",
+   "start": 1.38,
+   "end": 4.37,
+   "line": "promised a car that could fly.",
+   "scene": "Elon giant face, smug: IT WILL FLY",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "ELON",
+    "set": "stage",
+    "expr": "smirk",
+    "talk": true,
+    "bubble": {
+     "s": "IT WILL FLY.",
+     "at": 0.2
+    }
+   }
+  },
+  {
+   "id": "s003",
+   "start": 4.37,
+   "end": 5.82,
+   "line": "Everyone laughed.",
+   "scene": "crowd laughing HAHA",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "crowdLaugh"
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -18
+   }
+  },
+  {
+   "id": "s004",
+   "start": 5.82,
+   "end": 7.13,
+   "line": "Nine years later...",
+   "scene": "calendar flips 2017 to 2026",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "counter",
+     "gain": -12
+    },
+    {
+     "at": 1.1,
+     "name": "ding",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "board",
+    "kind": "years",
+    "from": 2017,
+    "to": 2026,
+    "sub": "9 YEARS LATER"
+   }
+  },
+  {
+   "id": "s005",
+   "start": 7.13,
+   "end": 8.93,
+   "line": "he actually did it.",
+   "scene": "the red car flies across the dusk sky, jets blasting",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -6
+    },
+    {
+     "at": 0.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1,
+     1.05,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.3,
+      "pose": "cheer",
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "carFly"
+    ],
+    "carY": 0.32,
+    "labels": [
+     {
+      "s": "HE DID IT",
+      "at": 0.6,
+      "y": 0.14,
+      "c": "good"
+     }
+    ]
+   }
+  },
+  {
+   "id": "s006",
+   "start": 8.93,
+   "end": 9.9,
+   "line": "Kind of.",
+   "scene": "Elon giant face, awkward",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "ELON",
+    "set": "site",
+    "expr": "confused",
+    "tilt": 0.1,
+    "labels": [
+     {
+      "s": "...KIND OF",
+      "at": 0.1,
+      "y": 0.18
+     }
+    ]
+   }
+  },
+  {
+   "id": "s007",
+   "start": 9.9,
+   "end": 12.49,
+   "line": "It started because his friend Peter Thiel complained",
+   "scene": "Peter Thiel complains to Elon",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "blip",
+     "gain": -12
+    },
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
    "params": {
     "tpl": "scene",
     "set": "street",
     "mood": "dusk",
     "cam": [
      1,
-     1.06,
+     1.08,
      0,
      0
     ],
@@ -43,7 +280,7 @@
      {
       "s": "PETER THIEL",
       "at": 0.2,
-      "y": 0.2,
+      "y": 0.22,
       "x": 0.32,
       "size": 46
      }
@@ -51,33 +288,997 @@
    }
   },
   {
-   "id": "s002",
-   "start": 15.1,
-   "end": 26.3,
-   "line": "",
-   "scene": "Elon giant face smirks: FINE. I'LL MAKE YOU ONE.",
+   "id": "s008",
+   "start": 12.49,
+   "end": 15.08,
+   "line": "the future was supposed to have flying cars.",
+   "scene": "retro-future city with flying cars in the sky, Peter looks up",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1.06,
+     1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "PETER",
+      "x": 0.5,
+      "pose": "pointUp",
+      "expr": "sad",
+      "look": [
+       0,
+       -1
+      ]
+     }
+    ],
+    "fx": [
+     "carsSky"
+    ],
+    "labels": [
+     {
+      "s": "THE FUTURE WE WERE PROMISED",
+      "at": 0.2,
+      "y": 0.08,
+      "size": 46
+     }
+    ]
+   }
+  },
+  {
+   "id": "s009",
+   "start": 15.08,
+   "end": 16.75,
+   "line": "So Elon basically said: fine.",
+   "scene": "Elon giant face: FINE.",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
    "params": {
     "tpl": "face",
     "c": "ELON",
     "set": "street",
-    "mood": "dusk",
     "expr": "smirk",
-    "talk": false,
+    "talk": true,
     "bubble": {
-     "s": "FINE. I'LL MAKE YOU ONE.",
-     "at": 0.1
+     "s": "FINE.",
+     "at": 0.6
     }
    }
   },
   {
-   "id": "s003",
-   "start": 26.3,
-   "end": 72.7,
-   "line": "",
-   "scene": "3D: car blasts off a steel ramp at a rocket site and barrel rolls",
+   "id": "s010",
+   "start": 16.75,
+   "end": 18.63,
+   "line": "I'll make you one.",
+   "scene": "Elon points at Peter: I'LL MAKE YOU ONE",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1.06,
+     1.14,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.36,
+      "pose": "point",
+      "expr": "determined",
+      "talk": true
+     },
+     {
+      "c": "PETER",
+      "x": 0.68,
+      "pose": "holdFront",
+      "f": -1,
+      "expr": "surprised"
+     }
+    ],
+    "fx": [
+     "ring"
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "I'LL MAKE YOU ONE.",
+     "at": 0.05
+    }
+   }
+  },
+  {
+   "id": "s011",
+   "start": 18.63,
+   "end": 22.67,
+   "line": "Which is funny, because Elon used to say flying cars were terrifying...",
+   "scene": "Elon terrified as cars buzz overhead",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 1.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.5,
+      "pose": "handsOnHead",
+      "expr": "scared",
+      "look": [
+       0,
+       -1
+      ]
+     }
+    ],
+    "fx": [
+     "carsSky"
+    ],
+    "labels": [
+     {
+      "s": "ELON: FLYING CARS = TERRIFYING",
+      "at": 1.6,
+      "y": 0.12,
+      "size": 44
+     }
+    ]
+   }
+  },
+  {
+   "id": "s012",
+   "start": 22.67,
+   "end": 24.84,
+   "line": "because a loose hubcap could fall off and",
+   "scene": "a hubcap pops off a flying car and drops",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.5,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1,
+     1.04,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "EXTRA",
+      "x": 0.3,
+      "pose": "phone",
+      "prop": "phone",
+      "expr": "neutral"
+     }
+    ],
+    "fx": [
+     "hubFall"
+    ],
+    "labels": [
+     {
+      "s": "LOOSE HUBCAP",
+      "at": 0.5,
+      "y": 0.08
+     }
+    ]
+   }
+  },
+  {
+   "id": "s013",
+   "start": 24.84,
+   "end": 26.34,
+   "line": "slice you in half.",
+   "scene": "a spinning hubcap whizzes in, the guy dives away",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "swish",
+     "gain": -6
+    },
+    {
+     "at": 0.5,
+     "name": "whoosh",
+     "gain": -6
+    },
+    {
+     "at": 0.7,
+     "name": "pop",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "EXTRA",
+      "x": 0.32,
+      "pose": "stand",
+      "poses": [
+       [
+        0,
+        "phone"
+       ],
+       [
+        0.5,
+        "dive"
+       ]
+      ],
+      "expr": "shocked",
+      "exprs": [
+       [
+        0,
+        "neutral"
+       ],
+       [
+        0.5,
+        "shocked"
+       ]
+      ]
+     }
+    ],
+    "fx": [
+     "hubSlice"
+    ],
+    "labels": [
+     {
+      "s": "SLICE!",
+      "at": 0.7,
+      "y": 0.22,
+      "c": "red",
+      "size": 90
+     }
+    ]
+   }
+  },
+  {
+   "id": "s014",
+   "start": 26.34,
+   "end": 28.25,
+   "line": "So how does it fly?",
+   "scene": "blueprint: car outline with a big question mark",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "plan",
+    "step": 0
+   }
+  },
+  {
+   "id": "s015",
+   "start": 28.25,
+   "end": 28.91,
+   "line": "No wings.",
+   "scene": "blueprint: wings crossed out",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "plan",
+    "step": 1
+   }
+  },
+  {
+   "id": "s016",
+   "start": 28.91,
+   "end": 30.17,
+   "line": "No propellers.",
+   "scene": "blueprint: propellers crossed out",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "plan",
+    "step": 2
+   }
+  },
+  {
+   "id": "s017",
+   "start": 30.17,
+   "end": 33.54,
+   "line": "Just ten nozzles blasting ultra high-pressure air...",
+   "scene": "blueprint: 10 nozzles light up one by one",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "plan",
+    "step": 3
+   }
+  },
+  {
+   "id": "s018",
+   "start": 33.54,
+   "end": 36.07,
+   "line": "like a rocket strapped to a sports car.",
+   "scene": "the car with a rocket flame roaring on stage",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -6
+    },
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "mood": "dusk",
+    "cam": [
+     1.15,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "rocketCar",
+     "speed"
+    ],
+    "labels": [
+     {
+      "s": "ROCKET + SPORTS CAR",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s019",
+   "start": 36.07,
+   "end": 39.14,
+   "line": "On demo day, at a SpaceX rocket site in Texas,",
+   "scene": "Texas launch site at dusk, crowd behind barrier",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.0,
+     1.1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.3,
+      "pose": "explain",
+      "expr": "smile",
+      "talk": true
+     }
+    ],
+    "fx": [
+     "crowdLaugh"
+    ],
+    "quiet": true,
+    "labels": [
+     {
+      "s": "DEMO DAY · TEXAS",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -18
+   }
+  },
+  {
+   "id": "s020",
+   "start": 39.14,
+   "end": 43.44,
+   "line": "the car shot off a steel ramp... did a full barrel roll in midair...",
+   "scene": "3D: car blasts off the steel ramp and barrel rolls",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "riser",
+     "gain": -8
+    },
+    {
+     "at": 0.3,
+     "name": "whoosh",
+     "gain": -4
+    },
+    {
+     "at": 1.6,
+     "name": "whoosh",
+     "gain": -6
+    }
+   ],
    "params": {
     "tpl": "roll3d"
    }
+  },
+  {
+   "id": "s021",
+   "start": 43.44,
+   "end": 45.29,
+   "line": "and landed on its wheels.",
+   "scene": "the car slams down on its wheels, dust",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.5,
+     "name": "impact",
+     "gain": -6
+    },
+    {
+     "at": 0.7,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.12,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "carGround"
+    ],
+    "land": true,
+    "marks": [
+     {
+      "k": "c",
+      "x": 0.8,
+      "y": 0.2,
+      "at": 0.7
+     }
+    ],
+    "labels": [
+     {
+      "s": "STUCK THE LANDING",
+      "at": 0.6,
+      "y": 0.14,
+      "c": "good"
+     }
+    ]
+   }
+  },
+  {
+   "id": "s022",
+   "start": 45.29,
+   "end": 47.58,
+   "line": "Oh, and nobody was inside.",
+   "scene": "close on the car: the seat is empty",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.25,
+     1.35,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "carGround"
+    ],
+    "empty": true,
+    "labels": [
+     {
+      "s": "NOBODY INSIDE",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s023",
+   "start": 47.58,
+   "end": 50.36,
+   "line": "Elon said that was so they didn't kill anyone.",
+   "scene": "Elon giant face, grinning: so we don't kill anyone",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "ELON",
+    "set": "site",
+    "expr": "smirk",
+    "talk": true,
+    "bubble": {
+     "s": "SO WE DON'T KILL ANYONE",
+     "at": 0.2
+    }
+   }
+  },
+  {
+   "id": "s024",
+   "start": 50.36,
+   "end": 53.58,
+   "line": "It goes zero to sixty in under one second.",
+   "scene": "speedometer slams 0 to 60 in under a second",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "counter",
+     "gain": -10
+    },
+    {
+     "at": 1.3,
+     "name": "impact",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "board",
+    "kind": "speed"
+   }
+  },
+  {
+   "id": "s025",
+   "start": 53.58,
+   "end": 57.28,
+   "line": "Elon admitted it's not exactly a safety-optimized car...",
+   "scene": "Elon shrugs, warning sign",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.05,
+     1.12,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ELON",
+      "x": 0.42,
+      "pose": "shrug",
+      "expr": "nervous",
+      "talk": true
+     }
+    ],
+    "fx": [
+     "warn"
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "NOT EXACTLY SAFE...",
+     "at": 0.3
+    }
+   }
+  },
+  {
+   "id": "s026",
+   "start": 57.28,
+   "end": 59.79,
+   "line": "and might not even be legal everywhere.",
+   "scene": "the car with a NOT LEGAL? stamp",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "impact",
+     "gain": -8
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "veil": 0.3,
+    "cam": [
+     1.06,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "carGround",
+     "stamp"
+    ],
+    "stamp": "NOT LEGAL?",
+    "stampAt": 0.2
+   }
+  },
+  {
+   "id": "s027",
+   "start": 59.79,
+   "end": 62.22,
+   "line": "The crowd kept yelling, \"How much?\"",
+   "scene": "crowd yelling HOW MUCH?",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "scene",
+    "set": "site",
+    "cam": [
+     1.0,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "crowdLaugh"
+    ],
+    "yell": true
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -18
+   }
+  },
+  {
+   "id": "s028",
+   "start": 62.22,
+   "end": 63.55,
+   "line": "Nobody answered.",
+   "scene": "Elon giant face, silent, crickets",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "face",
+    "c": "ELON",
+    "set": "site",
+    "expr": "thinking",
+    "look": [
+     1,
+     0
+    ],
+    "fx": [
+     "crickets"
+    ]
+   }
+  },
+  {
+   "id": "s029",
+   "start": 63.55,
+   "end": 65.77,
+   "line": "Production starts in 2028.",
+   "scene": "calendar 2026 to 2028: production",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "counter",
+     "gain": -12
+    },
+    {
+     "at": 1.1,
+     "name": "ding",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "board",
+    "kind": "years",
+    "from": 2026,
+    "to": 2028,
+    "sub": "PRODUCTION STARTS"
+   }
+  },
+  {
+   "id": "s030",
+   "start": 65.77,
+   "end": 67.63,
+   "line": "So if you want a flying car...",
+   "scene": "a guy looks up as the flying car passes overhead",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -6
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "EXTRA",
+      "x": 0.5,
+      "pose": "holdFront",
+      "expr": "awe",
+      "look": [
+       0,
+       -1
+      ]
+     }
+    ],
+    "fx": [
+     "carFly"
+    ],
+    "carY": 0.22
+   }
+  },
+  {
+   "id": "s031",
+   "start": 67.63,
+   "end": 69.04,
+   "line": "start saving now.",
+   "scene": "piggy bank fills with coins",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "mood": "golden",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "piggy"
+    ],
+    "labels": [
+     {
+      "s": "START SAVING NOW",
+      "at": 0.2,
+      "y": 0.14,
+      "c": "good"
+     }
+    ]
+   }
+  },
+  {
+   "id": "s032",
+   "start": 69.04,
+   "end": 72.66,
+   "line": "And maybe check your hubcaps.",
+   "scene": "the car's hubcap wobbling loose, punchline",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1.3,
+     1.45,
+     120,
+     200
+    ],
+    "figs": [],
+    "fx": [
+     "carGround"
+    ],
+    "wobble": true,
+    "labels": [
+     {
+      "s": "CHECK YOUR HUBCAPS",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   }
+  }
+ ],
+ "music": [
+  {
+   "start": 0,
+   "end": 10,
+   "mood": "playful",
+   "intensity": 0.55
+  },
+  {
+   "start": 10,
+   "end": 26.3,
+   "mood": "mystery",
+   "intensity": 0.45
+  },
+  {
+   "start": 26.3,
+   "end": 36.1,
+   "mood": "wonder",
+   "intensity": 0.6
+  },
+  {
+   "start": 36.1,
+   "end": 50.4,
+   "mood": "action",
+   "intensity": 0.8
+  },
+  {
+   "start": 50.4,
+   "end": 63.6,
+   "mood": "tension",
+   "intensity": 0.6
+  },
+  {
+   "start": 63.6,
+   "end": 72.66,
+   "mood": "playful",
+   "intensity": 0.6
   }
  ]
 }

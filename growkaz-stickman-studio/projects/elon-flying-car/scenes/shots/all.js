@@ -224,6 +224,54 @@ const T3 = {
   },
 };
 
+// ---------- flying-car components ----------
+function hubcap(g, x, y, r, rot) { g.save(); g.translate(x, y); g.rotate(rot); circle(g, 0, 0, r, '#cfd6dc'); ring(g, 0, 0, r, r * 0.12, '#6a737c'); for (let i = 0; i < 5; i++) { const a = i * 1.2566; seg(g, [[0, 0], [Math.cos(a) * r * 0.85, Math.sin(a) * r * 0.85]], r * 0.14, '#8a939c'); } circle(g, 0, 0, r * 0.25, '#4a525a'); g.restore(); }
+function car2d(g, x, y, s, t, o = {}) {
+  g.save(); g.translate(x, y); g.rotate(o.tilt || 0); g.scale(s * (o.facing || 1), s);
+  if (o.jets) for (let i = 0; i < 5; i++) { const jx = -150 + i * 75, L = 120 + Math.sin(t * 40 + i) * 25; g.save(); g.globalCompositeOperation = 'lighter'; g.fillStyle = linGrad(g, 0, 10, 0, 10 + L, ['rgba(190,240,255,.85)', 'rgba(120,220,255,0)']); poly(g, [[jx - 14, 12], [jx + 14, 12], [jx + 30, 12 + L], [jx - 30, 12 + L]], g.fillStyle); g.restore(); glow(g, jx, 16, 40, '#bfe8ff', 0.5); }
+  if (o.flame) { g.save(); g.globalCompositeOperation = 'lighter'; for (let k = 0; k < 4; k++) glow(g, -260 - k * 50 - Math.sin(t * 30 + k) * 10, -40, 70 - k * 12, k % 2 ? '#ff7a2e' : '#ffd45a', 0.7); g.restore(); }
+  poly(g, [[-230, 0], [-230, -60], [-150, -80], [-70, -130], [70, -130], [150, -80], [235, -60], [240, 0]], '#c41d27');
+  poly(g, [[-55, -118], [60, -118], [125, -80], [-125, -80]], o.driver ? '#1a2a38' : '#9fd0f0');
+  if (o.driver) circle(g, 10, -100, 18, '#06110c');
+  seg(g, [[-230, -36], [240, -36]], 4, '#8a141c'); rr(g, 215, -52, 24, 14, 4); g.fillStyle = '#fff2c0'; g.fill(); glow(g, 240, -45, 50, '#fff2c0', 0.4);
+  for (const wx of [-140, 140]) { circle(g, wx, 0, 52, '#0c0e10'); if (!(o.hubcapOff && wx === 140)) hubcap(g, wx, 0, 30, (o.spin || 0) * t * 10 + (o.wobble && wx === 140 ? Math.sin(t * 20) * 0.4 : 0)); }
+  g.restore();
+}
+function speedo(g, cx, cy, r, v, u) { g.save(); g.lineCap = 'round'; g.strokeStyle = alpha(u.blueprint, 0.35); g.lineWidth = 28; g.beginPath(); g.arc(cx, cy, r, Math.PI * 0.8, Math.PI * 2.2); g.stroke(); g.strokeStyle = u.gold; g.beginPath(); g.arc(cx, cy, r, Math.PI * 0.8, Math.PI * (0.8 + 1.4 * v)); g.stroke(); const a = Math.PI * (0.8 + 1.4 * v); seg(g, [[cx, cy], [cx + Math.cos(a) * r * 0.85, cy + Math.sin(a) * r * 0.85]], 10, '#ff5a4e'); circle(g, cx, cy, 22, u.cream); text(g, String(Math.round(v * 60)), cx, cy + r * 0.5, { size: 150, font: FONTS.title, weight: 700, color: u.cream, glow: 20, glowColor: alpha(u.gold, 0.5) }); text(g, 'MPH', cx, cy + r * 0.85, { size: 44, font: FONTS.ui, weight: 900, color: u.sub || u.text }); g.restore(); }
+function piggy(g, x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = '#ff8ab0'; g.beginPath(); g.ellipse(0, 0, 150, 110, 0, 0, 7); g.fill(); circle(g, 150, -10, 45, '#ff8ab0'); circle(g, 175, -10, 22, '#e86a90'); circle(g, 90, -50, 10, '#06110c'); poly(g, [[60, -95], [90, -150], [110, -90]], '#ff8ab0'); for (const lx of [-80, -20, 40, 90]) { rr(g, lx - 15, 80, 30, 60, 8); g.fillStyle = '#e86a90'; g.fill(); } rr(g, -40, -112, 80, 12, 6); g.fillStyle = '#5a2a3a'; g.fill(); g.restore(); for (let i = 0; i < 4; i++) { const ph = (t * 1.1 + i * 0.25) % 1; const cy = y - 400 * s + ph * 300 * s; if (ph < 0.95) { circle(g, x, cy, 34 * s, '#ffd45a'); ring(g, x, cy, 34 * s, 5, '#c89a20'); } } }
+
+Object.assign(EX, {
+  carHover: { pre(g, t, c) { car2d(g, E.W / 2, c.GY - V(560, 900) + Math.sin(t * 2) * 20, 1.1, t, { jets: true, tilt: 0.04 * Math.sin(t * 1.5), driver: false }); } },
+  carFly: { post(g, t, c) { const k = clamp(t / c.o.dur); car2d(g, lerp(-300, E.W + 300, ease.inOut(k)), E.H * (c.o.carY ?? 0.3) - Math.sin(k * Math.PI) * 120, 1.0, t, { jets: true, tilt: -0.08, driver: !c.o.empty }); FX.speedLines(g, t, { a: 0.12 }); } },
+  carsSky: { pre(g, t, c) { for (let i = 0; i < 3; i++) { const x = ((t * (120 + i * 60) + i * 500) % (E.W + 600)) - 300; car2d(g, x, E.H * (0.16 + i * 0.1), 0.45 - i * 0.08, t, { jets: true, facing: 1 }); } } },
+  hubFall: { post(g, t, c) { const k = clamp(t / c.o.dur); const cx = E.W * 0.55 + k * 60; car2d(g, cx, E.H * 0.24, 0.9, t, { jets: true, hubcapOff: k > 0.15, driver: true }); if (k > 0.15) { const f = (k - 0.15) / 0.85; hubcap(g, cx + 126 + f * 120, E.H * 0.24 + f * f * E.H * 0.42, 30, t * 18); } } },
+  hubSlice: { post(g, t, c) { const k = clamp(t / 0.7); const x = lerp(E.W + 80, E.W * 0.3, ease.in(k)), y = lerp(E.H * 0.2, c.GY - 260, k); hubcap(g, x, y, 34, t * 30); for (let i = 1; i < 6; i++) hubcap(g, x + i * 30, y - i * 14, 34, t * 30 - i); if (k >= 1) { glow(g, E.W * 0.3, c.GY - 260, 200, '#ff5a4e', 0.3 * clamp(1 - (t - 0.7) * 2)); } } },
+  carGround: { pre(g, t, c) { const land = c.o.land ? ease.outBack(prog(t, 0, 0.6)) : 1; const y = c.GY - (1 - land) * 500; car2d(g, E.W / 2, y - 52, 1.05, t, { jets: !!c.o.land && t < 0.5, driver: !c.o.empty, wobble: c.o.wobble }); if (c.o.land) { const a = clamp(1 - Math.abs(t - 0.55) * 2); for (let i = 0; i < 8; i++) glow(g, E.W / 2 + (i - 3.5) * 70, c.GY - 10, 90 * a, '#c8b89a', 0.35 * a); } } },
+  rocketCar: { pre(g, t, c) { car2d(g, E.W / 2 + Math.sin(t * 30) * 3, c.GY - 52, 1.05, t, { flame: true, driver: true }); } },
+  crowdLaugh: { pre(g, t, c) { const r = rng(5); const n = 7; for (let i = 0; i < n; i++) { const x = E.W * (0.08 + i * 0.14); const pose = c.o.yell ? POSES.cheer : (i % 2 ? POSES.handsOnHead : POSES.crossArms); drawFigure(g, { x, y: c.GY + (i % 2) * 30, s: 1.25, facing: x < E.W / 2 ? 1 : -1, outfit: { top: 'tshirt', color: shade('#56606a', (r() - 0.5) * 0.5), head: ['none', 'cap', 'ponytail', 'bun'][i % 4], headColor: '#1a1a1a' }, pose: breathe(pose, t * 3, 1, i), expr: c.o.yell ? 'shocked' : 'joy', talk: 0.5 + 0.5 * Math.sin(t * 16 + i), rim: { color: c.M.rim, dir: [0, -1], w: 2 }, dim: 0.15 });
+      const a = c.o.quiet ? 0 : fadeIn(t, 0.1 + i * 0.12); if (a > 0 && i % 2 === 0) { g.save(); g.globalAlpha = a; UI.bubble(g, x, c.GY - 380 - (i % 3) * 40, { w: c.o.yell ? 230 : 160, h: 70, str: c.o.yell ? 'HOW MUCH?' : 'HAHA', color: '#f4efe6' }); g.restore(); } } } },
+  piggy: { pre(g, t, c) { piggy(g, E.W / 2, c.GY - 180, 1.4, t); } },
+  crickets: { post(g, t) { const a = 0.5 + 0.5 * Math.sin(t * 6); text(g, 'chirp... chirp...', E.W / 2, E.H * 0.24, { size: 46, font: FONTS.ui, weight: 800, color: alpha('#cfe6d0', 0.6 * a) }); } },
+  warn: { post(g, t, c) { const k = ease.outBack(prog(t, 0.3, 0.6)); if (k <= 0) return; g.save(); g.translate(E.W * 0.8, E.H * 0.22); g.scale(k, k); poly(g, [[0, -90], [95, 75], [-95, 75]], '#ffd45a'); text(g, '!', 0, 20, { size: 120, font: FONTS.title, weight: 700, color: '#111' }); g.restore(); } },
+});
+Object.assign(BOARD, {
+  plan(g, t, o, bp, u) { const cx = E.W / 2, cy = E.H * 0.42, s = 1.6;
+    g.save(); g.translate(cx, cy); g.scale(s, s); g.strokeStyle = bp; g.lineWidth = 3;
+    g.beginPath(); [[-230, 0], [-230, -60], [-150, -80], [-70, -130], [70, -130], [150, -80], [235, -60], [240, 0], [-230, 0]].forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); for (const wx of [-140, 140]) ring(g, wx, 0, 52, 3, bp);
+    const step = o.step || 0;
+    if (step === 1 || step === 0) { g.globalAlpha = 0.9; poly(g, [[-60, -70], [-260, -170], [-40, -110]], alpha(bp, 0.25)); poly(g, [[60, -70], [260, -170], [40, -110]], alpha(bp, 0.25)); g.globalAlpha = 1; }
+    if (step === 2) for (const px of [-160, 160]) { seg(g, [[px, -130], [px, -170]], 4, bp); g.save(); g.translate(px, -175); g.rotate(t * 20); seg(g, [[-70, 0], [70, 0]], 8, alpha(bp, 0.8)); g.restore(); }
+    if (step === 3) { const n = Math.min(10, Math.floor(prog(t, 0.2, 2.2) * 10.99)); for (let i = 0; i < 5; i++) { const on = i * 2 < n; const jx = -170 + i * 85; if (on) { g.save(); g.globalCompositeOperation = 'lighter'; poly(g, [[jx - 12, 4], [jx + 12, 4], [jx + 26, 130], [jx - 26, 130]], 'rgba(190,240,255,.5)'); g.restore(); } circle(g, jx, 4, 9, on ? u.gold : alpha(bp, 0.5)); } g.restore(); text(g, String(Math.max(n, 0)), E.W * 0.82, E.H * 0.24, { size: 160, font: FONTS.title, weight: 700, color: u.gold, glow: 20, glowColor: alpha(u.gold, 0.5) }); text(g, 'NOZZLES', E.W * 0.82, E.H * 0.31, { size: 40, font: FONTS.ui, weight: 900, color: bp }); T(g, 'ULTRA HIGH-PRESSURE AIR', cx, E.H * 0.66, { c: u.gold, a: fadeIn(t, 1.2) }); return; }
+    g.restore();
+    if (step === 0) text(g, '?', cx, E.H * 0.2, { size: 220, font: FONTS.title, weight: 700, color: u.gold, alpha: fadeIn(t, 0.2), glow: 20, glowColor: alpha(u.gold, 0.5) });
+    if (step === 1) { T(g, 'WINGS', cx, E.H * 0.22, { c: bp }); xMark(g, cx, E.H * 0.33, 110, prog(t, 0.15, 0.45)); }
+    if (step === 2) { T(g, 'PROPELLERS', cx, E.H * 0.22, { c: bp }); xMark(g, cx, E.H * 0.33, 110, prog(t, 0.15, 0.45)); }
+    T(g, 'HOW IT FLIES', cx, E.H * 0.08, { c: alpha(bp, 0.8) });
+  },
+  speed(g, t, o, bp, u) { const v = ease.out(prog(t, 0.3, 1.3)); speedo(g, E.W / 2, E.H * 0.38, 300, v, u); T(g, '0 → 60 MPH', E.W / 2, E.H * 0.1, { c: bp }); text(g, (v * 0.9).toFixed(2) + ' s', E.W / 2, E.H * 0.66, { size: 110, font: FONTS.title, weight: 700, color: u.gold, glow: 16, glowColor: alpha(u.gold, 0.5) }); T(g, 'UNDER ONE SECOND', E.W / 2, E.H * 0.74, { c: u.good, a: fadeIn(t, 1.4) }); },
+  years(g, t, o, bp, u) { const k = ease.inOut(prog(t, 0.2, 1.1)); const yr = Math.round(lerp(o.from, o.to, k)); calendar(g, E.W / 2, E.H * 0.38, 2.4, String(yr)); if (o.sub) T(g, o.sub, E.W / 2, E.H * 0.6, { c: u.gold, a: fadeIn(t, 0.9) }); },
+});
+
 // ---------- register every shot from shots.json ----------
 for (const sh of E.shots) {
   const p = sh.params || {};
