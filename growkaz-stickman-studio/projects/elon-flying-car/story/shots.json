@@ -1,0 +1,83 @@
+{
+ "title": "How Elon Built A Flying Car",
+ "duration": 72.7,
+ "shots": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 15.1,
+   "line": "",
+   "scene": "dusk street: Peter Thiel complains to Elon",
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "PETER",
+      "x": 0.32,
+      "pose": "shrug",
+      "expr": "frown",
+      "talk": true
+     },
+     {
+      "c": "ELON",
+      "x": 0.68,
+      "pose": "crossArms",
+      "f": -1,
+      "expr": "neutral"
+     }
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "WHERE ARE THE FLYING CARS?",
+     "at": 0.1
+    },
+    "labels": [
+     {
+      "s": "PETER THIEL",
+      "at": 0.2,
+      "y": 0.2,
+      "x": 0.32,
+      "size": 46
+     }
+    ]
+   }
+  },
+  {
+   "id": "s002",
+   "start": 15.1,
+   "end": 26.3,
+   "line": "",
+   "scene": "Elon giant face smirks: FINE. I'LL MAKE YOU ONE.",
+   "params": {
+    "tpl": "face",
+    "c": "ELON",
+    "set": "street",
+    "mood": "dusk",
+    "expr": "smirk",
+    "talk": false,
+    "bubble": {
+     "s": "FINE. I'LL MAKE YOU ONE.",
+     "at": 0.1
+    }
+   }
+  },
+  {
+   "id": "s003",
+   "start": 26.3,
+   "end": 72.7,
+   "line": "",
+   "scene": "3D: car blasts off a steel ramp at a rocket site and barrel rolls",
+   "params": {
+    "tpl": "roll3d"
+   }
+  }
+ ]
+}

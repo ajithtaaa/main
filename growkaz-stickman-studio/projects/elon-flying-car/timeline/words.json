@@ -1,0 +1,945 @@
+{
+ "source": "silence-align",
+ "words": [
+  {
+   "word": "In",
+   "start": 0.0,
+   "end": 0.242
+  },
+  {
+   "word": "2017,",
+   "start": 0.242,
+   "end": 0.725
+  },
+  {
+   "word": "Elon",
+   "start": 0.725,
+   "end": 1.128
+  },
+  {
+   "word": "Musk",
+   "start": 1.128,
+   "end": 1.531
+  },
+  {
+   "word": "promised",
+   "start": 1.531,
+   "end": 2.256
+  },
+  {
+   "word": "a",
+   "start": 2.256,
+   "end": 2.417
+  },
+  {
+   "word": "car",
+   "start": 2.417,
+   "end": 2.739
+  },
+  {
+   "word": "that",
+   "start": 2.739,
+   "end": 3.142
+  },
+  {
+   "word": "could",
+   "start": 3.142,
+   "end": 3.625
+  },
+  {
+   "word": "fly.",
+   "start": 3.625,
+   "end": 4.028
+  },
+  {
+   "word": "Everyone",
+   "start": 4.518,
+   "end": 5.033
+  },
+  {
+   "word": "laughed.",
+   "start": 5.033,
+   "end": 5.548
+  },
+  {
+   "word": "Nine",
+   "start": 5.969,
+   "end": 6.193
+  },
+  {
+   "word": "years",
+   "start": 6.193,
+   "end": 6.463
+  },
+  {
+   "word": "later...",
+   "start": 6.463,
+   "end": 6.868
+  },
+  {
+   "word": "he",
+   "start": 7.279,
+   "end": 7.468
+  },
+  {
+   "word": "actually",
+   "start": 7.468,
+   "end": 8.033
+  },
+  {
+   "word": "did",
+   "start": 8.033,
+   "end": 8.284
+  },
+  {
+   "word": "it.",
+   "start": 8.284,
+   "end": 8.535
+  },
+  {
+   "word": "Kind",
+   "start": 9.077,
+   "end": 9.336
+  },
+  {
+   "word": "of.",
+   "start": 9.336,
+   "end": 9.543
+  },
+  {
+   "word": "It",
+   "start": 10.05,
+   "end": 10.196
+  },
+  {
+   "word": "started",
+   "start": 10.196,
+   "end": 10.587
+  },
+  {
+   "word": "because",
+   "start": 10.587,
+   "end": 10.977
+  },
+  {
+   "word": "his",
+   "start": 10.977,
+   "end": 11.173
+  },
+  {
+   "word": "friend",
+   "start": 11.173,
+   "end": 11.514
+  },
+  {
+   "word": "Peter",
+   "start": 11.514,
+   "end": 11.807
+  },
+  {
+   "word": "Thiel",
+   "start": 11.807,
+   "end": 12.1
+  },
+  {
+   "word": "complained",
+   "start": 12.1,
+   "end": 12.637
+  },
+  {
+   "word": "the",
+   "start": 12.637,
+   "end": 12.832
+  },
+  {
+   "word": "future",
+   "start": 12.832,
+   "end": 13.174
+  },
+  {
+   "word": "was",
+   "start": 13.174,
+   "end": 13.369
+  },
+  {
+   "word": "supposed",
+   "start": 13.369,
+   "end": 13.809
+  },
+  {
+   "word": "to",
+   "start": 13.809,
+   "end": 13.955
+  },
+  {
+   "word": "have",
+   "start": 13.955,
+   "end": 14.199
+  },
+  {
+   "word": "flying",
+   "start": 14.199,
+   "end": 14.541
+  },
+  {
+   "word": "cars.",
+   "start": 14.541,
+   "end": 14.834
+  },
+  {
+   "word": "So",
+   "start": 15.231,
+   "end": 15.374
+  },
+  {
+   "word": "Elon",
+   "start": 15.374,
+   "end": 15.613
+  },
+  {
+   "word": "basically",
+   "start": 15.613,
+   "end": 16.09
+  },
+  {
+   "word": "said:",
+   "start": 16.09,
+   "end": 16.377
+  },
+  {
+   "word": "fine.",
+   "start": 16.377,
+   "end": 16.663
+  },
+  {
+   "word": "I'll",
+   "start": 16.902,
+   "end": 17.114
+  },
+  {
+   "word": "make",
+   "start": 17.114,
+   "end": 17.325
+  },
+  {
+   "word": "you",
+   "start": 17.594,
+   "end": 17.878
+  },
+  {
+   "word": "one.",
+   "start": 17.878,
+   "end": 18.232
+  },
+  {
+   "word": "Which",
+   "start": 18.777,
+   "end": 19.087
+  },
+  {
+   "word": "is",
+   "start": 19.087,
+   "end": 19.242
+  },
+  {
+   "word": "funny,",
+   "start": 19.242,
+   "end": 19.603
+  },
+  {
+   "word": "because",
+   "start": 19.603,
+   "end": 20.016
+  },
+  {
+   "word": "Elon",
+   "start": 20.016,
+   "end": 20.274
+  },
+  {
+   "word": "used",
+   "start": 20.274,
+   "end": 20.532
+  },
+  {
+   "word": "to",
+   "start": 20.532,
+   "end": 20.687
+  },
+  {
+   "word": "say",
+   "start": 20.687,
+   "end": 20.893
+  },
+  {
+   "word": "flying",
+   "start": 20.893,
+   "end": 21.255
+  },
+  {
+   "word": "cars",
+   "start": 21.255,
+   "end": 21.513
+  },
+  {
+   "word": "were",
+   "start": 21.513,
+   "end": 21.771
+  },
+  {
+   "word": "terrifying...",
+   "start": 21.771,
+   "end": 22.493
+  },
+  {
+   "word": "because",
+   "start": 22.817,
+   "end": 23.231
+  },
+  {
+   "word": "a",
+   "start": 23.231,
+   "end": 23.334
+  },
+  {
+   "word": "loose",
+   "start": 23.334,
+   "end": 23.645
+  },
+  {
+   "word": "hubcap",
+   "start": 23.645,
+   "end": 24.007
+  },
+  {
+   "word": "could",
+   "start": 24.007,
+   "end": 24.317
+  },
+  {
+   "word": "fall",
+   "start": 24.317,
+   "end": 24.576
+  },
+  {
+   "word": "off",
+   "start": 24.576,
+   "end": 24.783
+  },
+  {
+   "word": "and",
+   "start": 24.783,
+   "end": 24.99
+  },
+  {
+   "word": "slice",
+   "start": 24.99,
+   "end": 25.3
+  },
+  {
+   "word": "you",
+   "start": 25.3,
+   "end": 25.507
+  },
+  {
+   "word": "in",
+   "start": 25.507,
+   "end": 25.662
+  },
+  {
+   "word": "half.",
+   "start": 25.662,
+   "end": 25.973
+  },
+  {
+   "word": "So",
+   "start": 26.485,
+   "end": 26.7
+  },
+  {
+   "word": "how",
+   "start": 26.7,
+   "end": 26.987
+  },
+  {
+   "word": "does",
+   "start": 26.987,
+   "end": 27.346
+  },
+  {
+   "word": "it",
+   "start": 27.346,
+   "end": 27.561
+  },
+  {
+   "word": "fly?",
+   "start": 27.561,
+   "end": 27.92
+  },
+  {
+   "word": "No",
+   "start": 28.402,
+   "end": 28.598
+  },
+  {
+   "word": "wings.",
+   "start": 28.598,
+   "end": 29.055
+  },
+  {
+   "word": "No",
+   "start": 29.055,
+   "end": 29.251
+  },
+  {
+   "word": "propellers.",
+   "start": 29.251,
+   "end": 30.035
+  },
+  {
+   "word": "Just",
+   "start": 30.32,
+   "end": 30.606
+  },
+  {
+   "word": "ten",
+   "start": 30.606,
+   "end": 30.835
+  },
+  {
+   "word": "nozzles",
+   "start": 30.835,
+   "end": 31.292
+  },
+  {
+   "word": "blasting",
+   "start": 31.292,
+   "end": 31.806
+  },
+  {
+   "word": "ultra",
+   "start": 31.806,
+   "end": 32.149
+  },
+  {
+   "word": "high-pressure",
+   "start": 32.149,
+   "end": 32.95
+  },
+  {
+   "word": "air...",
+   "start": 32.95,
+   "end": 33.35
+  },
+  {
+   "word": "like",
+   "start": 33.691,
+   "end": 33.934
+  },
+  {
+   "word": "a",
+   "start": 33.934,
+   "end": 34.032
+  },
+  {
+   "word": "rocket",
+   "start": 34.032,
+   "end": 34.372
+  },
+  {
+   "word": "strapped",
+   "start": 34.372,
+   "end": 34.81
+  },
+  {
+   "word": "to",
+   "start": 34.81,
+   "end": 34.955
+  },
+  {
+   "word": "a",
+   "start": 34.955,
+   "end": 35.053
+  },
+  {
+   "word": "sports",
+   "start": 35.053,
+   "end": 35.393
+  },
+  {
+   "word": "car.",
+   "start": 35.393,
+   "end": 35.636
+  },
+  {
+   "word": "On",
+   "start": 36.223,
+   "end": 36.4
+  },
+  {
+   "word": "demo",
+   "start": 36.4,
+   "end": 36.696
+  },
+  {
+   "word": "day,",
+   "start": 36.696,
+   "end": 36.992
+  },
+  {
+   "word": "at",
+   "start": 36.992,
+   "end": 37.169
+  },
+  {
+   "word": "a",
+   "start": 37.169,
+   "end": 37.287
+  },
+  {
+   "word": "SpaceX",
+   "start": 37.287,
+   "end": 37.701
+  },
+  {
+   "word": "rocket",
+   "start": 37.701,
+   "end": 38.115
+  },
+  {
+   "word": "site",
+   "start": 38.115,
+   "end": 38.411
+  },
+  {
+   "word": "in",
+   "start": 38.411,
+   "end": 38.588
+  },
+  {
+   "word": "Texas,",
+   "start": 38.588,
+   "end": 39.002
+  },
+  {
+   "word": "the",
+   "start": 39.29,
+   "end": 39.491
+  },
+  {
+   "word": "car",
+   "start": 39.491,
+   "end": 39.691
+  },
+  {
+   "word": "shot",
+   "start": 39.691,
+   "end": 39.941
+  },
+  {
+   "word": "off",
+   "start": 39.941,
+   "end": 40.142
+  },
+  {
+   "word": "a",
+   "start": 40.142,
+   "end": 40.242
+  },
+  {
+   "word": "steel",
+   "start": 40.242,
+   "end": 40.542
+  },
+  {
+   "word": "ramp...",
+   "start": 40.542,
+   "end": 40.943
+  },
+  {
+   "word": "did",
+   "start": 41.264,
+   "end": 41.494
+  },
+  {
+   "word": "a",
+   "start": 41.494,
+   "end": 41.608
+  },
+  {
+   "word": "full",
+   "start": 41.608,
+   "end": 41.896
+  },
+  {
+   "word": "barrel",
+   "start": 41.896,
+   "end": 42.298
+  },
+  {
+   "word": "roll",
+   "start": 42.298,
+   "end": 42.585
+  },
+  {
+   "word": "in",
+   "start": 42.585,
+   "end": 42.757
+  },
+  {
+   "word": "midair...",
+   "start": 42.757,
+   "end": 43.331
+  },
+  {
+   "word": "and",
+   "start": 43.585,
+   "end": 43.812
+  },
+  {
+   "word": "landed",
+   "start": 43.812,
+   "end": 44.208
+  },
+  {
+   "word": "on",
+   "start": 44.208,
+   "end": 44.378
+  },
+  {
+   "word": "its",
+   "start": 44.378,
+   "end": 44.604
+  },
+  {
+   "word": "wheels.",
+   "start": 44.604,
+   "end": 45.057
+  },
+  {
+   "word": "Oh,",
+   "start": 45.439,
+   "end": 45.615
+  },
+  {
+   "word": "and",
+   "start": 45.827,
+   "end": 46.075
+  },
+  {
+   "word": "nobody",
+   "start": 46.075,
+   "end": 46.51
+  },
+  {
+   "word": "was",
+   "start": 46.51,
+   "end": 46.758
+  },
+  {
+   "word": "inside.",
+   "start": 46.758,
+   "end": 47.254
+  },
+  {
+   "word": "Elon",
+   "start": 47.728,
+   "end": 47.969
+  },
+  {
+   "word": "said",
+   "start": 47.969,
+   "end": 48.21
+  },
+  {
+   "word": "that",
+   "start": 48.21,
+   "end": 48.452
+  },
+  {
+   "word": "was",
+   "start": 48.452,
+   "end": 48.645
+  },
+  {
+   "word": "so",
+   "start": 48.645,
+   "end": 48.789
+  },
+  {
+   "word": "they",
+   "start": 48.789,
+   "end": 49.031
+  },
+  {
+   "word": "didn't",
+   "start": 49.031,
+   "end": 49.368
+  },
+  {
+   "word": "kill",
+   "start": 49.368,
+   "end": 49.609
+  },
+  {
+   "word": "anyone.",
+   "start": 49.609,
+   "end": 49.995
+  },
+  {
+   "word": "It",
+   "start": 50.51,
+   "end": 50.701
+  },
+  {
+   "word": "goes",
+   "start": 50.701,
+   "end": 51.019
+  },
+  {
+   "word": "zero",
+   "start": 51.019,
+   "end": 51.336
+  },
+  {
+   "word": "to",
+   "start": 51.336,
+   "end": 51.527
+  },
+  {
+   "word": "sixty",
+   "start": 51.527,
+   "end": 51.908
+  },
+  {
+   "word": "in",
+   "start": 51.908,
+   "end": 52.099
+  },
+  {
+   "word": "under",
+   "start": 52.099,
+   "end": 52.481
+  },
+  {
+   "word": "one",
+   "start": 52.481,
+   "end": 52.735
+  },
+  {
+   "word": "second.",
+   "start": 52.735,
+   "end": 53.243
+  },
+  {
+   "word": "Elon",
+   "start": 53.727,
+   "end": 54.029
+  },
+  {
+   "word": "admitted",
+   "start": 54.029,
+   "end": 54.571
+  },
+  {
+   "word": "it's",
+   "start": 54.571,
+   "end": 54.873
+  },
+  {
+   "word": "not",
+   "start": 54.873,
+   "end": 55.114
+  },
+  {
+   "word": "exactly",
+   "start": 55.114,
+   "end": 55.596
+  },
+  {
+   "word": "a",
+   "start": 55.596,
+   "end": 55.716
+  },
+  {
+   "word": "safety-optimized",
+   "start": 55.716,
+   "end": 56.741
+  },
+  {
+   "word": "car...",
+   "start": 56.741,
+   "end": 57.163
+  },
+  {
+   "word": "and",
+   "start": 57.431,
+   "end": 57.627
+  },
+  {
+   "word": "might",
+   "start": 57.627,
+   "end": 57.922
+  },
+  {
+   "word": "not",
+   "start": 57.922,
+   "end": 58.119
+  },
+  {
+   "word": "even",
+   "start": 58.119,
+   "end": 58.365
+  },
+  {
+   "word": "be",
+   "start": 58.365,
+   "end": 58.513
+  },
+  {
+   "word": "legal",
+   "start": 58.513,
+   "end": 58.808
+  },
+  {
+   "word": "everywhere.",
+   "start": 58.808,
+   "end": 59.398
+  },
+  {
+   "word": "The",
+   "start": 59.94,
+   "end": 60.109
+  },
+  {
+   "word": "crowd",
+   "start": 60.109,
+   "end": 60.364
+  },
+  {
+   "word": "kept",
+   "start": 60.364,
+   "end": 60.576
+  },
+  {
+   "word": "yelling,",
+   "start": 60.576,
+   "end": 60.957
+  },
+  {
+   "word": "\"How",
+   "start": 61.2,
+   "end": 61.503
+  },
+  {
+   "word": "much?\"",
+   "start": 61.503,
+   "end": 61.927
+  },
+  {
+   "word": "Nobody",
+   "start": 62.37,
+   "end": 62.717
+  },
+  {
+   "word": "answered.",
+   "start": 62.717,
+   "end": 63.213
+  },
+  {
+   "word": "Production",
+   "start": 63.7,
+   "end": 64.464
+  },
+  {
+   "word": "starts",
+   "start": 64.464,
+   "end": 64.95
+  },
+  {
+   "word": "in",
+   "start": 64.95,
+   "end": 65.159
+  },
+  {
+   "word": "2028.",
+   "start": 65.159,
+   "end": 65.576
+  },
+  {
+   "word": "So",
+   "start": 65.923,
+   "end": 66.079
+  },
+  {
+   "word": "if",
+   "start": 66.079,
+   "end": 66.235
+  },
+  {
+   "word": "you",
+   "start": 66.235,
+   "end": 66.443
+  },
+  {
+   "word": "want",
+   "start": 66.443,
+   "end": 66.703
+  },
+  {
+   "word": "a",
+   "start": 66.703,
+   "end": 66.807
+  },
+  {
+   "word": "flying",
+   "start": 66.807,
+   "end": 67.172
+  },
+  {
+   "word": "car...",
+   "start": 67.172,
+   "end": 67.536
+  },
+  {
+   "word": "start",
+   "start": 67.779,
+   "end": 68.122
+  },
+  {
+   "word": "saving",
+   "start": 68.122,
+   "end": 68.521
+  },
+  {
+   "word": "now.",
+   "start": 68.521,
+   "end": 68.807
+  },
+  {
+   "word": "And",
+   "start": 69.186,
+   "end": 69.449
+  },
+  {
+   "word": "maybe",
+   "start": 69.449,
+   "end": 69.843
+  },
+  {
+   "word": "check",
+   "start": 69.843,
+   "end": 70.238
+  },
+  {
+   "word": "your",
+   "start": 70.238,
+   "end": 70.566
+  },
+  {
+   "word": "hubcaps.",
+   "start": 70.566,
+   "end": 71.157
+  }
+ ]
+}
