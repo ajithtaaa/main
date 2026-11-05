@@ -1,0 +1,3609 @@
+{
+ "title": "How To Make Her Addicted",
+ "duration": 235.45,
+ "shots": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 5.77,
+   "line": "ഒരു സ്ത്രീ ഒരു പുരുഷനെ ഭ്രാന്തമായി ആഗ്രഹിക്കാൻ തുടങ്ങുന്നത് എപ്പോഴാണെന്നറിയാമോ?",
+   "scene": "spotlight: Meera gazes at Arjun, hearts rise",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.15,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.38,
+      "pose": "relaxed",
+      "expr": "neutral"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.62,
+      "pose": "holdFront",
+      "f": -1,
+      "expr": "awe"
+     }
+    ],
+    "fx": [
+     "hearts"
+    ],
+    "heartsOn": 1,
+    "labels": [
+     {
+      "s": "WHEN DOES SHE CRAVE HIM?",
+      "at": 0.6,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s002",
+   "start": 5.77,
+   "end": 7.12,
+   "line": "അവൻ സുന്ദരൻ ആയതുകൊണ്ടല്ല",
+   "scene": "loud guy in sunglasses poses, red X: not looks",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.8,
+     "name": "hit",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "LOUD",
+      "x": 0.5,
+      "pose": "crossArms",
+      "expr": "smirk"
+     }
+    ],
+    "labels": [
+     {
+      "s": "LOOKS?",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ],
+    "marks": [
+     {
+      "k": "x",
+      "x": 0.72,
+      "y": 0.4,
+      "at": 0.8
+     }
+    ]
+   }
+  },
+  {
+   "id": "s003",
+   "start": 7.12,
+   "end": 9.27,
+   "line": "പണം ഉള്ളത് കൊണ്ടുമല്ല",
+   "scene": "same guy with stacks of cash, red X: not money",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.6,
+     "name": "hit",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.08,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "LOUD",
+      "x": 0.45,
+      "pose": "shrug",
+      "expr": "smirk"
+     }
+    ],
+    "fx": [
+     "money"
+    ],
+    "labels": [
+     {
+      "s": "MONEY?",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ],
+    "marks": [
+     {
+      "k": "x",
+      "x": 0.72,
+      "y": 0.4,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "id": "s004",
+   "start": 9.27,
+   "end": 12.3,
+   "line": "ഈ വീഡിയോയുടെ അവസാനം ഞാൻ ഒരു രഹസ്യം പറയാൻ പോകുന്നു.",
+   "scene": "a locked glowing chest with a question mark",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "whoosh",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "big",
+    "lines": [
+     "THE SECRET",
+     "...AT THE END"
+    ],
+    "size": 110,
+    "secret": true
+   }
+  },
+  {
+   "id": "s005",
+   "start": 12.3,
+   "end": 17.46,
+   "line": "അതറിഞ്ഞാൽ ഒരു സ്ത്രീയെ നീ നോക്കുന്ന രീതി തന്നെ മാറും.",
+   "scene": "Arjun giant face, eyes widen",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "face",
+    "c": "ARJUN",
+    "set": "street",
+    "expr": "neutral",
+    "exprs": [
+     [
+      1.2,
+      "awe"
+     ]
+    ],
+    "look": [
+     0,
+     -0.1
+    ]
+   }
+  },
+  {
+   "id": "s006",
+   "start": 17.46,
+   "end": 19.2,
+   "line": "അതുകൊണ്ട് സ്കൈപ് ചെയ്യരുത്.",
+   "scene": "DON'T SKIP card, skip button gets crossed",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "whoosh",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "big",
+    "lines": [
+     "DON'T SKIP"
+    ],
+    "skip": true
+   }
+  },
+  {
+   "id": "s007",
+   "start": 19.2,
+   "end": 20.5,
+   "line": "ആദ്യം ഒരു കഥ പറയാം",
+   "scene": "title card: A STORY at sunset",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "title",
+    "lines": [
+     "FIRST,",
+     "A STORY"
+    ]
+   }
+  },
+  {
+   "id": "s008",
+   "start": 20.5,
+   "end": 21.67,
+   "line": "അർജുൻ 26 വയസ്സ്",
+   "scene": "Arjun walks along the dusk street, label ARJUN, 26",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1,
+     1.05,
+     0,
+     -40
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.3,
+      "pose": "stand",
+      "walk": 1.8,
+      "dx": 60,
+      "expr": "smile"
+     }
+    ],
+    "labels": [
+     {
+      "s": "ARJUN · 26",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s009",
+   "start": 21.67,
+   "end": 24.12,
+   "line": "അവന് ഒരു പെൺകുട്ടിയെ ഭയങ്കര ഇഷ്ടമായിരുന്നു.",
+   "scene": "cafe: Arjun stares at Priya, hearts above him",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     30
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.3,
+      "pose": "holdFront",
+      "expr": "joy",
+      "look": [
+       1,
+       0
+      ]
+     },
+     {
+      "c": "PRIYA",
+      "x": 0.68,
+      "pose": "phone",
+      "f": -1,
+      "prop": "phone",
+      "expr": "neutral"
+     }
+    ],
+    "fx": [
+     "hearts"
+    ],
+    "labels": [
+     {
+      "s": "PRIYA",
+      "at": 0.6,
+      "y": 0.2,
+      "x": 0.68
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s010",
+   "start": 24.12,
+   "end": 26.58,
+   "line": "അവൾ എന്ത് ചോദിച്ചാലും ചെയ്തു കൊടുക്കും.",
+   "scene": "Priya points, Arjun rushes carrying bags",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1.04,
+     1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "PRIYA",
+      "x": 0.7,
+      "pose": "point",
+      "f": -1,
+      "expr": "smile"
+     },
+     {
+      "c": "ARJUN",
+      "x": 0.2,
+      "pose": "stand",
+      "walk": 3,
+      "run": true,
+      "dx": 180,
+      "expr": "happy"
+     }
+    ],
+    "fx": [
+     "speed"
+    ],
+    "labels": [
+     {
+      "s": "ANYTHING SHE ASKS",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s011",
+   "start": 26.58,
+   "end": 28.79,
+   "line": "രാത്രി 2:00 മണി വരെ ചാറ്റ് ചെയ്യും.",
+   "scene": "bedroom at night, clock 2:00, Arjun texting in bed",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "bedroom",
+    "clock": 2,
+    "cam": [
+     1,
+     1.07,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.42,
+      "pose": "sit",
+      "prop": "phone",
+      "expr": "smile",
+      "dy": -40
+     }
+    ],
+    "labels": [
+     {
+      "s": "2:00 AM",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s012",
+   "start": 28.79,
+   "end": 31.78,
+   "line": "ഓരോ മെസ്സേജിനും. ഉടൻ മറുപടി",
+   "scene": "phone close-up: instant replies pile up",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "blip",
+     "gain": -14
+    },
+    {
+     "at": 0.3,
+     "name": "blip",
+     "gain": -14
+    },
+    {
+     "at": 0.7,
+     "name": "blip",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "phone",
+    "msgs": [
+     {
+      "s": "hey",
+      "at": 0.1
+     },
+     {
+      "s": "hi!! 😊",
+      "me": true,
+      "at": 0.3
+     },
+     {
+      "s": "u up?",
+      "at": 0.7
+     },
+     {
+      "s": "always! what's up?",
+      "me": true,
+      "at": 0.9
+     },
+     {
+      "s": "ok",
+      "at": 1.6
+     },
+     {
+      "s": "tell me more!!",
+      "me": true,
+      "at": 1.8
+     }
+    ],
+    "labels": [
+     {
+      "s": "INSTANT REPLY. EVERY TIME.",
+      "at": 1.0,
+      "y": 0.08
+     }
+    ]
+   }
+  },
+  {
+   "id": "s013",
+   "start": 31.78,
+   "end": 33.95,
+   "line": "എന്നിട്ടും ഒരു ദിവസം അവൾ പറഞ്ഞു",
+   "scene": "dusk street: Priya talks to Arjun",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1,
+     1.1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.4,
+      "pose": "relaxed",
+      "expr": "happy"
+     },
+     {
+      "c": "PRIYA",
+      "x": 0.6,
+      "pose": "talk",
+      "f": -1,
+      "expr": "neutral",
+      "talk": true
+     }
+    ],
+    "labels": [
+     {
+      "s": "ONE DAY...",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s014",
+   "start": 33.95,
+   "end": 35.17,
+   "line": "നീ നല്ലവനാണ്.",
+   "scene": "Priya giant face, polite smile: YOU'RE A NICE GUY",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "PRIYA",
+    "set": "street",
+    "expr": "smile",
+    "talk": true,
+    "bubble": {
+     "s": "YOU'RE A NICE GUY",
+     "at": 0.1
+    }
+   }
+  },
+  {
+   "id": "s015",
+   "start": 35.17,
+   "end": 37.8,
+   "line": "പക്ഷേ എനിക്ക് അങ്ങനെ ഒരു ഫീലിംഗ് ഇല്ല.",
+   "scene": "Priya giant face: BUT I DON'T FEEL IT",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "PRIYA",
+    "set": "street",
+    "expr": "sad",
+    "talk": true,
+    "tilt": -0.08,
+    "bubble": {
+     "s": "BUT I DON'T FEEL IT",
+     "at": 0.1
+    }
+   }
+  },
+  {
+   "id": "s016",
+   "start": 37.8,
+   "end": 39.85,
+   "line": "അർജുൻ എന്താണ് തെറ്റിയത്?",
+   "scene": "Arjun alone in the rain, head down",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "night",
+    "rain": true,
+    "cam": [
+     1.1,
+     1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "sad",
+      "expr": "sad"
+     }
+    ],
+    "labels": [
+     {
+      "s": "WHAT WENT WRONG?",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ],
+    "fx": [
+     "rain"
+    ]
+   },
+   "amb": {
+    "name": "rain",
+    "gain": -20
+   }
+  },
+  {
+   "id": "s017",
+   "start": 39.85,
+   "end": 44.01,
+   "line": "അതിനു ശേഷം അവൻ എന്ത് മാറ്റി അതും ഈ വീഡിയോയിൽ തന്നെ പറയാം.",
+   "scene": "stage: sad Arjun straightens up, teaser",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1,
+     1.1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "stand",
+      "poses": [
+       [
+        0,
+        "sad"
+       ],
+       [
+        1.6,
+        "crossArms"
+       ]
+      ],
+      "expr": "sad",
+      "exprs": [
+       [
+        1.6,
+        "determined"
+       ]
+      ]
+     }
+    ],
+    "fx": [
+     "ring"
+    ],
+    "labels": [
+     {
+      "s": "WHAT HE CHANGED → LATER",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s018",
+   "start": 44.01,
+   "end": 47.61,
+   "line": "അർജുൻ ചെയ്ത തെറ്റ് നമ്മളിൽ മിക്കവരും ചെയ്യുന്ന തെറ്റാണ്.",
+   "scene": "street crowd: everyone glued to their phone",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1.05,
+     1,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "crowdPhones"
+    ],
+    "labels": [
+     {
+      "s": "MOST OF US MAKE THIS MISTAKE",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s019",
+   "start": 47.61,
+   "end": 50.59,
+   "line": "അവളെ നമ്മുടെ ജീവിതത്തിന്റെ കേന്ദ്രമാക്കുന്നത്.",
+   "scene": "blueprint: you orbit around her",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "orbit"
+   }
+  },
+  {
+   "id": "s020",
+   "start": 50.59,
+   "end": 53.55,
+   "line": "നീ നിന്റെ ലോകം മുഴുവൻ അവൾക്കു വേണ്ടി മാറ്റി വയ്ക്കുമ്പോൾ",
+   "scene": "blueprint: gym, friends, career, hobbies, goals fall away",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "world",
+    "capAt": 3.6
+   }
+  },
+  {
+   "id": "s021",
+   "start": 53.55,
+   "end": 56.74,
+   "line": "അവൾക്കു നിന്നിൽ കണ്ടെത്താൻ ഒന്നും ബാക്കിയില്ലാതാകും.",
+   "scene": "Priya giant face, bored",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "PRIYA",
+    "set": "cafe",
+    "mood": "golden",
+    "expr": "sleepy",
+    "labels": [
+     {
+      "s": "NOTHING LEFT TO DISCOVER",
+      "at": 0.2,
+      "y": 0.12
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s022",
+   "start": 56.74,
+   "end": 59.89,
+   "line": "അട്ട്രാക്ഷൻ ന് ഒരു ചെറിയ മിസ്റ്ററി വേണം. 1 ആഴം വേണം",
+   "scene": "blueprint: ATTRACTION = MYSTERY + DEPTH",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "equation",
+    "depthAt": 3.0
+   }
+  },
+  {
+   "id": "s023",
+   "start": 59.89,
+   "end": 64.29,
+   "line": "ഇനി നമുക്ക് ശരിക്കും വർക്ക് ചെയ്യുന്ന 6 കാര്യങ്ങൾ നോക്കാം.",
+   "scene": "title card: 6 THINGS THAT ACTUALLY WORK",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "title",
+    "lines": [
+     "6 THINGS THAT",
+     "ACTUALLY WORK"
+    ]
+   }
+  },
+  {
+   "id": "s024",
+   "start": 64.29,
+   "end": 67.24,
+   "line": "4-ആം പോയിന്റ് മിക്ക ആണുങ്ങൾക്കും അറിയില്ല.",
+   "scene": "Arjun thinking under a spotlight, label #4",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "think",
+      "expr": "thinking"
+     }
+    ],
+    "labels": [
+     {
+      "s": "#4: MOST MEN DON'T KNOW THIS",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s025",
+   "start": 67.24,
+   "end": 69.77,
+   "line": "1 നിനക്ക് സ്വന്തമായി 1 മിഷൻ വേണം",
+   "scene": "tip card 1: HAVE YOUR OWN MISSION",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 1,
+    "title": [
+     "HAVE YOUR",
+     "OWN MISSION"
+    ],
+    "set": "gym"
+   }
+  },
+  {
+   "id": "s026",
+   "start": 69.77,
+   "end": 70.39,
+   "line": "ജിം",
+   "scene": "gym: Arjun lifts a barbell",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "gym",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "cheer",
+      "expr": "determined"
+     }
+    ],
+    "fx": [
+     "barbell"
+    ],
+    "labels": [
+     {
+      "s": "GYM",
+      "at": 0.05,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s027",
+   "start": 70.39,
+   "end": 71.22,
+   "line": "കരിയർ ബിസിനസ്",
+   "scene": "night office: Arjun at the laptop",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "office",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.38,
+      "pose": "sit",
+      "expr": "determined",
+      "dy": -10
+     }
+    ],
+    "fx": [
+     "laptop"
+    ],
+    "labels": [
+     {
+      "s": "CAREER",
+      "at": 0.05,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s028",
+   "start": 71.22,
+   "end": 71.75,
+   "line": "മ്യൂസിക്",
+   "scene": "bedroom: Arjun plays guitar",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "bedroom",
+    "mood": "interiorWarm",
+    "cam": [
+     1.08,
+     1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "holdFront",
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "guitar"
+    ],
+    "labels": [
+     {
+      "s": "MUSIC",
+      "at": 0.05,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s029",
+   "start": 71.75,
+   "end": 72.52,
+   "line": "എന്തുമാകട്ടെ",
+   "scene": "Arjun walks with purpose on the dusk street",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1,
+     1.05,
+     0,
+     -30
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.35,
+      "pose": "stand",
+      "walk": 1.8,
+      "dx": 80,
+      "expr": "determined"
+     }
+    ],
+    "labels": [
+     {
+      "s": "ANYTHING. JUST HAVE ONE.",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s030",
+   "start": 72.52,
+   "end": 76.89,
+   "line": "1 ലക്ഷത്തിന് വേണ്ടി ജീവിക്കുന്ന പുരുഷന്റെ കണ്ണുകളിൽ 1 തീയുണ്ട്",
+   "scene": "Arjun giant face, fire in his eyes",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "ARJUN",
+    "set": "gym",
+    "expr": "smirk",
+    "fx": [
+     "fire"
+    ],
+    "labels": [
+     {
+      "s": "A FIRE IN HIS EYES",
+      "at": 0.6,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s031",
+   "start": 76.89,
+   "end": 78.41,
+   "line": "അവൾ അത് ശ്രദ്ധിക്കും",
+   "scene": "cafe: Meera notices Arjun working",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.08,
+     0,
+     30
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.3,
+      "pose": "phone",
+      "prop": "tablet",
+      "expr": "determined"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.7,
+      "pose": "holdFront",
+      "f": -1,
+      "expr": "awe",
+      "look": [
+       -1,
+       0
+      ]
+     }
+    ],
+    "labels": [
+     {
+      "s": "SHE NOTICES",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s032",
+   "start": 78.41,
+   "end": 81.86,
+   "line": "നിന്റെ ലോകത്തിലേക്ക് കടക്കാൻ അവൾ ആഗ്രഹിക്കും",
+   "scene": "Meera walks toward Arjun's glowing world",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.4,
+      "pose": "explain",
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.78,
+      "pose": "stand",
+      "walk": 1.2,
+      "dx": -70,
+      "f": -1,
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "ring"
+    ],
+    "labels": [
+     {
+      "s": "SHE WANTS IN",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s033",
+   "start": 81.86,
+   "end": 83.93,
+   "line": "കാരണം നീ അവളുടെ പിന്നാലെ ഓടുന്നില്ല",
+   "scene": "Arjun chases Priya who walks away, red X",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.4,
+     "name": "hit",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1,
+     1.04,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "PRIYA",
+      "x": 0.65,
+      "pose": "stand",
+      "walk": 1.6,
+      "dx": 90,
+      "expr": "neutral"
+     },
+     {
+      "c": "ARJUN",
+      "x": 0.35,
+      "pose": "stand",
+      "walk": 2.4,
+      "run": true,
+      "dx": 90,
+      "expr": "worried"
+     }
+    ],
+    "marks": [
+     {
+      "k": "x",
+      "x": 0.85,
+      "y": 0.25,
+      "at": 0.4
+     }
+    ],
+    "labels": [
+     {
+      "s": "DON'T CHASE HER",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s034",
+   "start": 83.93,
+   "end": 86.81,
+   "line": "നീ എവിടേക്കോ മുന്നോട്ട് ഓടുകയാണ്",
+   "scene": "Arjun runs toward the sunrise, check",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.5,
+     "name": "blip",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1.05,
+     1,
+     0,
+     60
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.45,
+      "pose": "stand",
+      "walk": 2.6,
+      "run": true,
+      "dx": 60,
+      "expr": "determined"
+     }
+    ],
+    "fx": [
+     "speed"
+    ],
+    "marks": [
+     {
+      "k": "c",
+      "x": 0.8,
+      "y": 0.25,
+      "at": 0.5
+     }
+    ],
+    "labels": [
+     {
+      "s": "RUN TOWARD YOUR GOAL",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s035",
+   "start": 86.81,
+   "end": 89.85,
+   "line": "രണ്ട്. അവൾ പറയുന്നത് ശരിക്കും കേൾക്കുക.",
+   "scene": "tip card 2: REALLY LISTEN",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 2,
+    "title": [
+     "REALLY",
+     "LISTEN"
+    ],
+    "set": "cafe",
+    "mood": "golden"
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s036",
+   "start": 89.85,
+   "end": 94.11,
+   "line": "മിക്ക ആണുങ്ങളും കേൾക്കുന്നത് മറുപടി പറയാനാണ് മനസ്സിലാക്കാനല്ല.",
+   "scene": "cafe: Meera talks, a guy just waits to reply",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 2.6,
+     "name": "hit",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "LOUD",
+      "x": 0.32,
+      "pose": "talk",
+      "expr": "smirk",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.68,
+      "pose": "explain",
+      "f": -1,
+      "expr": "worried",
+      "talk": true,
+      "talkTo": 1
+     }
+    ],
+    "labels": [
+     {
+      "s": "LISTENING JUST TO REPLY",
+      "at": 0.6,
+      "y": 0.14
+     }
+    ],
+    "marks": [
+     {
+      "k": "x",
+      "x": 0.15,
+      "y": 0.3,
+      "at": 2.6
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s037",
+   "start": 94.11,
+   "end": 98.38,
+   "line": "അവൾ 3 ദിവസം മുമ്പ് പറഞ്ഞ ഒരു ചെറിയ കാര്യം ഓർത്തുവച്ച് ചോദിച്ചു നോക്കൂ.",
+   "scene": "blueprint: calendar flips back 3 days, mom's doctor visit",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "calendar"
+   }
+  },
+  {
+   "id": "s038",
+   "start": 98.38,
+   "end": 100.48,
+   "line": "അമ്മയുടെ ഡോക്ടർ അപ്പോയിന്റ്മെന്റ് എന്തായി?",
+   "scene": "cafe: Arjun asks about her mom's doctor visit",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1.05,
+     1.12,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.36,
+      "pose": "explain",
+      "expr": "smile",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.64,
+      "pose": "relaxed",
+      "f": -1,
+      "expr": "neutral"
+     }
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "HOW WAS YOUR MOM'S CHECKUP?",
+     "at": 0.1
+    }
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s039",
+   "start": 100.48,
+   "end": 102.62,
+   "line": "അവളുടെ മുഖത്ത് ഒരു മാറ്റം കാണാം.",
+   "scene": "Meera giant face: surprise turns to a big smile",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "face",
+    "c": "MEERA",
+    "set": "cafe",
+    "mood": "golden",
+    "expr": "surprised",
+    "exprs": [
+     [
+      0.8,
+      "joy"
+     ]
+    ],
+    "side": 1
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s040",
+   "start": 102.62,
+   "end": 106.39,
+   "line": "കാരണം ഇന്നത്തെ ലോകത്ത് ആരും ശരിക്കും ശ്രദ്ധിക്കുന്നില്ല.",
+   "scene": "crowd glued to phones, nobody listens",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "night",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [],
+    "fx": [
+     "crowdPhones"
+    ],
+    "labels": [
+     {
+      "s": "NOBODY REALLY LISTENS",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s041",
+   "start": 106.39,
+   "end": 109.21,
+   "line": "നീ ശ്രദ്ധിക്കുമ്പോൾ നീ വ്യത്യസ്തനാകും.",
+   "scene": "crowd dim, Arjun lit and looking up",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.5,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "night",
+    "cam": [
+     1.05,
+     1.15,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "relaxed",
+      "expr": "smile",
+      "rimC": "#c6ff3d"
+     }
+    ],
+    "fx": [
+     "crowdPhones",
+     "ring"
+    ],
+    "skip": [
+     4
+    ],
+    "labels": [
+     {
+      "s": "YOU STAND OUT",
+      "at": 0.5,
+      "y": 0.14,
+      "c": "good"
+     }
+    ]
+   },
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s042",
+   "start": 109.21,
+   "end": 112.29,
+   "line": "മൂന്ന് പുതിയ അനുഭവങ്ങൾ ഒരുമിച്ച് ഉണ്ടാക്കുക.",
+   "scene": "tip card 3: NEW EXPERIENCES TOGETHER",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 3,
+    "title": [
+     "NEW EXPERIENCES",
+     "TOGETHER"
+    ],
+    "set": "street",
+    "mood": "golden"
+   }
+  },
+  {
+   "id": "s043",
+   "start": 112.29,
+   "end": 115.5,
+   "line": "സൈക്കോളജിസ്റ്റുകൾ നടത്തിയ പഠനങ്ങളിൽ ഒരു കാര്യം കണ്ടെത്തി.",
+   "scene": "lab: psychologist presents research",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "lab",
+    "mood": "interiorWarm",
+    "cam": [
+     1,
+     1.06,
+     0,
+     -20
+    ],
+    "figs": [
+     {
+      "c": "DOC",
+      "x": 0.45,
+      "pose": "point",
+      "f": -1,
+      "prop": "pointer",
+      "expr": "smile"
+     }
+    ],
+    "labels": [
+     {
+      "s": "PSYCHOLOGY STUDIES",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s044",
+   "start": 115.5,
+   "end": 121.01,
+   "line": "പുതിയതും. ആവേശകരവുമായ കാര്യങ്ങൾ ഒരുമിച്ച് ചെയ്യുന്നവർക്കിടയിൽ അടുപ്പം വേഗത്തിൽ കൂടുന്നു.",
+   "scene": "blueprint: closeness curve rises with novelty",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "curve"
+   }
+  },
+  {
+   "id": "s045",
+   "start": 121.01,
+   "end": 123.67,
+   "line": "ഒരേ കഫേ, ഒരേ സിനിമ, ഒരേ ചാറ്റ്,",
+   "scene": "cafe: bored couple, labels SAME CAFE / SAME MOVIE / SAME CHAT",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.9,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 1.7,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.04,
+     0,
+     0
+    ],
+    "veil": 0.25,
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.36,
+      "pose": "relaxed",
+      "expr": "sleepy"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.64,
+      "pose": "phone",
+      "f": -1,
+      "prop": "phone",
+      "expr": "sleepy"
+     }
+    ],
+    "labels": [
+     {
+      "s": "SAME CAFE",
+      "at": 0.1,
+      "y": 0.14
+     },
+     {
+      "s": "SAME MOVIE",
+      "at": 0.9,
+      "y": 0.24
+     },
+     {
+      "s": "SAME CHAT",
+      "at": 1.7,
+      "y": 0.34
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s046",
+   "start": 123.67,
+   "end": 125.07,
+   "line": "ഇത് ബോറാണ്.",
+   "scene": "BORING stamp slams down",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "impact",
+     "gain": -8
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "veil": 0.5,
+    "cam": [
+     1.04,
+     1.04,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.36,
+      "pose": "relaxed",
+      "expr": "sleepy"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.64,
+      "pose": "phone",
+      "f": -1,
+      "prop": "phone",
+      "expr": "sleepy"
+     }
+    ],
+    "fx": [
+     "stamp"
+    ],
+    "stamp": "BORING",
+    "stampAt": 0.1
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s047",
+   "start": 125.07,
+   "end": 127.01,
+   "line": "പകരം ഒരു സൺറൈസ് ട്രക്ക്,",
+   "scene": "3D: sunrise trek on a mountain ridge",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "trek3d"
+   }
+  },
+  {
+   "id": "s048",
+   "start": 127.01,
+   "end": 128.53,
+   "line": "ഒരു പുതിയ ഫുഡ് സ്ട്രീറ്റ്,",
+   "scene": "night food street with lantern stalls, couple walks",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "night",
+    "stalls": true,
+    "cam": [
+     1,
+     1.06,
+     0,
+     -40
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.4,
+      "pose": "stand",
+      "walk": 1.4,
+      "dx": 50,
+      "expr": "joy"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.52,
+      "pose": "stand",
+      "walk": 1.4,
+      "dx": 50,
+      "expr": "joy"
+     }
+    ],
+    "labels": [
+     {
+      "s": "NEW FOOD STREET",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s049",
+   "start": 128.53,
+   "end": 130.53,
+   "line": "ഒരു മഴയത്തുള്ള ബൈക്ക് യാത്ര,",
+   "scene": "rainy night bike ride, speed lines",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "night",
+    "rain": true,
+    "cam": [
+     1.1,
+     1.1,
+     0,
+     -400
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.47,
+      "pose": "sit",
+      "expr": "joy",
+      "dy": -60,
+      "s": 0.9
+     },
+     {
+      "c": "MEERA",
+      "x": 0.4,
+      "pose": "sit",
+      "expr": "joy",
+      "dy": -60,
+      "s": 0.9
+     }
+    ],
+    "fx": [
+     "bike",
+     "rain",
+     "speed"
+    ],
+    "labels": [
+     {
+      "s": "BIKE RIDE IN THE RAIN",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "rain",
+    "gain": -20
+   }
+  },
+  {
+   "id": "s050",
+   "start": 130.53,
+   "end": 133.17,
+   "line": "ആ ത്രില്ലിന്റെ ഓർമകൾ അവളുടെ മനസ്സിൽ.",
+   "scene": "Meera giant face, eyes closed smiling, memories float",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "face",
+    "c": "MEERA",
+    "set": "street",
+    "mood": "night",
+    "expr": "joy",
+    "fx": [
+     "polaroids"
+    ]
+   },
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s051",
+   "start": 133.17,
+   "end": 136.96,
+   "line": "പക്ഷേ അതുണ്ടാക്കുന്നത് ആകാംക്ഷയാണ്. സ്നേഹമല്ല.",
+   "scene": "nervous Arjun checks his phone, ANXIETY",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 2.0,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "bedroom",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "phone",
+      "prop": "phone",
+      "expr": "nervous"
+     }
+    ],
+    "labels": [
+     {
+      "s": "THAT CREATES ANXIETY",
+      "at": 0.2,
+      "y": 0.14,
+      "c": "red"
+     },
+     {
+      "s": "NOT LOVE",
+      "at": 2.0,
+      "y": 0.26,
+      "c": "red"
+     }
+    ]
+   }
+  },
+  {
+   "id": "s052",
+   "start": 136.96,
+   "end": 138.83,
+   "line": "ശരിയായ വഴി ഇതാണ്.",
+   "scene": "tip card 4: BE CONSISTENT",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 4,
+    "title": [
+     "THE RIGHT WAY:",
+     "BE CONSISTENT"
+    ],
+    "set": "street"
+   }
+  },
+  {
+   "id": "s053",
+   "start": 138.83,
+   "end": 141.48,
+   "line": "നിന്റെ വാക്കും പ്രവൃത്തിയും ഒന്നായിരിക്കണം.",
+   "scene": "blueprint: WORDS = ACTIONS on a balance",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "scale"
+   }
+  },
+  {
+   "id": "s054",
+   "start": 141.48,
+   "end": 142.92,
+   "line": "പറഞ്ഞ സമയത്ത് വരിക.",
+   "scene": "Arjun arrives on time, Meera smiles, clock",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.25,
+      "pose": "stand",
+      "walk": 1.6,
+      "dx": 120,
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.68,
+      "pose": "wave",
+      "f": -1,
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "clock"
+    ],
+    "clockAt": 7,
+    "labels": [
+     {
+      "s": "ON TIME",
+      "at": 0.3,
+      "y": 0.14,
+      "c": "good"
+     }
+    ]
+   }
+  },
+  {
+   "id": "s055",
+   "start": 142.92,
+   "end": 145.77,
+   "line": "ദേഷ്യം വന്നാലും ബഹുമാനത്തോടെ സംസാരിക്കുക.",
+   "scene": "Arjun with red anger aura, speaking calmly",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.05,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.42,
+      "pose": "explain",
+      "expr": "determined",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.62,
+      "pose": "crossArms",
+      "f": -1,
+      "expr": "neutral"
+     }
+    ],
+    "fx": [
+     "aura"
+    ],
+    "labels": [
+     {
+      "s": "ANGRY? STILL RESPECTFUL.",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s056",
+   "start": 145.77,
+   "end": 150.06,
+   "line": "1 സ്ത്രീക്ക് 1 പുരുഷന്റെ കൂടെ പൂർണ്ണമായും അവളായിരിക്കാൻ കഴിയുമ്പോൾ",
+   "scene": "dusk park: Meera laughs freely beside Arjun",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.5,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.42,
+      "pose": "relaxed",
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.58,
+      "pose": "cheer",
+      "f": -1,
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "hearts"
+    ],
+    "heartsOn": 1,
+    "labels": [
+     {
+      "s": "SHE CAN BE HERSELF",
+      "at": 0.5,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s057",
+   "start": 150.06,
+   "end": 153.18,
+   "line": "അവൾ ആ സ്ഥലം വിട്ടുപോകാൻ ആഗ്രഹിക്കില്ല.",
+   "scene": "3D: the couple on a park bench at night",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "bench3d"
+   }
+  },
+  {
+   "id": "s058",
+   "start": 153.18,
+   "end": 156.41,
+   "line": "5 ശാന്തമായ കോൺഫിഡൻസ് കോൺഫിഡൻസ്",
+   "scene": "tip card 5: QUIET CONFIDENCE",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 5,
+    "title": [
+     "QUIET",
+     "CONFIDENCE"
+    ],
+    "set": "stage"
+   }
+  },
+  {
+   "id": "s059",
+   "start": 156.41,
+   "end": 158.51,
+   "line": "എന്നാൽ ഉറക്ക സംസാരിക്കുന്നതല്ല",
+   "scene": "loud guy shouting, red X",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.5,
+     "name": "hit",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "LOUD",
+      "x": 0.5,
+      "pose": "cheer",
+      "expr": "angry",
+      "talk": true
+     }
+    ],
+    "labels": [
+     {
+      "s": "NOT BEING LOUD",
+      "at": 0.2,
+      "y": 0.14,
+      "c": "red"
+     }
+    ],
+    "marks": [
+     {
+      "k": "x",
+      "x": 0.72,
+      "y": 0.38,
+      "at": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "s060",
+   "start": 158.51,
+   "end": 161.15,
+   "line": "അറിയില്ല എന്ന് പറയാൻ മടിയില്ലാത്തതാണ്.",
+   "scene": "Arjun shrugs honestly: I DON'T KNOW",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    },
+    {
+     "at": 1.2,
+     "name": "blip",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.45,
+      "pose": "shrug",
+      "expr": "smile",
+      "talk": true
+     }
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "I DON'T KNOW",
+     "at": 0.2
+    },
+    "marks": [
+     {
+      "k": "c",
+      "x": 0.8,
+      "y": 0.3,
+      "at": 1.2
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s061",
+   "start": 161.15,
+   "end": 164.22,
+   "line": "തെറ്റു പറ്റിയാൽ സോറി എന്ന് പറയാൻ കഴിയുന്നതാണ്.",
+   "scene": "Arjun apologizes, Meera softens",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1.04,
+     1.1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.38,
+      "pose": "holdFront",
+      "expr": "sad",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.64,
+      "pose": "crossArms",
+      "f": -1,
+      "expr": "neutral",
+      "exprs": [
+       [
+        1.6,
+        "smile"
+       ]
+      ]
+     }
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "SORRY, MY MISTAKE",
+     "at": 0.2
+    }
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s062",
+   "start": 164.22,
+   "end": 168.29,
+   "line": "സ്വന്തം അഭിപ്രായം പറയാൻ അവൾ സമ്മതിച്ചില്ലെങ്കിലും ധൈര്യമുള്ളതാണ്.",
+   "scene": "Arjun shares his opinion while Meera disagrees",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.38,
+      "pose": "explain",
+      "expr": "determined",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.64,
+      "pose": "crossArms",
+      "f": -1,
+      "expr": "thinking"
+     }
+    ],
+    "labels": [
+     {
+      "s": "STAND BY YOUR OPINION",
+      "at": 0.3,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s063",
+   "start": 168.29,
+   "end": 172.49,
+   "line": "സ്വയം അംഗീകരിക്കുന്ന പുരുഷനെ സ്ത്രീകൾ ആഴത്തിൽ ബഹുമാനിക്കും.",
+   "scene": "Arjun stands tall in a spotlight, Meera admires",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "mood": "golden",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.45,
+      "pose": "crossArms",
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.66,
+      "pose": "holdFront",
+      "f": -1,
+      "expr": "awe"
+     }
+    ],
+    "fx": [
+     "ring"
+    ],
+    "labels": [
+     {
+      "s": "SELF-ACCEPTANCE = RESPECT",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s064",
+   "start": 172.49,
+   "end": 176.43,
+   "line": "6 അവളുടെ സ്വപ്നങ്ങളുടെ എ.",
+   "scene": "tip card 6: BE HER BIGGEST FAN",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.0,
+     "name": "whoosh",
+     "gain": -8
+    },
+    {
+     "at": 0.12,
+     "name": "impact",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "tip",
+    "n": 6,
+    "title": [
+     "BE HER",
+     "BIGGEST FAN"
+    ],
+    "set": "stage",
+    "mood": "golden"
+   }
+  },
+  {
+   "id": "s065",
+   "start": 176.43,
+   "end": 177.67,
+   "line": "ഏറ്റവും വലിയ ഫാൻ ആകുക",
+   "scene": "Meera on stage presenting, Arjun cheering",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "scene",
+    "set": "stage",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "MEERA",
+      "x": 0.6,
+      "pose": "explain",
+      "f": -1,
+      "expr": "joy",
+      "talk": true
+     },
+     {
+      "c": "ARJUN",
+      "x": 0.3,
+      "pose": "cheer",
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "hearts"
+    ],
+    "heartsOn": 1
+   }
+  },
+  {
+   "id": "s066",
+   "start": 177.67,
+   "end": 179.92,
+   "line": "അവൾ ഒരു പുതിയ കാര്യം തുടങ്ങാൻ പറയുമ്പോൾ",
+   "scene": "Meera gets an idea, lightbulb",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "office",
+    "mood": "night",
+    "cam": [
+     1.06,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "MEERA",
+      "x": 0.5,
+      "pose": "pointUp",
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "bulb"
+    ],
+    "bulbAt": 0.3,
+    "labels": [
+     {
+      "s": "HER NEW IDEA",
+      "at": 0.2,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s067",
+   "start": 179.92,
+   "end": 182.51,
+   "line": "അത് നടക്കില്ല എന്ന് പറയുന്നവരാണ് ചുറ്റും",
+   "scene": "doubters around her say NO WAY",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "dusk",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "MEERA",
+      "x": 0.5,
+      "pose": "sad",
+      "expr": "sad"
+     }
+    ],
+    "fx": [
+     "doubters"
+    ]
+   }
+  },
+  {
+   "id": "s068",
+   "start": 182.51,
+   "end": 185.78,
+   "line": "നീ മാത്രം പറയൂ നിനക്ക് പറ്റും ഞാൻ ഉണ്ട് കൂടെ",
+   "scene": "Arjun: YOU CAN DO IT. I'M WITH YOU.",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1.05,
+     1.12,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.4,
+      "pose": "explain",
+      "expr": "smile",
+      "talk": true
+     },
+     {
+      "c": "MEERA",
+      "x": 0.62,
+      "pose": "relaxed",
+      "f": -1,
+      "expr": "neutral",
+      "exprs": [
+       [
+        1.6,
+        "joy"
+       ]
+      ]
+     }
+    ],
+    "bubble": {
+     "fig": 0,
+     "s": "YOU CAN DO IT. I'M WITH YOU.",
+     "at": 0.2
+    }
+   }
+  },
+  {
+   "id": "s069",
+   "start": 185.78,
+   "end": 188.15,
+   "line": "ഇനി ഞാൻ തുടക്കത്തിൽ പറഞ്ഞ ആ രഹസ്യം",
+   "scene": "the secret chest opens with light",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "riser",
+     "gain": -10
+    }
+   ],
+   "params": {
+    "tpl": "big",
+    "lines": [
+     "THE SECRET"
+    ],
+    "size": 120,
+    "secret": true,
+    "open": true
+   }
+  },
+  {
+   "id": "s070",
+   "start": 188.15,
+   "end": 192.59,
+   "line": "ഒരു സ്ത്രീ ഒരു പുരുഷനെ ആഗ്രഹിക്കുന്നത് അവൻ എങ്ങനെ ഉള്ളവനാണ് എന്നതുകൊണ്ട് മാത്രമല്ല",
+   "scene": "blueprint: not only WHO HE IS",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "notOnly",
+    "at2": 99,
+    "strike": 2.6
+   }
+  },
+  {
+   "id": "s071",
+   "start": 192.59,
+   "end": 196.12,
+   "line": "അവന്റെ കൂടെ ഇരിക്കുമ്പോൾ അവൾ സ്വയം എങ്ങനെ കാണുന്നു എന്നതുകൊണ്ടാണ്",
+   "scene": "blueprint: WHO SHE BECOMES WITH HIM",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "board",
+    "kind": "notOnly",
+    "at2": 0.3,
+    "strike": 0.01
+   }
+  },
+  {
+   "id": "s072",
+   "start": 196.12,
+   "end": 198.2,
+   "line": "നിന്റെ കൂടെയുള്ളപ്പോൾ അവൾക്ക്",
+   "scene": "Meera looks into a mirror and sees a glowing version of herself",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "scene",
+    "set": "bedroom",
+    "mood": "interiorWarm",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "MEERA",
+      "x": 0.36,
+      "pose": "relaxed",
+      "expr": "awe",
+      "look": [
+       1,
+       0
+      ]
+     }
+    ],
+    "fx": [
+     "mirror"
+    ]
+   }
+  },
+  {
+   "id": "s073",
+   "start": 198.2,
+   "end": 202.67,
+   "line": "സുന്ദരി ആയി തോന്നണം ബുദ്ധിമതി ആയി തോന്നണം സുരക്ഷിത ആയി തോന്നണം",
+   "scene": "Meera giant face: BEAUTIFUL / SMART / SAFE",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.05,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 1.4,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 2.6,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "MEERA",
+    "set": "street",
+    "mood": "golden",
+    "expr": "joy",
+    "side": 1,
+    "labels": [
+     {
+      "s": "BEAUTIFUL",
+      "at": 0.05,
+      "y": 0.14,
+      "x": 0.2
+     },
+     {
+      "s": "SMART",
+      "at": 1.4,
+      "y": 0.14,
+      "x": 0.5
+     },
+     {
+      "s": "SAFE",
+      "at": 2.6,
+      "y": 0.14,
+      "x": 0.8
+     }
+    ]
+   }
+  },
+  {
+   "id": "s074",
+   "start": 202.67,
+   "end": 206.47,
+   "line": "ആ ഫീലിംഗ്. അവൾക്ക് മറ്റ് ആരിൽനിന്നും കിട്ടില്ല.",
+   "scene": "couple silhouette at sunset, a big heart glows",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.4,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1.1,
+     1.0,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.45,
+      "pose": "relaxed",
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.55,
+      "pose": "relaxed",
+      "f": -1,
+      "expr": "joy"
+     }
+    ],
+    "fx": [
+     "hearts"
+    ],
+    "labels": [
+     {
+      "s": "A FEELING NO ONE ELSE GIVES HER",
+      "at": 0.4,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s075",
+   "start": 206.47,
+   "end": 207.74,
+   "line": "അർജുൻ ഇത് മനസ്സിലാക്കി",
+   "scene": "Arjun giant face: realization",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "face",
+    "c": "ARJUN",
+    "set": "stage",
+    "expr": "awe",
+    "exprs": [
+     [
+      1.0,
+      "determined"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "s076",
+   "start": 207.74,
+   "end": 209.24,
+   "line": "അവൻ ജിമ്മിൽ പോയിത്തുടങ്ങി.",
+   "scene": "gym: Arjun lifts",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "gym",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.5,
+      "pose": "cheer",
+      "expr": "determined"
+     }
+    ],
+    "fx": [
+     "barbell"
+    ],
+    "labels": [
+     {
+      "s": "GYM",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s077",
+   "start": 209.24,
+   "end": 211.47,
+   "line": "സ്വന്തം ബിസിനസ്സ് ഐഡിയ യിൽ ജോലി ചെയ്തു.",
+   "scene": "night office: Arjun builds his business idea",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "office",
+    "cam": [
+     1.06,
+     1,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.38,
+      "pose": "sit",
+      "expr": "determined",
+      "dy": -10
+     }
+    ],
+    "fx": [
+     "laptop"
+    ],
+    "labels": [
+     {
+      "s": "HIS OWN BUSINESS",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s078",
+   "start": 211.47,
+   "end": 213.72,
+   "line": "ആളുകളെ ശരിക്കും കേൾക്കാൻ പഠിച്ചു.",
+   "scene": "cafe: Arjun listens to a friend",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "cafe",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.06,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.36,
+      "pose": "think",
+      "expr": "smile"
+     },
+     {
+      "c": "EXTRA",
+      "x": 0.64,
+      "pose": "explain",
+      "f": -1,
+      "expr": "happy",
+      "talk": true
+     }
+    ],
+    "labels": [
+     {
+      "s": "LEARNED TO LISTEN",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   },
+   "amb": {
+    "name": "murmur",
+    "gain": -28
+   }
+  },
+  {
+   "id": "s079",
+   "start": 213.72,
+   "end": 216.99,
+   "line": "1 വർഷത്തിന് ശേഷം അവൻ മറ്റൊരാളെ പരിചയപ്പെട്ടു.",
+   "scene": "1 YEAR LATER: Arjun meets Meera on the street, they wave",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "scene",
+    "set": "street",
+    "mood": "golden",
+    "cam": [
+     1,
+     1.08,
+     0,
+     0
+    ],
+    "figs": [
+     {
+      "c": "ARJUN",
+      "x": 0.35,
+      "pose": "wave",
+      "expr": "smile"
+     },
+     {
+      "c": "MEERA",
+      "x": 0.65,
+      "pose": "wave",
+      "f": -1,
+      "expr": "joy"
+     }
+    ],
+    "labels": [
+     {
+      "s": "1 YEAR LATER",
+      "at": 0.1,
+      "y": 0.14
+     }
+    ]
+   }
+  },
+  {
+   "id": "s080",
+   "start": 216.99,
+   "end": 221.1,
+   "line": "ഇന്ന് അവൾ പറയുന്നത് അവന്റെ കൂടെ ഇരിക്കുമ്പോൾ എനിക്ക് ഞാൻ ആയിരിക്കാം.",
+   "scene": "Meera giant face: WITH HIM, I CAN BE ME",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.6,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "face",
+    "c": "MEERA",
+    "set": "street",
+    "mood": "golden",
+    "expr": "joy",
+    "talk": true,
+    "side": 1,
+    "bubble": {
+     "s": "WITH HIM, I CAN BE ME",
+     "at": 0.6,
+     "side": -1
+    }
+   }
+  },
+  {
+   "id": "s081",
+   "start": 221.1,
+   "end": 225.41,
+   "line": "ഈ വീഡിയോ ഉപകാരപ്പെട്ടെങ്കിൽ ഇത് ആവശ്യമുള്ള ഒരു സുഹൃത്തിന് അയച്ചുകൊടുക്കൂ.",
+   "scene": "phone: share this video with a friend",
+   "bars": null,
+   "in": {
+    "type": "cut"
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "pop",
+     "gain": -14
+    },
+    {
+     "at": 0.4,
+     "name": "blip",
+     "gain": -14
+    },
+    {
+     "at": 1.0,
+     "name": "blip",
+     "gain": -14
+    }
+   ],
+   "params": {
+    "tpl": "phone",
+    "set": "street",
+    "msgs": [
+     {
+      "s": "bro watch this 👇",
+      "me": true,
+      "at": 0.4
+     },
+     {
+      "s": "▶ 6 THINGS THAT WORK",
+      "me": true,
+      "at": 1.0
+     },
+     {
+      "s": "🔥🔥 thanks!",
+      "at": 2.4
+     }
+    ],
+    "labels": [
+     {
+      "s": "SEND IT TO A FRIEND",
+      "at": 0.2,
+      "y": 0.08
+     }
+    ]
+   }
+  },
+  {
+   "id": "s082",
+   "start": 225.41,
+   "end": 230.19,
+   "line": "അടുത്ത വീഡിയോയിൽ ഒരു സ്ത്രീ നിന്നിൽ താൽപ്പര്യമുണ്ടോ എന്നറിയാനുള്ള 7 സൂചനകൾ പറയാം.",
+   "scene": "next video teaser: 7 SIGNS SHE'S INTERESTED",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "whoosh",
+     "gain": -12
+    }
+   ],
+   "params": {
+    "tpl": "title",
+    "lines": [
+     "NEXT VIDEO:",
+     "7 SIGNS SHE'S INTERESTED"
+    ]
+   }
+  },
+  {
+   "id": "s083",
+   "start": 230.19,
+   "end": 235.45,
+   "line": "അത് മിസ് ആകാതിരിക്കാൻ ഇപ്പോൾ തന്നെ സബ്സ്ക്രൈബ് ചെയ്യൂ. കാണാം.",
+   "scene": "end screen: subscribe, Arjun and Meera",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.3
+   },
+   "sfx": [],
+   "params": {
+    "tpl": "end",
+    "q": "Subscribe so you don't miss it!"
+   }
+  }
+ ],
+ "music": [
+  {
+   "start": 0,
+   "end": 19.2,
+   "mood": "mystery",
+   "intensity": 0.45
+  },
+  {
+   "start": 19.2,
+   "end": 56.7,
+   "mood": "sad",
+   "intensity": 0.35
+  },
+  {
+   "start": 56.7,
+   "end": 133.0,
+   "mood": "hopeful",
+   "intensity": 0.55
+  },
+  {
+   "start": 133.0,
+   "end": 185.7,
+   "mood": "playful",
+   "intensity": 0.5
+  },
+  {
+   "start": 185.7,
+   "end": 206.3,
+   "mood": "wonder",
+   "intensity": 0.6
+  },
+  {
+   "start": 206.3,
+   "end": 235.45,
+   "mood": "triumph",
+   "intensity": 0.6
+  }
+ ]
+}

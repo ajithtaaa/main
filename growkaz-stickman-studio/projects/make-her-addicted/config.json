@@ -5,7 +5,7 @@
  "fps": 24,
  "style": "emerald",
  "voiceover": "input/voiceover.mp3",
- "script": null,
+ "script": "input/script.txt",
  "duration": 233.953,
  "captions": false,
  "bars": null,
