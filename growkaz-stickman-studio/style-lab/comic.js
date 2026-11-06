@@ -1,0 +1,20 @@
+// comic.js — comic-book page: three panels, halftone dots, thick ink borders, speech bubbles and SFX lettering.
+import { W, H, fonts, canvas, caption, tag } from './common.js';
+export default async function () {
+  await fonts(); const g = canvas().getContext('2d');
+  g.fillStyle = '#fffbea'; g.fillRect(0, 0, W, H);
+  const halftone = (x, y, w, h, c, step = 22) => { g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); g.fillStyle = c; for (let yy = y; yy < y + h; yy += step) for (let xx = x + ((yy / step) % 2) * step / 2; xx < x + w; xx += step) { g.beginPath(); g.arc(xx, yy, step * 0.28, 0, 7); g.fill(); } g.restore(); };
+  const panel = (x, y, w, h, bg) => { g.fillStyle = bg; g.fillRect(x, y, w, h); return () => { g.lineWidth = 12; g.strokeStyle = '#111'; g.strokeRect(x, y, w, h); }; };
+  const bubble = (x, y, w, h, s, tx, ty) => { g.fillStyle = '#fff'; g.strokeStyle = '#111'; g.lineWidth = 7; g.beginPath(); g.ellipse(x, y, w, h, 0, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.moveTo(x - 20, y + h - 6); g.lineTo(tx, ty); g.lineTo(x + 25, y + h - 8); g.fill(); g.stroke(); g.font = '700 46px Fredoka'; g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s, x, y); };
+  const fig = (x, y, s, shirt, armUp) => { g.strokeStyle = '#111'; g.lineWidth = 12 * s; g.lineCap = 'round'; g.fillStyle = '#111'; g.beginPath(); g.arc(x, y - 230 * s, 42 * s, 0, 7); g.fill(); g.beginPath(); g.moveTo(x, y - 190 * s); g.lineTo(x, y - 80 * s); g.lineTo(x - 40 * s, y); g.moveTo(x, y - 80 * s); g.lineTo(x + 40 * s, y); g.moveTo(x, y - 170 * s); g.lineTo(x + (armUp ? 60 : 70) * s, y - (armUp ? 280 : 120) * s); g.moveTo(x, y - 170 * s); g.lineTo(x - 60 * s, y - 120 * s); g.stroke(); g.fillStyle = shirt; g.fillRect(x - 26 * s, y - 185 * s, 52 * s, 90 * s); g.fillStyle = '#fff'; g.beginPath(); g.arc(x - 14 * s, y - 236 * s, 8 * s, 0, 7); g.arc(x + 14 * s, y - 236 * s, 8 * s, 0, 7); g.fill(); };
+  const car = (x, y, s) => { g.fillStyle = '#e8262b'; g.strokeStyle = '#111'; g.lineWidth = 8; g.beginPath(); [[-230, 0], [-230, -60], [-150, -80], [-70, -130], [70, -130], [150, -80], [235, -60], [240, 0]].forEach(([a, b], i) => (i ? g.lineTo(x + a * s, y + b * s) : g.moveTo(x + a * s, y + b * s))); g.closePath(); g.fill(); g.stroke(); for (const wx of [-140, 140]) { g.fillStyle = '#111'; g.beginPath(); g.arc(x + wx * s, y, 50 * s, 0, 7); g.fill(); g.fillStyle = '#ccc'; g.beginPath(); g.arc(x + wx * s, y, 24 * s, 0, 7); g.fill(); } };
+  // panel 1: 2017 laugh
+  let done = panel(40, 180, 470, 560, '#7fd6ff'); halftone(40, 180, 470, 560, 'rgba(255,255,255,.35)'); fig(275, 690, 1.2, '#e8262b', true); bubble(275, 290, 190, 70, 'IT WILL FLY!', 290, 400); done();
+  done = panel(570, 180, 470, 560, '#ffe14d'); halftone(570, 180, 470, 560, 'rgba(255,120,0,.35)'); g.font = '700 120px Fredoka'; g.fillStyle = '#ff2a6a'; g.strokeStyle = '#111'; g.lineWidth = 8; g.textAlign = 'center'; g.save(); g.translate(805, 460); g.rotate(-0.15); g.strokeText('HA HA!', 0, 0); g.fillText('HA HA!', 0, 0); g.restore(); done();
+  // panel 3: big — the flight
+  done = panel(40, 780, 1000, 560, '#2a3a8a'); halftone(40, 780, 1000, 560, 'rgba(120,200,255,.35)', 26);
+  g.save(); g.beginPath(); g.rect(40, 780, 1000, 560); g.clip(); g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = 6; for (let i = 0; i < 30; i++) { const a = i * 0.21; g.beginPath(); g.moveTo(540 + Math.cos(a) * 200, 1060 + Math.sin(a) * 200); g.lineTo(540 + Math.cos(a) * 900, 1060 + Math.sin(a) * 900); g.stroke(); } g.restore();
+  car(540, 1080, 1.4); g.save(); g.translate(300, 900); g.rotate(-0.2); g.font = '700 130px Fredoka'; g.fillStyle = '#ffe14d'; g.strokeStyle = '#111'; g.lineWidth = 10; g.strokeText('WHOOSH!', 0, 0); g.fillText('WHOOSH!', 0, 0); g.restore(); done();
+  g.fillStyle = '#ffe14d'; g.fillRect(40, 1360, 520, 70); g.strokeStyle = '#111'; g.lineWidth = 6; g.strokeRect(40, 1360, 520, 70); g.font = '700 40px Fredoka'; g.fillStyle = '#111'; g.textAlign = 'left'; g.fillText('NINE YEARS LATER...', 64, 1408);
+  caption(g, 'HE ACTUALLY DID IT.', 2, { y: 1560, hiColor: '#ff2a6a' }); tag(g, 'COMIC PANELS', { bg: '#111' });
+}
